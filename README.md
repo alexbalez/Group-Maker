@@ -28,10 +28,10 @@ npm run client
 
 ### Author
 
-Alexander Balez
-Barrington Venables
-Kevin Ufkes
-Thiago Hissa
+# Alexander Balez
+# Barrington Venables
+# Kevin Ufkes
+# Thiago Hissa
 
 ### Version
 
