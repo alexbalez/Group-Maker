@@ -15,7 +15,7 @@ pipeline {
 
     stage('Run') {
       steps {
-        sh 'npm run dev'
+        sh 'sh \'./jenkins/scripts/deliver.sh\''
       }
     }
 
