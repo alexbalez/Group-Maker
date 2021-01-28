@@ -13,9 +13,9 @@ pipeline {
       }
     }
 
-    stage('Run') {
+    stage('Start') {
       steps {
-        sh 'sh \'./jenkins/scripts/deliver.sh\''
+        sh 'sh \'./jenkins/scripts/start.sh\''
       }
     }
 
