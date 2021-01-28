@@ -15,7 +15,7 @@ pipeline {
 
     stage('Deliver') {
       steps {
-        sh 'sudo ./jenkins/scripts/start.sh'
+        sh './jenkins/scripts/start.sh'
       }
     }
 
