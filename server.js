@@ -1,7 +1,8 @@
 const express = require('express');
 const cors = require('cors');
-
+const mongoose = require('mongoose');
 const app = express();
+const port = 5000;
 
 app.get('/api/customers', cors(), (req, res) => {
   const customers = [
@@ -9,10 +10,20 @@ app.get('/api/customers', cors(), (req, res) => {
     {id: 2, firstName: 'Brad', lastName: 'Traversy'},
     {id: 3, firstName: 'Mary', lastName: 'Swanson'},
   ];
-
   res.json(customers);
 });
 
-const port = 5000;
+// MongoDB Connection
+const DB_URL = "mongodb+srv://thiago:mypassword@cluster0.siwfc.mongodb.net/group-maker?retryWrites=true&w=majority";
+mongoose.Promise = global.Promise;
+mongoose.connect(DB_URL, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+}).then(() => {
+    console.log("Successfully connected to the database mongoDB Atlas Server");
+}).catch(err => {
+    console.log('Could not connect to the database. Exiting now...', err);
+    process.exit();
+});
 
 app.listen(port, () => `Server running on port ${port}`);
