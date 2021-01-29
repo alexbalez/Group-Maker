@@ -24,6 +24,13 @@ mongoose.connect(DB_URL, {
     useUnifiedTopology: true
 }).then(() => {
     console.log("Successfully connected to the database mongoDB Atlas Server");
+    // TODO TEST
+    // Find Student
+    // let findUser = Student.findOne({email: "johndoee@gmail.com"}).then((result)=>{ console.log("Found:" + result); });
+    // Create Student
+    // let newStudent = new Student({name:"John Doe", email:"johndoe@gmail.com", semester:"6"});
+    // newStudent.save();
+    // TODO TEST
 }).catch(err => {
     console.log('Could not connect to the database. Exiting now...', err);
     process.exit();
