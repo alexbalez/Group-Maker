@@ -1,18 +1,18 @@
 const mongoose = require('mongoose');
 
 const Students = new mongoose.Schema({
-    firstName:{
+    name:{
         type: String,
         required: true,
         trim: true
     },
-    lastName:{
+    email:{
         type: String,
         required: true,
         trim: true
     },
     semester:{
-        type: Number,
+        type: String,
         required: true,
         trim: true
     }

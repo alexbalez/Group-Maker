@@ -3,6 +3,9 @@ const cors = require('cors');
 const mongoose = require('mongoose');
 const app = express();
 const port = 5000;
+// TODO TEST
+const Student = require('./model/Student');
+// TODO TEST
 
 app.get('/api/customers', cors(), (req, res) => {
   const customers = [
@@ -26,4 +29,4 @@ mongoose.connect(DB_URL, {
     process.exit();
 });
 
-app.listen(port, () => `Server running on port ${port}`);
+const server = app.listen(port, () => `Server running on port ${port}`);
