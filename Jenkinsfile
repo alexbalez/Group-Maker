@@ -22,9 +22,17 @@ npm test'''
 
     stage('Deliver') {
       steps {
-        sh './jenkins/scripts/deliver.sh'
+        sh '''set -x
+npm run build
+set +x
+set -x
+npm start &
+sleep 1
+echo $! > .pidfile
+set +x'''
         input 'Finished using the web site? (Click "Proceed" to continue)'
-        sh './jenkins/scripts/kill.sh'
+        sh '''set -x
+kill $(cat .pidfile)'''
       }
     }
 
