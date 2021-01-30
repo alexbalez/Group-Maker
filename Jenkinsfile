@@ -24,7 +24,7 @@ npm test'''
     stage('Deliver') {
       steps {
         sh '''set -x
-npm run build
+npm run dev
 set +x
 set -x
 npm start &
