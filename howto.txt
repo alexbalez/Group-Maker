@@ -1,0 +1,32 @@
+This is how to properly set up the instance. Run on ssh:
+
+docker run --name jenkins-docker --rm --detach \
+  --privileged --network jenkins --network-alias docker \
+  --env DOCKER_TLS_CERTDIR=/certs \
+  --volume jenkins-docker-certs:/certs/client \
+  --volume jenkins-data:/var/jenkins_home \
+  --publish 3000:3000 \
+  --publish 2376:2376 docker:dind
+
+Then:
+
+docker run --name jenkins-blueocean --rm --detach \
+  --network jenkins --env DOCKER_HOST=tcp://docker:2376 \
+  --env DOCKER_CERT_PATH=/certs/client --env DOCKER_TLS_VERIFY=1 \
+  --publish 8080:8080 --publish 50000:50000 \
+  --volume jenkins-data:/var/jenkins_home \
+  --volume jenkins-docker-certs:/certs/client:ro \
+  --volume "$HOME":/home \
+  myjenkins-blueocean:1.1
+
+Then rerun the jenkins build process by going to:
+
+http://3.131.212.22:8080/blue
+
+And re-run the last master build process. This will take a few minutes, and may crash the server. Run on ssh:
+
+htop
+
+And watch the build process. When the CPU drops back to low usage, it's probably done. Check to see if it's running:
+
+http://3.131.212.22:3000/
