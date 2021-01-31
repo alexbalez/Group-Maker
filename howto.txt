@@ -1,5 +1,11 @@
 This is how to properly set up the instance. Run on ssh:
 
+New method:
+
+sudo sh docker.sh
+
+Old method:
+
 sudo docker run --name jenkins-docker --rm --detach \
   --privileged --network jenkins --network-alias docker \
   --env DOCKER_TLS_CERTDIR=/certs \
@@ -19,9 +25,6 @@ sudo docker run --name jenkins-blueocean --rm --detach \
   --volume "$HOME":/home \
   myjenkins-blueocean:1.
   
-OR:
-
-sudo sh docker.sh
 
 Then rerun the jenkins build process by going to:
 
