@@ -22,10 +22,7 @@ pipeline {
 
     stage('Deliver') {
       steps {
-        sh '''npm run dev
-npm start &
-sleep 1
-echo $! > .pidfile'''
+        sh 'sh jenkins/scripts/deliver.sh'
       }
     }
 
