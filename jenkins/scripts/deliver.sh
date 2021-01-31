@@ -1,9 +1,7 @@
 #!/usr/bin/env sh
 
-echo "start"
-
 set -x
-npm start &
+npm run dev &
 sleep 1
 echo $! > .pidfile
 set +x
