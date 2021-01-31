@@ -16,24 +16,16 @@ pipeline {
 
     stage('Test') {
       steps {
-        sh '''set -x
-npm test'''
+        sh 'npm test'
       }
     }
 
     stage('Deliver') {
       steps {
-        sh '''set -x
-npm run dev
-set +x
-set -x
+        sh '''npm run dev
 npm start &
 sleep 1
-echo $! > .pidfile
-set +x'''
-        input 'Finished using the web site? (Click "Proceed" to continue)'
-        sh '''set -x
-kill $(cat .pidfile)'''
+echo $! > .pidfile'''
       }
     }
 
