@@ -11,7 +11,6 @@ pipeline {
       steps {
         sh 'npm install'
         sh 'npm run client-install'
-        input(message: 'npm install done, continue?', ok: 'yes')
       }
     }
 
