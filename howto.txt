@@ -23,7 +23,7 @@ sudo docker run --name jenkins-blueocean --rm --detach \
   --volume jenkins-data:/var/jenkins_home \
   --volume jenkins-docker-certs:/certs/client:ro \
   --volume "$HOME":/home \
-  myjenkins-blueocean:1.
+  myjenkins-blueocean:1.1
   
 
 Then rerun the jenkins build process by going to:
