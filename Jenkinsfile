@@ -17,6 +17,8 @@ pipeline {
     stage('Deliver') {
       steps {
         sh 'sh jenkins/scripts/deliver.sh'
+        input(message: 'Stop the server?', ok: 'Yes')
+        sh 'sh jenkins/scripts/kill.sh'
       }
     }
 
