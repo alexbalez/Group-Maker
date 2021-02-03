@@ -20,13 +20,6 @@ pipeline {
       }
     }
 
-    stage('Stop') {
-      steps {
-        input(message: 'Stop the server?', ok: 'Yes')
-        sh 'sh jenkins/scripts/kill.sh'
-      }
-    }
-
   }
   environment {
     CI = 'true'
