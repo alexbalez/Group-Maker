@@ -11,6 +11,7 @@ sudo docker run --name jenkins-docker --rm --detach \
   --env DOCKER_TLS_CERTDIR=/certs \
   --volume jenkins-docker-certs:/certs/client \
   --volume jenkins-data:/var/jenkins_home \
+  --add-host=joina.group:0.0.0.0 \
   --publish 3000:3000 \
   --publish 2376:2376 docker:dind
 
@@ -37,3 +38,9 @@ htop
 And watch the build process. When the CPU drops back to low usage, it's probably done. Check to see if it's running:
 
 http://3.131.212.22:3000/
+
+npm run dev process:
+
+concurrently:
+npm run server ->     "server": "nodemon server.js",
+npm run client ->     "client": "npm start --prefix client"  ->     "start": "react-scripts start",
