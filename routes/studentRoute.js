@@ -37,6 +37,7 @@ app.get('/students/:studentEmail', async (req, res) => {
 // Get all Students
 app.get('/students', async(req, res) => {
     const students = Student.find({});
+    console.log("Students:" + students);
     try{
         res.send(students);
     }catch(err){ res.status(500).send(err); }
