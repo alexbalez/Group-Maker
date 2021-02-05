@@ -1,5 +1,5 @@
 {
-  "name": "frontend-crud",
+  "name": "group-maker",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -40,5 +40,6 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  }
+  },
+  "proxy": "http://localhost:5000"
 }
