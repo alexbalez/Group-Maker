@@ -48,9 +48,14 @@ class Mock extends Component {
     render(){
         return (
             <div>
-                <h2>Students:</h2>
+                <br/>
+                <h4>Students</h4>
+                <br/>
                 {this.state.students.map(student =>
-                    <p>{student.name} - {student.email} - {student.semester}</p>
+                    <div>
+                        <p>{student.name} - {student.email} - {student.semester}</p>
+                        <hr/>
+                    </div>
                 )}
 
                 {/* Form used to create student */}
