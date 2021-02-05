@@ -5,14 +5,16 @@ class Mock extends Component {
     constructor(){
         super();
         this.state = {
-            students : []
+            students : [],
+            student : {}
         }
     }
 
     componentDidMount(){
+        // GET ALL STUDENTS
         fetch('/students')
             .then(res => res.json())
-            .then(students => this.setState({students}, () => console.log('students: ', students)));
+            .then(students => this.setState({students: students}, () => console.log('students: ', students)));
     }
 
     render(){
