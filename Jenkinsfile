@@ -7,6 +7,12 @@ pipeline {
 
   }
   stages {
+    stage('Kill') {
+      steps {
+        sh 'sh jenkins/scripts/kill.sh'
+      }
+    }
+
     stage('Build') {
       steps {
         sh 'npm install'
@@ -16,7 +22,7 @@ pipeline {
 
     stage('Deliver') {
       steps {
-        sh 'sh jenkins/scripts/deliver.sh'
+        sh 'sh jenkins/scripts/deliver.sh &'
       }
     }
 
