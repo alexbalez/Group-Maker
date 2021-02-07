@@ -20,13 +20,13 @@ class Login extends Component{
                 password: this.state.password.current.value
             };
 
-            // AuthDataConnector.getAuth(credentials)
-            //     .then((res) =>{
-            //         console.log('logged in', res) // todo: change this to store cookie on success
-            //     })
-            //     .catch(err => {
-            //         console.log(err)
-            //     })
+            AuthDataConnector.getAuth(credentials)
+                .then((res) =>{
+                    console.log('logged in', res) // todo: change this to store cookie on success
+                })
+                .catch(err => {
+                    console.log(err)
+                });
 
             console.log(credentials)
         }
@@ -36,45 +36,32 @@ class Login extends Component{
     render() {
         return (
             <div className="container">
-                <div className="row">
-                    <div className="card col-md-6 offset-md-3 offset-md-3">
-                        <h3 className="text-center">Login</h3>
-                        <div className="card-body">
-                            <form>
-                                <div className="form-group">
-                                    <label>Email</label>
-                                    <input placeholder="Email" name="email" className="form-control"
-                                           ref={this.state.email}
-                                    />
-                                </div>
+                <div className="card col-md-6 offset-md-3 offset-md-3">
+                    <h3 className="text-center">Login</h3>
+                    <div className="card-body">
+                        <form>
+                            <div className="form-group">
+                                <label>Email</label>
+                                <input placeholder="Email" name="email" className="form-control"
+                                       ref={this.state.email}/>
+                            </div>
 
-                                <div className="form-group">
-                                    <label>Password</label>
-                                    <input placeholder="Password" name="password" className="form-control"
-                                           ref={this.state.password}
-                                    />
-                                </div>
+                            <div className="form-group">
+                                <label>Password</label>
+                                <input placeholder="Password" name="password" type="password" className="form-control"
+                                       ref={this.state.password}/>
+                            </div>
 
-                                <div className="form-group">
-                                    <span className="mr-3">Don't have an account?</span>
-                                    <button className="btn btn-primary" onClick={this.signup}>
-                                        Sign Up
-                                    </button>
-                                </div>
+                            <div className="form-group">
+                                <span className="mr-3">Don't have an account?</span>
+                                <button className="btn btn-link" onClick={this.signup}>Sign Up</button>
+                            </div>
 
-                                {/*<div className="form-group">*/}
-                                {/*    <label>Email</label>*/}
-                                {/*    <input placeholder="Email" name="emailId" className="form-control"*/}
-                                {/*           value={this.state.emailId} onChange={this.emailChanged}*/}
-                                {/*    />*/}
-                                {/*</div>*/}
-
-                                <div className="form-group text-center mt-4">
-                                    <button className="btn btn-success m-2 btn-block" onClick={this.submit}>Save</button>
-                                    {/*<button className="btn btn-danger m-2 btn-block" onClick={this.cancel.bind(this)}>Cancel</button>*/}
-                                </div>
-                            </form>
-                        </div>
+                            <div className="form-group text-center">
+                                <button className="btn btn-success btn-block" onClick={this.submit}>Login</button>
+                                {/*<button className="btn btn-danger m-2 btn-block" onClick={this.cancel.bind(this)}>Cancel</button>*/}
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>

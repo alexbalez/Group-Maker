@@ -24,4 +24,21 @@ router.post('/login', (req, res)=>{
     });
 });
 
+router.post('/signup', (req, res)=>{
+    const hashedPassword = bcrypt.hashSync(req.body.password, 8); //encrypt pw with Bcrypt’s hashing method
+    const user = {
+        email: req.body.email,
+        password: hashedPassword
+    };
+    // Create new user based on Mongoose schema
+    User.create(user, (err, user)=>{
+            if (err) return res.status(500).send("There was a problem registering the user.");
+            // create a token
+            const token = jwt.sign({ id: user._id }, config.secret, {
+                expiresIn: 86400 // expires in 24 hours
+            });
+            res.status(200).send({ auth: true, token: token }); //send token to user
+    });
+});
+
 module.exports = router;
