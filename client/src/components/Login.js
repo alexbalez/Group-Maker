@@ -1,11 +1,12 @@
 import React, { Component } from "react";
+import AuthDataConnector from "../services/AuthDataConnector";
 
 class Login extends Component{
     constructor(props){
         super(props);
         this.state = {
-            email: '',
-            password: ''
+            email: React.createRef(),
+            password: React.createRef()
         };
 
         this.signup = () =>{
@@ -14,19 +15,68 @@ class Login extends Component{
 
         this.submit = (event) =>{
             event.preventDefault();
-            const user = {
-                email: this.state.username,
-                password: this.state.password
-            }
-        }
+            const credentials = {
+                email: this.state.email.current.value,
+                password: this.state.password.current.value
+            };
 
+            // AuthDataConnector.getAuth(credentials)
+            //     .then((res) =>{
+            //         console.log('logged in', res) // todo: change this to store cookie on success
+            //     })
+            //     .catch(err => {
+            //         console.log(err)
+            //     })
+
+            console.log(credentials)
+        }
 
     }
 
     render() {
         return (
             <div className="container">
-                <h1>Login form</h1>
+                <div className="row">
+                    <div className="card col-md-6 offset-md-3 offset-md-3">
+                        <h3 className="text-center">Login</h3>
+                        <div className="card-body">
+                            <form>
+                                <div className="form-group">
+                                    <label>Email</label>
+                                    <input placeholder="Email" name="email" className="form-control"
+                                           ref={this.state.email}
+                                    />
+                                </div>
+
+                                <div className="form-group">
+                                    <label>Password</label>
+                                    <input placeholder="Password" name="password" className="form-control"
+                                           ref={this.state.password}
+                                    />
+                                </div>
+
+                                <div className="form-group">
+                                    <span className="mr-3">Don't have an account?</span>
+                                    <button className="btn btn-primary" onClick={this.signup}>
+                                        Sign Up
+                                    </button>
+                                </div>
+
+                                {/*<div className="form-group">*/}
+                                {/*    <label>Email</label>*/}
+                                {/*    <input placeholder="Email" name="emailId" className="form-control"*/}
+                                {/*           value={this.state.emailId} onChange={this.emailChanged}*/}
+                                {/*    />*/}
+                                {/*</div>*/}
+
+                                <div className="form-group text-center mt-4">
+                                    <button className="btn btn-success m-2 btn-block" onClick={this.submit}>Save</button>
+                                    {/*<button className="btn btn-danger m-2 btn-block" onClick={this.cancel.bind(this)}>Cancel</button>*/}
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
             </div>
         )
     }

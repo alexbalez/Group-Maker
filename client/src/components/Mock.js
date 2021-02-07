@@ -3,8 +3,8 @@ import { Button, Nav, Form, FormControl } from 'react-bootstrap';
 import './components.css';
 
 class Mock extends Component {
-    constructor(){
-        super();
+    constructor(props){
+        super(props);
         this.state = {
             students : [],
             student : {},

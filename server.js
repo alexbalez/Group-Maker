@@ -4,7 +4,10 @@ const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
+
 const studentRoute = require('./routes/studentRoute');
+const authRoute = require('./routes/authRoute');
+
 const app = express();
 const port = 5000;
 
@@ -14,6 +17,7 @@ console.log(result.parsed);
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(studentRoute);
+app.use(authRoute); //authRoute exports express.Router()
 
 // MongoDB Connection
 const DB_URL = "mongodb+srv://thiago:mypassword@cluster0.siwfc.mongodb.net/group-maker?retryWrites=true&w=majority";
