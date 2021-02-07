@@ -25,19 +25,17 @@ class Login extends Component{
                     console.log('logged in', res) // todo: change this to store cookie on success
                 })
                 .catch(err => {
-                    console.log(err)
+                    console.log('could not log in', err)
                 });
-
-            console.log(credentials)
         }
 
     }
 
     render() {
         return (
-            <div className="container">
+            <div className="container mt-5">
                 <div className="card col-md-6 offset-md-3 offset-md-3">
-                    <h3 className="text-center">Login</h3>
+                    <h3 className="text-center mt-3">Login</h3>
                     <div className="card-body">
                         <form>
                             <div className="form-group">

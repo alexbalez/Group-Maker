@@ -10,6 +10,7 @@ const User = require('../model/User');
 //login
 router.post('/login', (req, res)=>{
     User.findOne({ email: req.body.email }, (err, user) =>{
+        console.log('-------- '+ req.body.email);
         if (err) return res.status(500).send('Error on the server.');
         if (!user) return res.status(404).send('No user found.');
 

@@ -16,6 +16,8 @@ console.log(result.parsed);
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+// app.use(cors);
+
 app.use(studentRoute);
 app.use(authRoute); //authRoute exports express.Router()
 
@@ -33,4 +35,4 @@ mongoose.connect(DB_URL, {
 });
 
 // Server
-const server = app.listen(port, () => `Server running on port ${port}`);
+const server = app.listen(port, () => console.log(`Server running on port ${port}`));

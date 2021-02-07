@@ -35,10 +35,10 @@ class Login extends Component{
 
     render() {
         return (
-            <div className="container">
+            <div className="container mt-5">
                 <div className="row">
                     <div className="card col-md-6 offset-md-3 offset-md-3">
-                        <h3 className="text-center">Create Account</h3>
+                        <h3 className="text-center mt-3">Create Account</h3>
                         <div className="card-body">
                             <form>
                                 <div className="form-group">
