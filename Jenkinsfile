@@ -9,7 +9,7 @@ pipeline {
   stages {
     stage('Kill') {
       steps {
-        sh 'sh jenkins/scripts/kill.sh &'
+        echo 'sh jenkins/scripts/kill.sh &'
       }
     }
 
