@@ -22,10 +22,10 @@ class Login extends Component{
 
             AuthDataConnector.getAuth(credentials)
                 .then((res) =>{
-                    console.log('logged in', res) // todo: change this to store cookie on success
+                    console.log('Login successful', res) // todo: change this to store cookie on success
                 })
                 .catch(err => {
-                    console.log('could not log in', err)
+                    console.log('Could not log in', err)
                 });
         }
 
@@ -57,7 +57,6 @@ class Login extends Component{
 
                             <div className="form-group text-center">
                                 <button className="btn btn-success btn-block" onClick={this.submit}>Login</button>
-                                {/*<button className="btn btn-danger m-2 btn-block" onClick={this.cancel.bind(this)}>Cancel</button>*/}
                             </div>
                         </form>
                     </div>

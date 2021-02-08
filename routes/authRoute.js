@@ -10,7 +10,6 @@ const User = require('../model/User');
 //login
 router.post('/login', (req, res)=>{
     User.findOne({ email: req.body.email }, (err, user) =>{
-        console.log('-------- '+ req.body.email);
         if (err) return res.status(500).send('Error on the server.');
         if (!user) return res.status(404).send('No user found.');
 
@@ -40,6 +39,15 @@ router.post('/signup', (req, res)=>{
             });
             res.status(200).send({ auth: true, token: token }); //send token to user
     });
+});
+
+router.get('/users/all', async (req, res)=>{
+    const results = await User.find({});
+    try {
+        console.log(results);
+        res.send(results)
+    }
+    catch (err) { res.status(500).send(err)}
 });
 
 module.exports = router;

@@ -44,15 +44,13 @@ class Login extends Component{
                                 <div className="form-group">
                                     <label>Email</label>
                                     <input placeholder="Email" name="email" className="form-control"
-                                           ref={this.state.email}
-                                    />
+                                           ref={this.state.email}/>
                                 </div>
 
                                 <div className="form-group">
                                     <label>Password</label>
                                     <input type="password" placeholder="Password" name="password" className="form-control"
-                                           ref={this.state.password}
-                                    />
+                                           ref={this.state.password}/>
                                 </div>
 
                                 <div className="form-group">
@@ -63,7 +61,6 @@ class Login extends Component{
                                     <button className="btn btn-success btn-block" onClick={this.submit}>
                                         Create My Account
                                     </button>
-                                    {/*<button className="btn btn-danger m-2 btn-block" onClick={this.cancel.bind(this)}>Cancel</button>*/}
                                 </div>
                             </form>
                         </div>

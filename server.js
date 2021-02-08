@@ -22,7 +22,8 @@ app.use(studentRoute);
 app.use(authRoute); //authRoute exports express.Router()
 
 // MongoDB Connection
-const DB_URL = "mongodb+srv://thiago:mypassword@cluster0.siwfc.mongodb.net/group-maker?retryWrites=true&w=majority";
+//const DB_URL = "mongodb+srv://thiago:mypassword@cluster0.siwfc.mongodb.net/group-maker?retryWrites=true&w=majority";
+const DB_URL = "mongodb+srv://barri:test@cluster0.rpou1.mongodb.net/gbc_fullstack?retryWrites=true&w=majority";
 mongoose.Promise = global.Promise;
 mongoose.connect(DB_URL, {
     useNewUrlParser: true,
