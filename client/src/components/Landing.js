@@ -4,9 +4,9 @@ import Mock from './Mock';
 
 
 class Landing extends Component {
-    constructor(){
-        super();
-    }
+    // constructor(props){
+    //     super(props);
+    // }
 
     componentDidMount(){
     }
