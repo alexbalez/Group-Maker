@@ -1,20 +1,25 @@
 import React, { Component } from 'react';
 import './components.css';
 import { Navbar, NavDropdown, Nav } from 'react-bootstrap';
+import profilePhoto from '../img/avatar-placeholder.gif'
 
 class Navigation extends Component {
-    // constructor(props){
-    //     super(props);
-            //Store information here that is specific to each user
-    // }
+    constructor(props){
+        super(props);
+        this.state = {
+            username: 'user'
+        }
+
+    }
 
     componentDidMount() {
         //todo: pull in information here specific to each user
+        this.setState({username: 'Joeseph Username'})
     }
 
     render() {
         return (
-            <Navbar style={{ marginTop: "-10px", width: "100%" }} bg="dark" variant="dark" expand="sm" >
+            <Navbar style={{ marginTop: "-8px", width: "100%" }} bg="dark" variant="dark" expand="sm" >
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="mr-auto">
@@ -26,31 +31,14 @@ class Navigation extends Component {
                     </Nav>
 
                     <Nav className="ml-auto">
-                        <NavDropdown title="Username" id="basic-nav-dropdown">
+                    <img src={profilePhoto} alt="Profile" width="50" height="50"/>
+                        <NavDropdown title={this.state.username} id="basic-nav-dropdown">
                             <NavDropdown.Item href="/profile">My Profile</NavDropdown.Item>
                             <NavDropdown.Item href="/logout">Logout</NavDropdown.Item>
                         </NavDropdown>
                     </Nav>
                 </Navbar.Collapse>
             </Navbar>
-
-            // <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
-            //     <Navbar.Brand href="#home">React-Bootstrap</Navbar.Brand>
-            //     <Navbar.Toggle aria-controls="responsive-navbar-nav" />
-            //     <Navbar.Collapse id="responsive-navbar-nav">
-            //         <Nav className="mr-auto">
-            //             <Nav.Link href="#features">Features</Nav.Link>
-            //             <Nav.Link href="#pricing">Pricing</Nav.Link>
-            //             <Nav.Link href="#deets">More details</Nav.Link>
-            //             <Nav.Link eventKey={2} href="#memes">
-            //                 Good stuff
-            //             </Nav.Link>
-            //         </Nav>
-            //         <Nav className="ml-auto">
-            //             <Nav.Link href="#deets">More details</Nav.Link>
-            //         </Nav>
-            //     </Navbar.Collapse>
-            // </Navbar>
         );
     }
 
