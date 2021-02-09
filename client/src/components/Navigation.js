@@ -23,11 +23,11 @@ class Navigation extends Component {
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="mr-auto">
-                        <Nav.Link href="/dashboard">My Groups</Nav.Link>
-                        <Nav.Link href="/create">Create</Nav.Link>
-                        <Nav.Link href="/find">Find</Nav.Link>
-                        <Nav.Link href="/auto">Auto</Nav.Link>
-                        <Nav.Link href="/help">Help</Nav.Link>
+                        <Nav.Link active={this.props.active==="dashboard"} href="/dashboard">My Groups</Nav.Link>
+                        <Nav.Link active={this.props.active === "create"} href="/create">Create</Nav.Link>
+                        <Nav.Link active={this.props.active === "find"} href="/find">Find</Nav.Link>
+                        <Nav.Link active={this.props.active === "auto"} href="/auto">Auto</Nav.Link>
+                        <Nav.Link active={this.props.active === "help"} href="/help">Help</Nav.Link>
                     </Nav>
 
                     <Nav className="ml-auto">

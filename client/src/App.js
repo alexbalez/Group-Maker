@@ -17,7 +17,7 @@ function App() {
           <Route path='/' exact component={ Login } />
           <Route path='/signup' component={ CreateAccount } />
           <Route path="/mock" component={ Landing } />
-        <Route path="/dashboard" component={ Dashboard } />
+          <Route path="/dashboard" component={ Dashboard } />
         </Switch>
       </BrowserRouter>
 
