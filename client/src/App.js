@@ -5,6 +5,7 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom'
 import Landing from './components/Landing';
 import Login from './components/Login'
 import CreateAccount from './components/CreateAccount'
+import Dashboard from './components/student/Dashboard'
 
 
 
@@ -16,6 +17,7 @@ function App() {
           <Route path='/' exact component={ Login } />
           <Route path='/signup' component={ CreateAccount } />
           <Route path="/mock" component={ Landing } />
+        <Route path="/test" component={ Dashboard } />
         </Switch>
       </BrowserRouter>
 
