@@ -7,6 +7,10 @@ const config = require('../auth/config');
 const router = express.Router();
 const User = require('../model/User');
 
+const handleErrors = (err) =>{
+    console.log(err.message, err.code)
+}
+
 //login
 router.post('/login', (req, res)=>{
     User.findOne({ email: req.body.email }, (err, user) =>{
@@ -32,7 +36,10 @@ router.post('/signup', (req, res)=>{
     };
     // Create new user based on Mongoose schema
     User.create(user, (err, user)=>{
-            if (err) return res.status(500).send("There was a problem registering the user.");
+            if (err) {
+                handleErrors(err); //console.log the errors coming from the db validation
+                return res.status(500).send("There was a problem registering the user.");
+            }
             // create a token
             const token = jwt.sign({ id: user._id }, config.secret, {
                 expiresIn: 86400 // expires in 24 hours
