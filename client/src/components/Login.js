@@ -23,7 +23,8 @@ class Login extends Component{
 
             AuthDataConnector.getAuth(credentials)
                 .then((res) =>{
-                    console.log('Login successful', res) // todo: change this to store cookie on success
+                    // todo: change this to store cookie on success with jwt token that is inside res
+                    console.log('Login successful', res) 
                     this.props.history.push('/dashboard')
                 })
                 .catch(err => {

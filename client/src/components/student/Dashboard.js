@@ -3,7 +3,7 @@ import '../components.css';
 import Navigation from '../Navigation'
 import Header from '../Header'
 import Footer from '../Footer'
-import {Button, Navbar, Form, InputGroup, FormControl, Dropdown, Table, Row, Col, Container} from 'react-bootstrap';
+import {Button, Navbar, Form, InputGroup, FormControl, Dropdown, Table, Container} from 'react-bootstrap';
 
 class Dashboard extends Component {
     // constructor(props){
@@ -17,7 +17,7 @@ class Dashboard extends Component {
         return (
             <div>
                 <Header/>
-                <Navigation active="dashboard"/>
+                <Navigation active="dashboard" history={this.props.history}/>
 
                 {/* Search */}
                 <Navbar className="bg-light justify-content-center">

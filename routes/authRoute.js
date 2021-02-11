@@ -12,6 +12,7 @@ const handleErrors = (err) =>{
 }
 
 //login
+// Returns a jwt token as response on successful email lookup and password matching
 router.post('/login', (req, res)=>{
     User.findOne({ email: req.body.email }, (err, user) =>{
         if (err) return res.status(500).send('Error on the server.');
