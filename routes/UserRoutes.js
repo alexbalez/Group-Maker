@@ -1,6 +1,6 @@
 const express = require('express');
 const userModel = require('./../model/UserModel');
-// const roleModel = require('../models/RoleModel')
+const roleModel = require('./../model/RoleModel')
 const app = express();
 
 // Create
@@ -18,15 +18,15 @@ app.post('/user', async (req, res) => {
 // Retrieve
 app.get('/users', async (req, res) => {
   const users = await userModel.find({});
-//   const roles = await roleModel.find({});
+  const roles = await roleModel.find({});
   try {
     res.append('Access-Control-Allow-Origin', ['*']);
-    // var data = {
-    //   "userList" : users, 
-    //   "roleList" : roles
-    // }
-    // res.send(data);
-    res.send(users)
+    var data = {
+      "userList" : users, 
+      "roleList" : roles
+    }
+    res.send(data);
+    // res.send(users)
   } 
   catch (err) {
     res.status(500).send(err);
