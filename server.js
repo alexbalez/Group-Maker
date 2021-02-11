@@ -8,6 +8,7 @@ const studentRoute = require('./routes/studentRoute');
 const authRoute = require('./routes/authRoute');
 const userRouter = require('./routes/UserRoutes.js')
 const roleRouter = require('./routes/RoleRoutes.js')
+const groupRouter = require('./routes/GroupRoutes.js')
 
 const app = express();
 const port = 5000;
@@ -22,6 +23,7 @@ app.use(studentRoute);
 app.use(authRoute); //authRoute exports express.Router()
 app.use(userRouter);
 app.use(roleRouter);
+app.use(groupRouter);
 
 // MongoDB Connection
 //const DB_URL = "mongodb+srv://thiago:mypassword@cluster0.siwfc.mongodb.net/group-maker?retryWrites=true&w=majority";

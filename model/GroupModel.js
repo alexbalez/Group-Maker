@@ -1,33 +1,33 @@
 const mongoose = require('mongoose');
-const { isEmail } = require('validator');
 
 const GroupSchema = new mongoose.Schema({
-  firstname: {
-    type: String,
-    required: true,
-    trim: true,
-    lowercase: true
-  },
-  lastname: {
-    type: String,
-    required: true,
-    trim: true,
-    lowercase: true
-  },
-  username: {
-    type: String,
-    required: true,
-    trim: true,
-    lowercase: true,
-    unique: true
-  },
-  email: {
-    type: String,
-    required: true,
-    trim: true,
-    validate: [isEmail, 'Please enter a valid email address'],
-    unique: true
-  }
+    college: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "colleges"
+    },
+    campus: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "campuses"
+    },
+    program: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "programs"
+    },
+    course: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "courses"
+    },
+    project: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "projects"
+    },
+    users: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "users"
+        }
+    ]
+});
   
 const Group = mongoose.model("Groups", GroupSchema);
 module.exports = Group;
