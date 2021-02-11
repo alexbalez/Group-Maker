@@ -14,6 +14,8 @@ const campusRouter = require('./routes/CampusRoutes.js')
 const programRouter = require('./routes/ProgramRoutes.js')
 const courseRouter = require('./routes/CourseRoutes.js')
 const projectRouter = require('./routes/ProjectRoutes.js')
+const ratingRouter = require('./routes/RatingRoutes.js')
+
 
 
 
@@ -36,6 +38,8 @@ app.use(campusRouter);
 app.use(programRouter);
 app.use(courseRouter);
 app.use(projectRouter);
+app.use(ratingRouter);
+
 
 
 // MongoDB Connection
