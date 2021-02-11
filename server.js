@@ -15,6 +15,8 @@ const programRouter = require('./routes/ProgramRoutes.js')
 const courseRouter = require('./routes/CourseRoutes.js')
 const projectRouter = require('./routes/ProjectRoutes.js')
 const ratingRouter = require('./routes/RatingRoutes.js')
+const preferenceRouter = require('./routes/PreferenceRoutes.js')
+
 
 
 
@@ -39,6 +41,8 @@ app.use(programRouter);
 app.use(courseRouter);
 app.use(projectRouter);
 app.use(ratingRouter);
+app.use(preferenceRouter);
+
 
 
 
