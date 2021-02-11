@@ -11,7 +11,8 @@ const ProgramSchema = new mongoose.Schema({
         type: String,
         require: true,
         trim: true,
-        lowercase: true
+        lowercase: true,
+        unique: true
     },
     campus: {
         type: mongoose.Schema.Types.ObjectId,
