@@ -10,7 +10,7 @@ class Navigation extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            data: { message: "Loading..."}
+            data: { message: "Loading...."}
         }
     }
 
