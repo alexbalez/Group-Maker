@@ -4,13 +4,26 @@ import Navigation from '../Navigation'
 import Header from '../Header'
 import Footer from '../Footer'
 import {Button, Navbar, Form, InputGroup, FormControl, Dropdown, Table, Container} from 'react-bootstrap';
+import StudentDataConnector from '../../services/StudentDataConnector'
 
 class Dashboard extends Component {
-    // constructor(props){
-    //     super(props);
-    // }
+    constructor(props){
+        super(props);
+        this.state = {
+            data: {}
+        }
+    }
 
     componentDidMount() {
+        StudentDataConnector.getDashboard({})
+            .then(res =>{
+                console.log(res)
+            })
+            .catch(err =>{
+                console.log(err.response)
+                //kick user back to the login screen if the response status is 401 unauthorized
+                if(err.response.status === 401) this.props.history.push('/')
+            })
     }
 
     render() {

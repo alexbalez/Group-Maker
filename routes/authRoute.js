@@ -8,28 +8,53 @@ const router = express.Router();
 const User = require('../model/User');
 
 const handleErrors = (err) =>{
-    console.log(err.message, err.code)
+    console.log(err)
+
+    //todo: check the err object itself and return desireable messages from db
+    return err
+}
+
+const createToken = (user) =>{
+    return jwt.sign({ id: user._id }, config.secret, { expiresIn: 86400 }); //expires in 24 hours
+}
+
+// create cookie that contains token and attach to response object
+const createCookie = (token, res) =>{
+    //todo: when we switch to https use {secure: true} instead of {httpOnly: true}
+    res.cookie('gmUserCookie', token, { maxAge: 1000 * 60 * 60 * 24, httpOnly: true })
 }
 
 //login
 // Returns a jwt token as response on successful email lookup and password matching
 router.post('/login', (req, res)=>{
+    let errors = {}
     User.findOne({ email: req.body.email }, (err, user) =>{
-        if (err) return res.status(500).send('Error on the server.');
-        if (!user) return res.status(404).send('No user found.');
 
+        //check for misc db errors
+        if (err){
+            errors = handleErrors(err);
+            return res.status(500).json(errors);
+        } 
+        //check for user found
+        if (!user) {
+            errors = handleErrors(err);
+            return res.status(404).json(errors);
+        }
+        //check password
         const passwordIsValid = bcrypt.compareSync(req.body.password, user.password);
-        if (!passwordIsValid) return res.status(401).send({ auth: false, token: null });
-
-        const token = jwt.sign({ id: user._id }, config.secret, {
-            expiresIn: 86400 // expires in 24 hours
-        });
-
-        res.status(200).send({ auth: true, token: token });
+        if (!passwordIsValid) {
+            errors = handleErrors(err);
+            return res.status(401).json(errors);
+        }
+        //create token, store in cookie, attach to response, and send response as json with userid
+        const token = createToken(user); 
+        createCookie(token, res)
+        res.status(200).json({userid: user._id});
     });
 });
 
 router.post('/signup', (req, res)=>{
+    let errors = {}
     const hashedPassword = bcrypt.hashSync(req.body.password, 8); //encrypt pw with Bcrypt’s hashing method
     const user = {
         email: req.body.email,
@@ -37,25 +62,24 @@ router.post('/signup', (req, res)=>{
     };
     // Create new user based on Mongoose schema
     User.create(user, (err, user)=>{
-            if (err) {
-                handleErrors(err); //console.log the errors coming from the db validation
-                return res.status(500).send("There was a problem registering the user.");
-            }
-            // create a token
-            const token = jwt.sign({ id: user._id }, config.secret, {
-                expiresIn: 86400 // expires in 24 hours
-            });
-            res.status(200).send({ auth: true, token: token }); //send token to user
+        if (err) {
+            errors = handleErrors(err);
+            return res.status(500).json({message: "There was a problem registering the user.", errors});
+        }
+        //create token, store in cookie, attach to response, and send response as json with userid
+        const token = createToken(user);
+        createCookie(token, res);
+        res.status(200).json({userid: user._id});
     });
 });
 
-router.get('/users/all', async (req, res)=>{
-    const results = await User.find({});
-    try {
-        console.log(results);
-        res.send(results)
-    }
-    catch (err) { res.status(500).send(err)}
-});
+// router.get('/users/all', async (req, res)=>{
+//     const results = await User.find({});
+//     try {
+//         console.log(results);
+//         res.send(results)
+//     }
+//     catch (err) { res.status(500).send(err)}
+// });
 
 module.exports = router;
