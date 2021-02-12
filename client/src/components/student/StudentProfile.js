@@ -3,13 +3,27 @@ import '../components.css';
 import Navigation from '../Navigation'
 import Header from '../Header'
 import Footer from '../Footer'
+import StudentDataConnector from '../../services/StudentDataConnector'
 
 class StudentProfile extends Component {
-    // constructor(props){
-    //     super(props);
-    // }
+    constructor(props){
+        super(props);
+        this.state = {
+            data: {}
+        }
+    }
 
     componentDidMount() {
+        StudentDataConnector.getDashboard({})
+            .then(res => {
+                console.log(res.data) // returning the logged in user for now
+                this.setState({ data: res.data })
+            })
+            .catch(err => {
+                console.log(err.response)
+                //kick user back to the login screen if the response status is 401 unauthorized
+                if (err.response.status === 401) this.props.history.push('/')
+            })
     }
 
     render() {
@@ -19,7 +33,8 @@ class StudentProfile extends Component {
                 <Navigation active="" history={this.props.history}/>
                 <div style={{ height: "300px" }} className="m-5">
                     <h1>My Profile</h1>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                    <p><strong>ID:</strong> {this.state.data._id}</p>
+                    <p><strong>Email:</strong> {this.state.data.email}</p>
                 </div>
                 <Footer />
             </div>
