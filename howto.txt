@@ -4,7 +4,14 @@ New method:
 
 sudo sh docker.sh
 
-Old method:
+In ubuntu's ~ folder.
+
+What it does: Starts two containers on the jenkins network.
+Maps port 80 (http) to port 3000 on the docker jenkins contain (aka the port that the dev server runs on). 
+Makes jenkins accessible on port 8080.
+Also allows anyone to access them at joina.group.
+
+Old method (may be out of date):
 
 sudo docker run --name jenkins-docker --rm --detach \
   --privileged --network jenkins --network-alias docker \
@@ -29,7 +36,7 @@ sudo docker run --name jenkins-blueocean --rm --detach \
 
 Then rerun the jenkins build process by going to:
 
-http://3.131.212.22:8080/blue
+http://joina.group:8080/blue
 
 And re-run the last master build process. This will take a few minutes, and may crash the server. Run on ssh:
 
@@ -37,7 +44,7 @@ htop
 
 And watch the build process. When the CPU drops back to low usage, it's probably done. Check to see if it's running:
 
-http://3.131.212.22:3000/
+http://joina.group/
 
 npm run dev process:
 
