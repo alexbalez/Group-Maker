@@ -1,35 +1,11 @@
 const dotenv = require('dotenv');
 const result = dotenv.config();
 const express = require('express');
-const cors = require('cors');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 
 const studentRoute = require('./routes/studentRoute');
-const https = require('https')
-const fs = require('fs')
-
-//https certificates
-const privkey = fs.readFileSync('/etc/letsencrypt/live/joina.group/privkey.pem', 'utf8');
-const certificate = fs.readFileSync('/etc/letsencrypt/live/joina.group/cert.pem', 'utf8');
-const ca = fs.readFileSync('/etc/letsencrypt/live/joina.group/chain.pem', 'utf8');
-const credentials = {
-	key: privkey,
-	cert: certificate,
-	ca: ca
-};
-
-// const httpServer = http.createServer(app);
-// const httpsServer = https.createServer(credentials, app);
-
-// httpServer.listen(80, () => {
-// 	console.log('HTTP Server running on port 80');
-// });
-
-// httpsServer.listen(443, () => {
-// 	console.log('HTTPS Server running on port 443');
-// });
-
+const userRoute = require('./routes/userRoute');
 const authRoute = require('./routes/authRoute');
 
 const app = express();
@@ -38,26 +14,65 @@ const port = 5000;
 // Config Log
 console.log(result.parsed);
 
+// cookies middleware
+const cookieParser = require('cookie-parser');
+app.use(cookieParser());
+
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-// app.use(cors);
 
 app.use(studentRoute);
 app.use(authRoute); //authRoute exports express.Router()
+app.use(userRoute);
 
 // MongoDB Connection
 //const DB_URL = "mongodb+srv://thiago:mypassword@cluster0.siwfc.mongodb.net/group-maker?retryWrites=true&w=majority";
 const DB_URL = "mongodb+srv://barri:test@cluster0.rpou1.mongodb.net/gbc_fullstack?retryWrites=true&w=majority";
 mongoose.Promise = global.Promise;
-mongoose.connect(DB_URL, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-}).then(() => {
-    console.log("Successfully connected to the database mongoDB Atlas Server");
-}).catch(err => {
-    console.log('Could not connect to the database. Exiting now...', err);
-    process.exit();
-});
+mongoose.connect(DB_URL, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true })
+    .then(() => {
+        console.log("Successfully connected to the database mongoDB Atlas Server")
+    })
+    .catch(err => {
+        console.log('Could not connect to the database. Exiting now...', err);
+        process.exit();
+    });
 
 // Server
 const server = app.listen(port, () => console.log(`Server running on port ${port}`));
+
+
+
+
+/////////// testing cookies ///////////////////
+
+app.get('/set-cookies', (req, res) => {
+
+    // sets cookie called newUser with value of true
+    //access programmatically with document.cookie
+    //res.setHeader('Set-Cookie', 'newUser=true');
+
+    // using cookie middlware:
+
+    res.cookie('newUser', false); //sets a cookie called new user with value true
+    
+    //set cookie to keep user logged in for one day (max age in ms)
+    //httpOnly: true means that cookie is not accessible in js console. only through http
+    res.cookie('isEmployee', true, { maxAge: 1000 * 60 * 60 * 24, httpOnly: true });
+    
+    //set cookie for use with only https (secure: true)
+    //res.cookie('isEmployee', true, { maxAge: 1000 * 3600 * 24, secure: true });
+
+    res.send('you got the cookies!');
+
+});
+
+app.get('/read-cookies', (req, res) => {
+
+    // once cookies are set, as long as the cookies are alive, every request has those cookies attached
+    const cookies = req.cookies;
+    
+
+    res.json(cookies);
+
+});

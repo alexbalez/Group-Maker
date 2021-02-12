@@ -2,6 +2,8 @@ const Student = require('../model/Student');
 const express = require('express');
 const app = express();
 
+//const { requireAuth } = require('../auth/authMiddleware');
+
 // Create Student
 app.post('/students-create', async (req, res) => {
     // Validate body is not empty
@@ -41,5 +43,12 @@ app.get('/students', async(req, res) => {
         res.send(students);
     }catch(err){ res.status(500).send(err); }
 });
+
+
+
+
+
+
+
 
 module.exports = app;
