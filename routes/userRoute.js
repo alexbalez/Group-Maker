@@ -11,7 +11,7 @@ app.get('/dashboard', requireAuth, async (req, res) => {
     console.log(req.userid)
     const user = await User.findById({_id: req.userid})
     try {
-        console.log(user)      
+        console.log(user)    
         res.json(user);
     }
     catch (err) {
