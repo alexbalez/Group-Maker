@@ -1,16 +1,24 @@
-import React, { Component } from "react";
-import logo from '../logo.svg';
+import React, { Component } from 'react';
+import './components.css';
 
-export default class Header extends Component {
+
+class Header extends Component {
+    // constructor(props){
+    //     super(props);
+    // }
+
+    componentDidMount() {
+    }
 
     render() {
         return (
-
-            <nav className="navbar navbar-dark bg-dark App-header">
-                <a className="navbar-brand" href="/">Employee Management App</a>
-                <img src={logo} className="App-logo" alt="logo" />
-            </nav>
-
-        )
+            <div className="text-center bg-primary text-white mb-0 pb-0">
+                <a href="/mock" className="text-decoration-none text-white"><h1 className="p-2">Group Maker</h1></a>
+            </div>
+        );
     }
+
+
 }
+
+export default Header;
