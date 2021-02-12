@@ -1,8 +1,8 @@
 import Axios from 'axios'
 class StudentDataConnector {
     
-    getDashboard = (user) => {
-        return Axios.get('/dashboard', user)
+    getDashboard = () => {
+        return Axios.get('/dashboard')
     }
 }
 

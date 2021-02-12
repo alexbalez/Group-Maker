@@ -11,8 +11,8 @@ const requireAuth = (req, res, next) => {
                 console.log(err.message);
                 res.status(401).json({error: err})
             } else {
-                console.log(decodedToken);
-                req.id = decodedToken.id
+                //console.log(decodedToken);
+                req.userid = decodedToken.id
                 next();
             }
         });

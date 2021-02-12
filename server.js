@@ -1,11 +1,11 @@
 const dotenv = require('dotenv');
 const result = dotenv.config();
 const express = require('express');
-//const cors = require('cors');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 
 const studentRoute = require('./routes/studentRoute');
+const userRoute = require('./routes/userRoute');
 const authRoute = require('./routes/authRoute');
 
 const app = express();
@@ -20,10 +20,10 @@ app.use(cookieParser());
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-// app.use(cors);
 
 app.use(studentRoute);
 app.use(authRoute); //authRoute exports express.Router()
+app.use(userRoute);
 
 // MongoDB Connection
 //const DB_URL = "mongodb+srv://thiago:mypassword@cluster0.siwfc.mongodb.net/group-maker?retryWrites=true&w=majority";

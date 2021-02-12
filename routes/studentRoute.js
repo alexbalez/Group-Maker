@@ -2,7 +2,7 @@ const Student = require('../model/Student');
 const express = require('express');
 const app = express();
 
-const { requireAuth } = require('../auth/authMiddleware');
+//const { requireAuth } = require('../auth/authMiddleware');
 
 // Create Student
 app.post('/students-create', async (req, res) => {
@@ -44,19 +44,7 @@ app.get('/students', async(req, res) => {
     }catch(err){ res.status(500).send(err); }
 });
 
-// this uses the requreAuth middleware to check that there is a valid token on the client
-app.get('/dashboard', requireAuth, (req, res) =>{
-    
-    try{
-        console.log(req.id)
-        const someData = { name: "Barry Venables", groups: "so many groups" }
-        res.send(someData)
-    }
-    catch (err){
-        res.status(500).send(err)
-    }
 
-});
 
 
 

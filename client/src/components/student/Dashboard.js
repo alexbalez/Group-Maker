@@ -17,7 +17,7 @@ class Dashboard extends Component {
     componentDidMount() {
         StudentDataConnector.getDashboard({})
             .then(res =>{
-                console.log(res)
+                console.log(res.data) // returning the logged in user for now
             })
             .catch(err =>{
                 console.log(err.response)

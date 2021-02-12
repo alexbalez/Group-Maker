@@ -21,6 +21,12 @@ function App() {
           <Route path='/' exact component={ Login } />
           <Route path='/signup' component={ CreateAccount } />
           <Route path="/mock" component={ Landing } />
+
+          {/* Student components */}
+          {/* todo: change routing scheme to nested routers. Upon login, should load a user component,
+          then get that user's information, and share it between child components so that there aren't so many calls 
+          to the backend. Navigation component would be the first child of the user component
+           */}
           <Route path="/dashboard" component={ Dashboard } />
           <Route path="/create" component={ CreateGroup }/>
           <Route path="/find" component={ FindGroup } />
