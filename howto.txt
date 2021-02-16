@@ -4,6 +4,9 @@ New method:
 
 sudo sh docker.sh
 
+may need to redirect http traffic to 3000
+sudo iptables -t nat -A PREROUTING -p tcp --dport 80 -j REDIRECT --to-port 3000
+
 In ubuntu's ~ folder.
 
 What it does: Starts two containers on the jenkins network.
