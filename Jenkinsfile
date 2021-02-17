@@ -1,11 +1,5 @@
 pipeline {
-  agent {
-    docker {
-      args '-p 3000:3000'
-      image 'node:15.8.0-alpine'
-    }
-
-  }
+  agent none
   stages {
     stage('Kill') {
       steps {
