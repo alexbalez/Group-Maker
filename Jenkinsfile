@@ -1,12 +1,6 @@
 pipeline {
   agent any
   stages {
-    stage('Kill') {
-      steps {
-        echo 'sh jenkins/scripts/kill.sh &'
-      }
-    }
-
     stage('Build') {
       steps {
         sh 'npm install'
