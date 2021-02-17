@@ -1,5 +1,13 @@
 This is how to properly set up the instance. Run on ssh:
 
+Newer method.
+
+Ignore all the other stuff. 
+
+sudo systemctl start jenkins
+
+Then have jenkins run the build.
+
 New method:
 
 sudo sh docker.sh
