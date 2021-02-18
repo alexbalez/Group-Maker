@@ -13,8 +13,8 @@ class Footer extends Component {
 
     render() {
         return (
-            
-            <Container fluid className="fixed-bottom bg-primary text-white" >
+
+            <Container fluid className="bg-primary text-white" >
                 <Row className="p-2">
                     <Col sm></Col>
                     <Col sm className="text-center">&copy;2021 Group Maker</Col>
@@ -25,7 +25,7 @@ class Footer extends Component {
                     </Col>
                 </Row>
             </Container>
-            
+
         );
     }
 
