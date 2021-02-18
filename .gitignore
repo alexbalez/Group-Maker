@@ -2,4 +2,5 @@
 package-lock.json
 .idea/
 /client/certs
-**/.env*
+*.env
+*.env.development
