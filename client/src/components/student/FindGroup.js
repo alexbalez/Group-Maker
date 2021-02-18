@@ -4,13 +4,22 @@ import Navigation from '../Navigation'
 import Header from '../Header'
 import Footer from '../Footer'
 import {Button, Form, InputGroup, FormControl, Dropdown, Table, Navbar} from 'react-bootstrap';
+import JoinPopUp from '../JoinPopUp';
 
 class FindGroup extends Component {
-    // constructor(props){
-    //     super(props);
-    // }
+    constructor(props){
+        super(props);
+        this.state = {popup: false};
+        // Binding
+        this.handleJoin = this.handleJoin.bind(this);
+    }
 
     componentDidMount() {
+    }
+
+    handleJoin(e){
+        e.preventDefault();
+        this.setState({popup: !this.state.popup});
     }
 
     render() {
@@ -18,6 +27,9 @@ class FindGroup extends Component {
             <div>
                 <Header />
                 <Navigation active="find" history={this.props.history}/>
+
+                {/* Join PopUp - Fires when user clicks on "Join" */}
+                {this.state.popup ? <JoinPopUp text="Testing popup" closePopup={this.handleJoin}/> : null}
 
                 {/* Search Bar */}
                 <Navbar className="bg-light justify-content-center">
@@ -58,7 +70,7 @@ class FindGroup extends Component {
                         <tr>
                             <td colSpan="2">T127 Study Group</td>
                             <td>Course Group</td>
-                            <td><Button variant="success">Join</Button></td>
+                            <td><Button onClick={this.handleJoin} variant="success">Join</Button></td>
                         </tr>
                         <tr>
                             <td colSpan="2">COMP 1101 Assignment 1</td>
