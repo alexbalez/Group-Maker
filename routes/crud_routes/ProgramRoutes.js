@@ -1,13 +1,13 @@
 const express = require('express');
-const groupModel = require('./../model/GroupModel');
+const programModel = require('../../model/ProgramModel');
 const app = express();
 
 // Create
-app.post('/group', async (req, res) => {
-  const group = new groupModel(req.body);
+app.post('/program', async (req, res) => {
+  const program = new programModel(req.body);
   try {
-    await group.save();
-    res.send(group);
+    await program.save();
+    res.send(program);
   }
   catch (err) {
     res.status(500).send(err);
@@ -15,23 +15,23 @@ app.post('/group', async (req, res) => {
 });
 
 // Retrieve
-app.get('/groups', async (req, res) => {
-  const groups = await groupModel.find({});
+app.get('/programs', async (req, res) => {
+  const program= await programModel.find({});
   try {
     res.append('Access-Control-Allow-Origin', ['*']);
-    res.send(groups);
+    res.send(program);
   } 
   catch (err) {
     res.status(500).send(err);
   }
 });
 
-app.get('/group/:id', async(req,res) => {
+app.get('/program/:id', async(req,res) => {
     console.log(req.params.id)
-    const group = await groupModel.findById(req.params.id);
+    const program = await programModel.findById(req.params.id);
     try {
         res.append('Access-Control-Allow-Origin', ['*']);
-        res.send(group);
+        res.send(program);
     }
     catch (err) {
         res.status(500).send(err);
@@ -39,10 +39,10 @@ app.get('/group/:id', async(req,res) => {
 });
 
 // Update (use patch instead of put so you only have to send the data you want to change)
-app.patch('/group/:id', async (req, res) => {
+app.patch('/program/:id', async (req, res) => {
     try {
-      await groupModel.findByIdAndUpdate(req.params.id, req.body)
-      await groupModel.save()
+      await programModel.findByIdAndUpdate(req.params.id, req.body)
+      await programModel.save()
       res.send({result:"edit success"})
       res.end()
     } catch (err) {
@@ -53,10 +53,10 @@ app.patch('/group/:id', async (req, res) => {
 
 //Delete
 // localhost:8081/user/5d1f6c3e4b0b88fb1d257237
-app.delete('/group/:id', async (req, res) => {
+app.delete('/program/:id', async (req, res) => {
     try {
-      const group = await groupModel.findByIdAndDelete(req.params.id)
-      if (!group) res.status(404).send("No item found")
+      const program = await programModel.findByIdAndDelete(req.params.id)
+      if (!program) res.status(404).send("No item found")
       res.status(200).send()
     } catch (err) {
       res.status(500).send(err)

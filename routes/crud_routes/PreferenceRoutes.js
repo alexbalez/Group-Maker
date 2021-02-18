@@ -1,13 +1,13 @@
 const express = require('express');
-const projectModel = require('./../model/ProjectModel');
+const preferenceModel = require('../../model/PreferenceModel');
 const app = express();
 
 // Create
-app.post('/project', async (req, res) => {
-  const project = new projectModel(req.body);
+app.post('/preference', async (req, res) => {
+  const preference = new preferenceModel(req.body);
   try {
-    await project.save();
-    res.send(project);
+    await preference.save();
+    res.send(preference);
   }
   catch (err) {
     res.status(500).send(err);
@@ -15,23 +15,23 @@ app.post('/project', async (req, res) => {
 });
 
 // Retrieve
-app.get('/projects', async (req, res) => {
-  const project = await projectModel.find({});
+app.get('/preferences', async (req, res) => {
+  const preference = await preferenceModel.find({});
   try {
     res.append('Access-Control-Allow-Origin', ['*']);
-    res.send(project);
+    res.send(preference);
   } 
   catch (err) {
     res.status(500).send(err);
   }
 });
 
-app.get('/project/:id', async(req,res) => {
+app.get('/preference/:id', async(req,res) => {
     console.log(req.params.id)
-    const project = await projectModel.findById(req.params.id);
+    const preference = await preferenceModel.findById(req.params.id);
     try {
         res.append('Access-Control-Allow-Origin', ['*']);
-        res.send(project);
+        res.send(preference);
     }
     catch (err) {
         res.status(500).send(err);
@@ -39,10 +39,10 @@ app.get('/project/:id', async(req,res) => {
 });
 
 // Update (use patch instead of put so you only have to send the data you want to change)
-app.patch('/project/:id', async (req, res) => {
+app.patch('/preference/:id', async (req, res) => {
     try {
-      await projectModel.findByIdAndUpdate(req.params.id, req.body)
-      await projectModel.save()
+      await preferenceModel.findByIdAndUpdate(req.params.id, req.body)
+      await preferenceModel.save()
       res.send({result:"edit success"})
       res.end()
     } catch (err) {
@@ -53,10 +53,10 @@ app.patch('/project/:id', async (req, res) => {
 
 //Delete
 // localhost:8081/user/5d1f6c3e4b0b88fb1d257237
-app.delete('/project/:id', async (req, res) => {
+app.delete('/preference/:id', async (req, res) => {
     try {
-      const project = await projectModel.findByIdAndDelete(req.params.id)
-      if (!project) res.status(404).send("No item found")
+      const preference = await preferenceModel.findByIdAndDelete(req.params.id)
+      if (!preference) res.status(404).send("No item found")
       res.status(200).send()
     } catch (err) {
       res.status(500).send(err)

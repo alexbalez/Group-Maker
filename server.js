@@ -6,16 +6,18 @@ const mongoose = require('mongoose');
 
 const studentRoute = require('./routes/studentRoute');
 const authRoute = require('./routes/authRoute');
-const userRouter = require('./routes/UserRoutes.js')
-const roleRouter = require('./routes/RoleRoutes.js')
-const groupRouter = require('./routes/GroupRoutes.js')
-const collegeRouter = require('./routes/CollegeRoutes.js')
-const campusRouter = require('./routes/CampusRoutes.js')
-const programRouter = require('./routes/ProgramRoutes.js')
-const courseRouter = require('./routes/CourseRoutes.js')
-const projectRouter = require('./routes/ProjectRoutes.js')
-const ratingRouter = require('./routes/RatingRoutes.js')
-const preferenceRouter = require('./routes/PreferenceRoutes.js')
+const userRouter = require('./routes/crud_routes/UserRoutes.js')
+const roleRouter = require('./routes/crud_routes/RoleRoutes.js')
+const groupRouter = require('./routes/crud_routes/GroupRoutes.js')
+const collegeRouter = require('./routes/crud_routes/CollegeRoutes.js')
+const campusRouter = require('./routes/crud_routes/CampusRoutes.js')
+const programRouter = require('./routes/crud_routes/ProgramRoutes.js')
+const courseRouter = require('./routes/crud_routes/CourseRoutes.js')
+const projectRouter = require('./routes/crud_routes/ProjectRoutes.js')
+const ratingRouter = require('./routes/crud_routes/RatingRoutes.js')
+const preferenceRouter = require('./routes/crud_routes/PreferenceRoutes.js')
+
+const userRoleRouter = require('./routes/entity_relationship_routes/UserRoleRoutes.js')
 
 
 
@@ -42,6 +44,8 @@ app.use(courseRouter);
 app.use(projectRouter);
 app.use(ratingRouter);
 app.use(preferenceRouter);
+
+app.use(userRoleRouter);
 
 
 

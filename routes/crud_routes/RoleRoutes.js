@@ -1,6 +1,6 @@
 const express = require('express');
-const userModel = require('./../model/UserModel')
-const roleModel = require('./../model/RoleModel');
+const userModel = require('../../model/UserModel')
+const roleModel = require('../../model/RoleModel');
 const app = express();
 
 // Create

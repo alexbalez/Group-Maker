@@ -1,13 +1,13 @@
 const express = require('express');
-const collegeModel = require('./../model/CollegeModel');
+const ratingModel = require('../../model/RatingModel');
 const app = express();
 
 // Create
-app.post('/college', async (req, res) => {
-  const college = new collegeModel(req.body);
+app.post('/rating', async (req, res) => {
+  const rating = new ratingModel(req.body);
   try {
-    await college.save();
-    res.send(college);
+    await rating.save();
+    res.send(rating);
   }
   catch (err) {
     res.status(500).send(err);
@@ -15,23 +15,23 @@ app.post('/college', async (req, res) => {
 });
 
 // Retrieve
-app.get('/colleges', async (req, res) => {
-  const colleges = await collegeModel.find({});
+app.get('/ratings', async (req, res) => {
+  const rating = await ratingModel.find({});
   try {
     res.append('Access-Control-Allow-Origin', ['*']);
-    res.send(colleges);
+    res.send(rating);
   } 
   catch (err) {
     res.status(500).send(err);
   }
 });
 
-app.get('/college/:id', async(req,res) => {
+app.get('/rating/:id', async(req,res) => {
     console.log(req.params.id)
-    const college = await collegeModel.findById(req.params.id);
+    const rating = await ratingModel.findById(req.params.id);
     try {
         res.append('Access-Control-Allow-Origin', ['*']);
-        res.send(college);
+        res.send(rating);
     }
     catch (err) {
         res.status(500).send(err);
@@ -39,10 +39,10 @@ app.get('/college/:id', async(req,res) => {
 });
 
 // Update (use patch instead of put so you only have to send the data you want to change)
-app.patch('/college/:id', async (req, res) => {
+app.patch('/rating/:id', async (req, res) => {
     try {
-      await collegeModel.findByIdAndUpdate(req.params.id, req.body)
-      await collegeModel.save()
+      await ratingModel.findByIdAndUpdate(req.params.id, req.body)
+      await ratingModel.save()
       res.send({result:"edit success"})
       res.end()
     } catch (err) {
@@ -53,10 +53,10 @@ app.patch('/college/:id', async (req, res) => {
 
 //Delete
 // localhost:8081/user/5d1f6c3e4b0b88fb1d257237
-app.delete('/college/:id', async (req, res) => {
+app.delete('/rating/:id', async (req, res) => {
     try {
-      const college = await collegeModel.findByIdAndDelete(req.params.id)
-      if (!college) res.status(404).send("No item found")
+      const rating = await ratingModel.findByIdAndDelete(req.params.id)
+      if (!rating) res.status(404).send("No item found")
       res.status(200).send()
     } catch (err) {
       res.status(500).send(err)

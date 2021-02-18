@@ -1,5 +1,5 @@
 const express = require('express');
-const courseModel = require('./../model/CourseModel');
+const courseModel = require('../../model/CourseModel');
 const app = express();
 
 // Create
