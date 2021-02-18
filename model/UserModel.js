@@ -45,7 +45,7 @@ const UserSchema = new mongoose.Schema({
       ref: "groups"
     }
   ],
-  rating: [
+  ratings: [
     {
       type: mongoose.Schema.Types.ObjectId,
       ref: "ratings"
