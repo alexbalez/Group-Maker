@@ -18,6 +18,7 @@ const ratingRouter = require('./routes/crud_routes/RatingRoutes.js')
 const preferenceRouter = require('./routes/crud_routes/PreferenceRoutes.js')
 
 const userRoleRouter = require('./routes/entity_relationship_routes/UserRoleRoutes.js')
+const userGroupRouter = require('./routes/entity_relationship_routes/UserGroupRoutes.js')
 
 
 
@@ -46,6 +47,7 @@ app.use(ratingRouter);
 app.use(preferenceRouter);
 
 app.use(userRoleRouter);
+app.use(userGroupRouter);
 
 
 
