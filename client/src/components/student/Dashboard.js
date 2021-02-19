@@ -31,8 +31,6 @@ class Dashboard extends Component {
         return (
             <div>
                 <Header/>
-                <Navigation active="dashboard" history={this.props.history}/>
-
                 {/* Search */}
                 <Navbar className="bg-light justify-content-center">
                     <Form inline className="m-2">

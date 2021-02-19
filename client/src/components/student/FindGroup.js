@@ -25,8 +25,7 @@ class FindGroup extends Component {
     render() {
         return (
             <div>
-                <Header />
-                <Navigation active="find" history={this.props.history}/>
+                <Header/>
 
                 {/* Join PopUp - Fires when user clicks on "Join" */}
                 {this.state.popup ? <JoinPopUp text="Testing popup" closePopup={this.handleJoin}/> : null}

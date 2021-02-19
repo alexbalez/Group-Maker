@@ -22,7 +22,7 @@ class StudentProfile extends Component {
             .catch(err => {
                 console.log(err.response)
                 //kick user back to the login screen if the response status is 401 unauthorized
-                if (err.response.status === 401) this.props.history.push('/')
+                //if (err.response.status === 401) this.props.history.push('/')
             })
     }
 
@@ -30,7 +30,6 @@ class StudentProfile extends Component {
         return (
             <div>
                 <Header />
-                <Navigation active="" history={this.props.history}/>
                 <div style={{ height: "300px" }} className="m-5">
                     <h1>My Profile</h1>
                     <p><strong>ID:</strong> {this.state.data._id}</p>

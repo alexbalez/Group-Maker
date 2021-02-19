@@ -16,8 +16,7 @@ class CreateGroup extends Component {
     render() {
         return (
             <div>
-                <Header />
-                <Navigation active="create" history={this.props.history}/>
+                <Header/>
                 <div className="col-4 mx-auto mt-4">
                     <Form>
 
