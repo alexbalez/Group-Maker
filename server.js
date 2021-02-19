@@ -40,7 +40,7 @@ mongoose.connect(DB_URL, { useNewUrlParser: true, useUnifiedTopology: true, useC
 
 // Server
 const server = app.listen(port, () => console.log(`Server running on port ${port}`));
-
+/*
 const https = require('https')
 //const http = require('http')
 const fs = require('fs')
