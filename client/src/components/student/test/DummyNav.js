@@ -1,3 +1,5 @@
+/*
+
 import React, {Component}from 'react';
 import { Navbar, Nav, NavDropdown} from 'react-bootstrap';
 import { withRouter } from 'react-router'
@@ -16,6 +18,7 @@ class Navigation extends Component {
     // todo: UNSAFE_ suppresses deprication warning. Handle later
     UNSAFE_componentWillReceiveProps(nextProps) {
         //console.log(nextProps.data)
+        //where does nextprops come from ????
         this.setState({ data: nextProps.data });
     }
 
@@ -46,3 +49,5 @@ class Navigation extends Component {
 
 //https://stackoverflow.com/questions/53539314/what-is-withrouter-for-in-react-router-dom
 export default withRouter(Navigation);
+
+*/
