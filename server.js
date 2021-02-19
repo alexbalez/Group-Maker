@@ -41,9 +41,31 @@ mongoose.connect(DB_URL, { useNewUrlParser: true, useUnifiedTopology: true, useC
 // Server
 const server = app.listen(port, () => console.log(`Server running on port ${port}`));
 
+const https = require('https')
+//const http = require('http')
+const fs = require('fs')
+var httpskey  = fs.readFileSync('./client/certs/joina.group.key', 'utf8');
+var httpscert = fs.readFileSync('./client/certs/joina.group.crt', 'utf8');
 
+var credentials = {key: httpskey, cert: httpscert}
+//var httpServer = https.createServer(app).listen(5000)
+/*
+var httpsServer = https.createServer(credentials, app)
+httpsServer.listen(3001);
+*/
+app.use (function (req, res, next) {
+        if (req.secure) {
+                // request was via https, so do no special handling
+                next();
+        } else {
+                // request was via http, so redirect to https
+                res.redirect('https://' + req.headers.host + req.url);
+        }
+})
 
+//https.get('/', (res) => {res.send('got')})
 
+//^^^ https doesn't work here lmao
 /////////// testing cookies ///////////////////
 
 app.get('/set-cookies', (req, res) => {
