@@ -38,6 +38,17 @@ mongoose.connect(DB_URL, { useNewUrlParser: true, useUnifiedTopology: true, useC
         process.exit();
     });
 
+    
+app.use (function (req, res, next) {
+    if (req.secure) {
+            // request was via https, so do no special handling
+            next();
+    } else {
+            // request was via http, so redirect to https
+            res.redirect('https://' + req.headers.host + req.url);
+    }
+})
+
 // Server
 const server = app.listen(port, () => console.log(`Server running on port ${port}`));
 /*
@@ -53,15 +64,6 @@ var credentials = {key: httpskey, cert: httpscert}
 var httpsServer = https.createServer(credentials, app)
 httpsServer.listen(3001);
 */
-app.use (function (req, res, next) {
-        if (req.secure) {
-                // request was via https, so do no special handling
-                next();
-        } else {
-                // request was via http, so redirect to https
-                res.redirect('https://' + req.headers.host + req.url);
-        }
-})
 
 //https.get('/', (res) => {res.send('got')})
 
