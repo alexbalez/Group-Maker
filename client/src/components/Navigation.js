@@ -14,14 +14,14 @@ class Navigation extends Component {
         }
 
         this.logout = () =>{
-            // todo: destroy session cookie here
-            console.log("session pretend destroyed")
-            //must pass the history from parent component
-            //https://stackoverflow.com/questions/43837212/this-props-history-push-works-in-some-components-and-not-others
-            //this.props.history.push("/")
+            
+            //sends request to db to destroy the cookie
             AuthDataConnector.logoutUser()
                 .then((res) =>{
-                    console.log('Logout successful')  
+                    console.log('Logout successful') 
+                    //must pass the history from parent component
+                    //https://stackoverflow.com/questions/43837212/this-props-history-push-works-in-some-components-and-not-others
+                    this.props.history.push("/")
                 })
                 .catch((err)=>{
                     console.log('Could not logout', err)
