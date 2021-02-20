@@ -9,7 +9,7 @@ class Navigation extends Component {
         this.location = props.location
         this.state = {            
             data: this.props.data,
-            username: 'user'
+            username: 'user' //replace email with this? User object from db doesn't include a username 
         }
 
         this.logout = () =>{
@@ -28,9 +28,12 @@ class Navigation extends Component {
 
 
     componentDidMount() {
-        //todo: pull in information here specific to each user
-        this.setState({username: 'Joeseph Username'})
-        console.log(this.props)
+        //grab user data from dashboard/StudentDataConn
+        this.props.data.then(response => {
+            this.setState({
+                data: response
+            })
+        })
     }
 
     render() {
@@ -48,7 +51,7 @@ class Navigation extends Component {
                     
                     <Nav className="ml-auto">
                     <img src={profilePhoto} alt="Profile" width="50" height="50"/>
-                        <NavDropdown title={this.state.username} id="basic-nav-dropdown">
+                        <NavDropdown title={this.state.data.email} id="basic-nav-dropdown">
                             <NavDropdown.Item href="/profile">My Profile</NavDropdown.Item>
                             <NavDropdown.Item onClick={ this.logout }>Logout</NavDropdown.Item>
                         </NavDropdown>
