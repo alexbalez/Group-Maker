@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import '../components.css'
-import Header from '../Header'
 import Footer from '../Footer'
 import {Button, Navbar, Form, InputGroup, FormControl, Dropdown, Table, Container} from 'react-bootstrap'
 import StudentDataConnector from '../../services/StudentDataConnector'
@@ -29,7 +28,7 @@ class Dashboard extends Component {
     render() {
         return (
             <div>
-                <Header history={this.props.history}/>
+                {/*<Header history={this.props.history}/>*/}
                 {/* Search */}
                 <Navbar className="bg-light justify-content-center">
                     <Form inline className="m-2">

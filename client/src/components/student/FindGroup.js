@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import '../components.css'
-import Header from '../Header'
 import Footer from '../Footer'
 import {Button, Form, InputGroup, FormControl, Dropdown, Table, Navbar} from 'react-bootstrap';
 import JoinPopUp from '../JoinPopUp';
@@ -24,7 +23,7 @@ class FindGroup extends Component {
     render() {
         return (
             <div>
-                <Header history={this.props.history}/>
+                {/*<Header history={this.props.history}/>*/}
 
                 {/* Join PopUp - Fires when user clicks on "Join" */}
                 {this.state.popup ? <JoinPopUp text="Testing popup" closePopup={this.handleJoin}/> : null}

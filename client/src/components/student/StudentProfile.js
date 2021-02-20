@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import '../components.css'
-import Header from '../Header'
 import Footer from '../Footer'
 import StudentDataConnector from '../../services/StudentDataConnector'
 
@@ -28,7 +27,7 @@ class StudentProfile extends Component {
     render() {
         return (
             <div>
-                <Header history={this.props.history}/>
+                {/*<Header history={this.props.history}/>*/}
                 <div style={{ height: "300px" }} className="m-5">
                     <h1>My Profile</h1>
                     <p><strong>ID:</strong> {this.state.data._id}</p>

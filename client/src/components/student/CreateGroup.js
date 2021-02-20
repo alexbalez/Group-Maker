@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import '../components.css'
-import Header from '../Header'
 import Footer from '../Footer'
 import {Button, Form, InputGroup, FormControl, Dropdown} from 'react-bootstrap';
 
@@ -15,7 +14,7 @@ class CreateGroup extends Component {
     render() {
         return (
             <div>
-                <Header history={this.props.history}/>
+                {/*<Header history={this.props.history}/>*/}
                 <div className="col-4 mx-auto mt-4">
                     <Form>
 
