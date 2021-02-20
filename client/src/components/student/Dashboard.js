@@ -30,7 +30,7 @@ class Dashboard extends Component {
     render() {
         return (
             <div>
-                <Header/>
+                <Header history={this.props.history}/>
                 {/* Search */}
                 <Navbar className="bg-light justify-content-center">
                     <Form inline className="m-2">
