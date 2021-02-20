@@ -57,11 +57,11 @@ class Navigation extends Component {
                     </Nav>
                     
                     <Nav className="ml-auto">
-                    <img src={profilePhoto} alt="Profile" width="50" height="50"/>
                         <NavDropdown title={this.state.data.email} id="basic-nav-dropdown">
                             <NavDropdown.Item href="/profile">My Profile</NavDropdown.Item>
                             <NavDropdown.Item onClick={ this.logout }>Logout</NavDropdown.Item>
                         </NavDropdown>
+                        <img src={profilePhoto} alt="Profile" width="50" height="50"/>
                     </Nav>
                 </Navbar.Collapse>
             </Navbar>

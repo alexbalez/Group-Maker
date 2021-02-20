@@ -1,14 +1,13 @@
-import React, { Component } from 'react';
-import '../components.css';
-import Navigation from '../Navigation'
+import React, { Component } from 'react'
+import '../components.css'
 import Header from '../Header'
 import Footer from '../Footer'
-import {Button, Navbar, Form, InputGroup, FormControl, Dropdown, Table, Container} from 'react-bootstrap';
+import {Button, Navbar, Form, InputGroup, FormControl, Dropdown, Table, Container} from 'react-bootstrap'
 import StudentDataConnector from '../../services/StudentDataConnector'
 
 class Dashboard extends Component {
     constructor(props){
-        super(props);
+        super(props)
         this.state = {
             data: {}
         }
