@@ -14,13 +14,15 @@ import StudentProfile from "./components/student/StudentProfile";
 import Header from './components/Header';
 // import Footer from './components/Footer';
 // import Navigation from './components/Navigation';
-import DummyHolder from './components/student/test/DummyHolder'
+//import DummyHolder from './components/student/test/DummyHolder'
 
 
 
 function App() {
   return (
-      
+    <div>
+    <Route component= { Header }/> 
+
       <Switch>
         <Route path='/' exact component={ Login } />
         <Route path='/signup' component={ CreateAccount } />
@@ -31,23 +33,22 @@ function App() {
         then get that user's information, and share it between child components so that there aren't so many calls 
         to the backend. Navigation component would be the first child of the user component
           */}
-        <Route path="/" component= { Header }> 
           <Route path="/dashboard" component={ Dashboard } />
           <Route path="/create" component={ CreateGroup }/>
           <Route path="/find" component={ FindGroup } />
           <Route path="/auto" component={ AutoGroup } />
           <Route path="/help" component={ HelpStudent } />
           <Route path="/profile" component={ StudentProfile } />
-        </Route> 
-
+          
         {/* Dummy components. Testing how to do the above nested router idea*/}
+        {/*
         <Route path="/dummies">
           <Header/>
           <DummyHolder/>
         </Route>
-
+        */}
       </Switch>
-      
+      </div>
 
   );
 }
