@@ -14,6 +14,10 @@ class AuthDataConnector {
     addUser = (user) =>{
       return Axios.post('/signup', user)
     }
+
+    logoutUser = () =>{
+        return Axios.post('/logout')
+    }
 }
 
 export default new AuthDataConnector()

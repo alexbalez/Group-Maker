@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './components.css';
 import { Navbar, NavDropdown, Nav } from 'react-bootstrap';
 import profilePhoto from '../img/avatar-placeholder.gif'
+import AuthDataConnector from '../services/AuthDataConnector'
 
 class Navigation extends Component {
     constructor(props){
@@ -18,7 +19,13 @@ class Navigation extends Component {
             //must pass the history from parent component
             //https://stackoverflow.com/questions/43837212/this-props-history-push-works-in-some-components-and-not-others
             //this.props.history.push("/")
-            
+            AuthDataConnector.logoutUser()
+                .then((res) =>{
+                    console.log('Logout successful')  
+                })
+                .catch((err)=>{
+                    console.log('Could not logout', err)
+                })
         }
     }
 
