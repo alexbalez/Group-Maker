@@ -1,12 +1,12 @@
 import React, { Component } from 'react'
 import '../components.css'
 import Footer from '../Footer'
-import {Button, Form, InputGroup, FormControl, Dropdown} from 'react-bootstrap';
+import {Button, Form, InputGroup, Dropdown} from 'react-bootstrap';
 
 class CreateGroup extends Component {
-    constructor(props){
-        super(props);
-    }
+    // constructor(props){
+    //     super(props);
+    // }
 
     componentDidMount() {
     }
