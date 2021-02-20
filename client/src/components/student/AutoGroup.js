@@ -15,7 +15,7 @@ class AutoGroup extends Component {
     render() {
         return (
             <div>
-                <Header/>
+                <Header history={this.props.history}/>
 
                 <div style={{ height: "300px" }} className="m-5">
                     <h1>Auto</h1>
