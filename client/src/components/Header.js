@@ -5,9 +5,6 @@ import StudentDataConnector from '../services/StudentDataConnector';
 
 
 class Header extends Component {
-    constructor(props){
-         super(props);
-    }
 
     componentWillMount() {                
         this.setState({userdata: StudentDataConnector.getDashboard().then(result => result.data)})

@@ -2,9 +2,6 @@ import React, { Component } from 'react';
 import './components.css';
 
 class JoinPopUp extends Component{
-    constructor(props){
-        super(props);
-    }
 
     componentDidMount() {
     }
