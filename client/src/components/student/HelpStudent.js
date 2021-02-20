@@ -1,6 +1,5 @@
-import React, { Component } from 'react';
-import '../components.css';
-import Navigation from '../Navigation'
+import React, { Component } from 'react'
+import '../components.css'
 import Header from '../Header'
 import Footer from '../Footer'
 
