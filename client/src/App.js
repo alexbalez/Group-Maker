@@ -1,7 +1,7 @@
 import React from "react";
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Route, Switch } from 'react-router-dom'
+import { BrowserRouter, Route, Switch } from 'react-router-dom'
 import Landing from './components/Landing';
 import Login from './components/Login'
 import CreateAccount from './components/CreateAccount'
@@ -20,26 +20,22 @@ import Header from './components/Header';
 
 function App() {
   return (
-    <div>
-      <Route component= { Header }/>
+    <BrowserRouter>
+      <Route component={Header} />
 
       <Switch>
-        <Route path='/' exact component={ Login } />
-        <Route path='/signup' component={ CreateAccount } />
-        <Route path="/mock" component={ Landing } />
+        <Route path='/' exact component={Login} />
+        <Route path='/signup' component={CreateAccount} />
+        <Route path="/mock" component={Landing} />
 
-        {/* Student components */}
-        {/* todo: change routing scheme to nested routers. Upon login, should load a user component,
-        then get that user's information, and share it between child components so that there aren't so many calls 
-        to the backend. Navigation component would be the first child of the user component
-          */}
-        <Route path="/dashboard" component={ Dashboard } />
-        <Route path="/create" component={ CreateGroup }/>
-        <Route path="/find" component={ FindGroup } />
-        <Route path="/auto" component={ AutoGroup } />
-        <Route path="/help" component={ HelpStudent } />
-        <Route path="/profile" component={ StudentProfile } />
         
+        <Route path="/dashboard" component={Dashboard} />
+        <Route path="/create" component={CreateGroup} />
+        <Route path="/find" component={FindGroup} />
+        <Route path="/auto" component={AutoGroup} />
+        <Route path="/help" component={HelpStudent} />
+        <Route path="/profile" component={StudentProfile} />
+
         {/* Dummy components. Testing how to do the above nested router idea*/}
         {/*
         <Route path="/dummies">
@@ -48,7 +44,7 @@ function App() {
         </Route>
         */}
       </Switch>
-    </div>
+    </BrowserRouter>
 
   );
 }

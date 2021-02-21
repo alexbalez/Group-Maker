@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import {Link } from 'react-router-dom'
 import './components.css';
 import { Navbar, NavDropdown, Nav } from 'react-bootstrap';
 import profilePhoto from '../img/avatar-placeholder.gif'
@@ -14,7 +15,6 @@ class Navigation extends Component {
         }
 
         this.logout = () =>{
-            
             //sends request to db to destroy the cookie
             AuthDataConnector.logoutUser()
                 .then((res) =>{
@@ -28,6 +28,10 @@ class Navigation extends Component {
                     console.log('Could not logout', err)
                 })
         }
+
+        this.goToProfile = () =>{
+            this.props.history.push('/profile')
+        }
     }
 
     render() {
@@ -36,17 +40,24 @@ class Navigation extends Component {
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="mr-auto">
-                        <Nav.Link active={this.props.active === "dashboard"} href="/dashboard">My Groups</Nav.Link>
+                        {/* <Nav.Link active={this.props.active === "dashboard"} href="/dashboard">My Groups</Nav.Link>
                         <Nav.Link active={this.props.active === "create"} href="/create">Create</Nav.Link>
                         <Nav.Link active={this.props.active === "find"} href="/find">Find</Nav.Link>
                         <Nav.Link active={this.props.active === "auto"} href="/auto">Auto</Nav.Link>
-                        <Nav.Link active={this.props.active === "help"} href="/help">Help</Nav.Link>
+                        <Nav.Link active={this.props.active === "help"} href="/help">Help</Nav.Link> */}
+                        
+                        <Link className="nav-link" to="/dashboard">Dashboard</Link>
+                        <Link className="nav-link" to="/create">Create</Link>
+                        <Link className="nav-link" to="/find">Find</Link>
+                        <Link className="nav-link" to="/auto">Auto</Link>
+                        <Link className="nav-link" to="/help">Help</Link>
                     </Nav>
                     
                     <Nav className="ml-auto">
-                        <NavDropdown title={this.state.data.email} id="basic-nav-dropdown">
-                            <NavDropdown.Item href="/profile">My Profile</NavDropdown.Item>
+                        <NavDropdown className="bg-dark" title={this.state.data.email} id="basic-nav-dropdown">
+                            <NavDropdown.Item onClick={ this.goToProfile }>My Profile</NavDropdown.Item>
                             <NavDropdown.Item onClick={ this.logout }>Logout</NavDropdown.Item>
+                            
                         </NavDropdown>
                         <img src={profilePhoto} alt="Profile" width="50" height="50"/>
                     </Nav>
