@@ -1,16 +1,16 @@
 const express = require('express');
 const userModel = require('./../../model/UserModel');
-const collegeModel = require('./../../model/CollegeModel')
+const campusModel = require('./../../model/CampusModel')
 const app = express();
 
 
 // Create
-app.post('/usercollegeadd/:userId/:collegeId', async (req, res)  => {
+app.post('/usercampusadd/:userId/:campusId', async (req, res)  => {
   await res.append('Access-Control-Allow-Origin', ['*']);
   console.log(req.params.userId)
-  console.log(req.params.collegeId)
+  console.log(req.params.campusId)
   tempUserId = req.params.userId;
-  tempCollegeId = req.params.collegeId;
+  tempCampusId = req.params.campusId;
   console.log(res)
 
   try {
@@ -19,16 +19,16 @@ app.post('/usercollegeadd/:userId/:collegeId', async (req, res)  => {
 
     const user = await userModel.findByIdAndUpdate(
       { _id: tempUserId},
-      { $addToSet: {colleges: tempCollegeId} },
+      { $addToSet: {campuses: tempCampusId} },
       { new: true, useFindAndModify: false }
     )
-    const college = await collegeModel.findByIdAndUpdate(
-      {_id: tempCollegeId},
+    const campus = await campusModel.findByIdAndUpdate(
+      {_id: tempCampusId},
       { $addToSet: { users: tempUserId } },
       { new: true, useFindAndModify: false }
     )
 
-    await college.save()
+    await campus.save()
     await user.save()
     // res.append('Access-Control-Allow-Origin', ['*']);
     res.end()
@@ -39,28 +39,28 @@ app.post('/usercollegeadd/:userId/:collegeId', async (req, res)  => {
 });
 
 // Remove
-app.post('/usercollegedelete/:userId/:collegeId', async (req, res) => {
+app.post('/usercampusdelete/:userId/:campusId', async (req, res) => {
   await res.append('Access-Control-Allow-Origin', ['*'])
   console.log(req.params.userId)
-  console.log(req.params.collegeId)
+  console.log(req.params.campusId)
   tempUserId = req.params.userId;
-  tempCollegeId = req.params.collegeId;
+  tempCampusId = req.params.campusId;
 
   try {
     console.log('hello')
   
     const user = await userModel.findByIdAndUpdate(
       { _id: tempUserId},
-      { $pull: {colleges: tempCollegeId} },
+      { $pull: {campuses: tempCampusId} },
       { new: true, useFindAndModify: false }
     )
-    const college = await collegeModel.findByIdAndUpdate(
-      {_id: tempCollegeId},
+    const campus = await campusModel.findByIdAndUpdate(
+      {_id: tempCampusId},
       { $pull: { users: tempUserId } },
       { new: true, useFindAndModify: false }
     )
 
-    await college.save()
+    await campus.save()
     await user.save()
     res.end()
   }
