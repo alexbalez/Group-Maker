@@ -21,26 +21,13 @@ class Navigation extends Component {
                     console.log('Logout successful') 
                     //must pass the history from parent component
                     //https://stackoverflow.com/questions/43837212/this-props-history-push-works-in-some-components-and-not-others
-                    this.props.history.push("/")
+                    this.props.history.push('/')
+                    window.location.reload() //reload page so navbar disappears
                 })
                 .catch((err)=>{
                     console.log('Could not logout', err)
                 })
         }
-    }
-
-    componentWillMount() {
-        //this.setState({ data: nextProps.data });
-    }
-
-
-    componentDidMount() {
-        //grab user data from dashboard/StudentDataConn
-        this.props.data.then(response => {
-            this.setState({
-                data: response
-            })
-        })
     }
 
     render() {

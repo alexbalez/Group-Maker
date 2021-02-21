@@ -15,13 +15,16 @@ class Dashboard extends Component {
     componentDidMount() {
         StudentDataConnector.getDashboard({})
             .then(res =>{
-                console.log(res.data) // returning the logged in user for now
+                //console.log(res.data) // returning the logged in user for now
                 this.setState({data: res.data})
             })
             .catch(err =>{
                 console.log(err.response)
                 //kick user back to the login screen if the response status is 401 unauthorized
-                if(err.response.status === 401) this.props.history.push('/')
+                if(err.response.status === 401) {
+                    this.props.history.push('/')
+                    window.location.reload()
+                }
             })
     }
 

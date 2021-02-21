@@ -26,6 +26,7 @@ class Login extends Component{
                     console.log('Login successful.', 'User id: '+res.data.userid)
                     console.log(res)
                     this.props.history.push('/dashboard')
+                    window.location.reload() //reload page so navbar disappears
                 })
                 .catch(err => {
                     //todo: code error fields in form that use this err.response object

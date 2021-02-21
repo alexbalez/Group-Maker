@@ -5,19 +5,41 @@ import StudentDataConnector from '../services/StudentDataConnector';
 
 
 class Header extends Component {
+    constructor(props){
+        super(props)
+        this.state = {
+            userdata: {email: ''}
+        }
+    }
 
-    componentWillMount() {                
-        this.setState({userdata: StudentDataConnector.getDashboard().then(result => result.data)})
-        console.log(this.props)
+    componentDidMount() {
+        StudentDataConnector.getDashboard()
+            .then(result => {
+                this.setState({ userdata: result.data })
+            })
+            .catch(err => {
+                this.setState({ userdata: {email: ''} }) //user is not logged in
+            })
     }
 
     render() {
-        return (
-            <div className="text-center bg-primary text-white mb-0 pb-0">
-                <a href="/mock" className="text-decoration-none text-white"><h1 className="p-2">Group Maker</h1></a>
-                <Navigation data={this.state.userdata} history={this.props.history}/>
-            </div>
-        );
+
+        if (this.state.userdata.email !== ''){
+            return (
+                <div className="text-center bg-primary text-white mb-0 pb-0">
+                    <a href="/mock" className="text-decoration-none text-white"><h1 className="p-2">Group Maker</h1></a>
+                    <Navigation data={this.state.userdata} history={this.props.history} />
+                </div>
+            );
+        }
+        else{
+            return (
+                <div className="text-center bg-primary text-white mb-0 pb-0">
+                    <a href="/mock" className="text-decoration-none text-white"><h1 className="p-2">Group Maker</h1></a>
+                    
+                </div>
+            );
+        }
     }
 
 
