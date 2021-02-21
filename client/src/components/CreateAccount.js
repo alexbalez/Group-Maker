@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
 import AuthDataConnector from "../services/AuthDataConnector";
 
 class CreateAccount extends Component{
@@ -17,7 +18,9 @@ class CreateAccount extends Component{
     }
 
     cancel = () =>{
+        window.location.reload()
         this.props.history.push('/') // go back to the login screen
+        
     };
 
     submit = (event) =>{
@@ -49,6 +52,7 @@ class CreateAccount extends Component{
             .then((res) =>{
                 console.log('User created', res)
                 this.props.history.push('/dashboard')
+                window.location.reload()
             })
             .catch((err) => {
                 console.log('Could not add user', err.response)
@@ -110,7 +114,8 @@ class CreateAccount extends Component{
                                     </div>
 
                                     <div className="form-group">
-                                        <button className="btn btn-warning btn-block" onClick={this.cancel}>Cancel</button>
+                                        {/* <button className="btn btn-warning btn-block" onClick={this.cancel}>Cancel</button> */}
+                                        <Link to="/" className="btn btn-warning btn-block">Cancel</Link>
                                     </div>
                                 </form>
                             </div>
