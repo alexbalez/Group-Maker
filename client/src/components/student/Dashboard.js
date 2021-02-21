@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import '../components.css'
-import Footer from '../Footer'
 import {Button, Navbar, Form, InputGroup, FormControl, Dropdown, Table, Container} from 'react-bootstrap'
 import StudentDataConnector from '../../services/StudentDataConnector'
 
@@ -113,7 +112,7 @@ class Dashboard extends Component {
                     <Button variant="warning">Archived Groups</Button>
                 </Container>
 
-                <Footer/>
+                
             </div>
         );
     }

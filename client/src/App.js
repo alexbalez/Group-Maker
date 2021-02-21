@@ -12,6 +12,7 @@ import AutoGroup from "./components/student/AutoGroup";
 import HelpStudent from "./components/student/HelpStudent";
 import StudentProfile from "./components/student/StudentProfile";
 import Header from './components/Header';
+import Footer from './components/Footer'
 // import Footer from './components/Footer';
 // import Navigation from './components/Navigation';
 //import DummyHolder from './components/student/test/DummyHolder'
@@ -44,6 +45,7 @@ function App() {
         </Route>
         */}
       </Switch>
+      <Footer />
     </BrowserRouter>
 
   );

@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import '../components.css'
-import Footer from '../Footer'
 import {Button, Form, InputGroup, FormControl, Dropdown, Table, Navbar} from 'react-bootstrap';
 import JoinPopUp from '../JoinPopUp';
 
@@ -107,8 +106,6 @@ class FindGroup extends Component {
                         </tbody>
                     </Table>
                 </div>
-
-                <Footer />
             </div>
         );
     }

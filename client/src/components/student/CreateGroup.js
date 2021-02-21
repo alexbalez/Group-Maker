@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import '../components.css'
-import Footer from '../Footer'
 import {Button, Form, InputGroup, Dropdown} from 'react-bootstrap';
 
 class CreateGroup extends Component {
@@ -99,7 +98,7 @@ class CreateGroup extends Component {
                         </Button>
                     </Form>
                 </div>
-                <Footer />
+                
             </div>
         );
     }

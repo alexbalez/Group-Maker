@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import AuthDataConnector from "../services/AuthDataConnector";
-import Header from "./Header";
 
 class Login extends Component{
     constructor(props){
@@ -38,7 +37,6 @@ class Login extends Component{
     render() {
         return (
             <div>
-                <Header/>
                 <div className="container mt-5">
                     <div className="row">
                         <div className="card col-md-6 offset-md-3 offset-md-3">
