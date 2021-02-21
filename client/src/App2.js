@@ -65,8 +65,8 @@ class App2 extends Component {
                 <BrowserRouter>
                     <AppHeader/>
                     <Switch>
-                        <Route path="/" exact component={Login}/>
                         <Route path='/signup' component={CreateAccount} />
+                        <Route path="/*" component={Login}/>
                     </Switch>
                     <Footer />
                 </BrowserRouter>
