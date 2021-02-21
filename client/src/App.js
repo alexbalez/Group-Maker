@@ -37,13 +37,6 @@ function App() {
         <Route path="/help" component={HelpStudent} />
         <Route path="/profile" component={StudentProfile} />
 
-        {/* Dummy components. Testing how to do the above nested router idea*/}
-        {/*
-        <Route path="/dummies">
-          <Header/>
-          <DummyHolder/>
-        </Route>
-        */}
       </Switch>
       <Footer />
     </BrowserRouter>
