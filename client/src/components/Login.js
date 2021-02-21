@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import AuthDataConnector from "../services/AuthDataConnector";
-import Header from './Header'
 
 class Login extends Component{
     constructor(props){
@@ -27,6 +26,7 @@ class Login extends Component{
                     console.log('Login successful.', 'User id: '+res.data.userid)
                     console.log(res)
                     this.props.history.push('/dashboard')
+                    window.location.reload() //reload page so navbar disappears
                 })
                 .catch(err => {
                     //todo: code error fields in form that use this err.response object
@@ -39,7 +39,6 @@ class Login extends Component{
     render() {
         return (
             <div>
-                <Header/>
                 <div className="container mt-5">
                     <div className="card col-md-6 offset-md-3 offset-md-3">
                         <h3 className="text-center mt-3">Login</h3>

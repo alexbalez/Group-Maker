@@ -24,6 +24,10 @@ const createCookie = (token, res) =>{
     res.cookie('gmUserCookie', token, { maxAge: 1000 * 60 * 60 * 24, httpOnly: true })
 }
 
+const destroyCookie = (res) =>{
+    res.cookie('gmUserCookie', null, { expires: new Date(Date.now() + 5 * 1000), httpOnly: true})
+}
+
 //login
 // Returns a jwt token as response on successful email lookup and password matching
 router.post('/login', (req, res)=>{
@@ -72,6 +76,17 @@ router.post('/signup', (req, res)=>{
         res.status(200).json({userid: user._id});
     });
 });
+
+router.post('/logout', (req, res)=>{
+    try{
+        destroyCookie(res)
+        res.status(200).send()
+    }
+    catch(err){
+        res.status(500).send(err)
+    }
+    
+})
 
 // router.get('/users/all', async (req, res)=>{
 //     const results = await User.find({});

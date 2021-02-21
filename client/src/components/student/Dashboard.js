@@ -1,14 +1,11 @@
-import React, { Component } from 'react';
-import '../components.css';
-import Navigation from '../Navigation'
-import Header from '../Header'
-import Footer from '../Footer'
-import {Button, Navbar, Form, InputGroup, FormControl, Dropdown, Table, Container} from 'react-bootstrap';
+import React, { Component } from 'react'
+import '../components.css'
+import {Button, Navbar, Form, InputGroup, FormControl, Dropdown, Table, Container} from 'react-bootstrap'
 import StudentDataConnector from '../../services/StudentDataConnector'
 
 class Dashboard extends Component {
     constructor(props){
-        super(props);
+        super(props)
         this.state = {
             data: {}
         }
@@ -17,22 +14,23 @@ class Dashboard extends Component {
     componentDidMount() {
         StudentDataConnector.getDashboard({})
             .then(res =>{
-                console.log(res.data) // returning the logged in user for now
+                //console.log(res.data) // returning the logged in user for now
                 this.setState({data: res.data})
             })
             .catch(err =>{
                 console.log(err.response)
                 //kick user back to the login screen if the response status is 401 unauthorized
-                if(err.response.status === 401) this.props.history.push('/')
+                if(err.response.status === 401) {
+                    this.props.history.push('/')
+                    window.location.reload()
+                }
             })
     }
 
     render() {
         return (
             <div>
-                <Header/>
-                <Navigation active="dashboard" history={this.props.history}/>
-
+                {/*<Header history={this.props.history}/>*/}
                 {/* Search */}
                 <Navbar className="bg-light justify-content-center">
                     <Form inline className="m-2">
@@ -114,7 +112,7 @@ class Dashboard extends Component {
                     <Button variant="warning">Archived Groups</Button>
                 </Container>
 
-                <Footer/>
+                
             </div>
         );
     }
