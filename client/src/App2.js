@@ -35,15 +35,19 @@ class App2 extends Component {
 
     render(){
         //can also check here for user type and then load appropriate dashboard
+        //protected routes
         if (this.state.loggedIn){
             return (
                 <BrowserRouter>
                     <AppHeader />
                     <AppNavHolder data={this.state.userdata}/>
                     <Switch>
-                        <Route path='/' exact component={Login} />
-                        <Route path='/signup' component={CreateAccount} />
-
+                        {/* <Route path='/' exact component={Login} />
+                        <Route path='/signup' component={CreateAccount} /> */}
+                        
+                        {/* todo: create redirect component if logged in, redirect any "/" to 
+                            dashboard and if logged out, redirect and protected route to login*/}
+                        <Route path="/" exact component={Dashboard} />
                         <Route path="/dashboard" component={Dashboard} />
                         <Route path="/create" component={CreateGroup} />
                         <Route path="/find" component={FindGroup} />
@@ -55,6 +59,7 @@ class App2 extends Component {
                 </BrowserRouter>
             )
         }
+        //user not logged in, unprotected routes
         else{
             return (
                 <BrowserRouter>

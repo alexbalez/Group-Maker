@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Route } from 'react-router-dom'
 import StudentDataConnector from '../../services/StudentDataConnector'
-import Header from '../Header'
+// import Header from '../Header'
 import Dashboard from './Dashboard';
 import Navigation from '../Navigation'
 
