@@ -30,6 +30,7 @@ const groupCollegeRouter = require('./routes/entity_relationship_routes/GroupCol
 const groupCampusRouter = require('./routes/entity_relationship_routes/GroupCampusRoutes.js');
 const groupProgramRouter = require('./routes/entity_relationship_routes/GroupProgramRoutes.js');
 const groupCourseRouter = require('./routes/entity_relationship_routes/GroupCourseRoutes.js');
+const groupProjectRouter = require('./routes/entity_relationship_routes/GroupProjectRoutes.js');
 
 
 const app = express();
@@ -67,6 +68,7 @@ app.use(groupCollegeRouter);
 app.use(groupCampusRouter);
 app.use(groupProgramRouter);
 app.use(groupCourseRouter);
+app.use(groupProjectRouter);
 
 // MongoDB Connection
 //const DB_URL = "mongodb+srv://thiago:mypassword@cluster0.siwfc.mongodb.net/group-maker?retryWrites=true&w=majority";
