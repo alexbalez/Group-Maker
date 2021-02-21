@@ -24,6 +24,7 @@ class Header extends Component {
     }
 
     render() {
+        console.log('HeaderRender', this.props.history)
 
         if (this.state.loggedIn){
             return (

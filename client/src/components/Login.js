@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import AuthDataConnector from "../services/AuthDataConnector";
+import { Link } from "react-router-dom";
 
 class Login extends Component{
     constructor(props){
@@ -58,7 +59,8 @@ class Login extends Component{
 
                                 <div className="form-group">
                                     <span className="mr-3">Don't have an account?</span>
-                                    <button className="btn btn-link" onClick={this.signup}>Sign Up</button>
+                                    {/* <button className="btn btn-link" onClick={this.signup}>Sign Up</button> */}
+                                    <Link to="/signup" className="btn btn-link">Sign Up</Link>
                                 </div>
 
                                 <div className="form-group text-center">
