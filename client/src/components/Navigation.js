@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {Link } from 'react-router-dom'
+import { Link, NavLink } from 'react-router-dom'
 import './components.css';
 import { Navbar, NavDropdown, Nav } from 'react-bootstrap';
 import profilePhoto from '../img/avatar-placeholder.gif'
@@ -45,12 +45,12 @@ class Navigation extends Component {
                         <Nav.Link active={this.props.active === "find"} href="/find">Find</Nav.Link>
                         <Nav.Link active={this.props.active === "auto"} href="/auto">Auto</Nav.Link>
                         <Nav.Link active={this.props.active === "help"} href="/help">Help</Nav.Link> */}
-                        
-                        <Link className="nav-link" to="/dashboard">Dashboard</Link>
-                        <Link className="nav-link" to="/create">Create</Link>
-                        <Link className="nav-link" to="/find">Find</Link>
-                        <Link className="nav-link" to="/auto">Auto</Link>
-                        <Link className="nav-link" to="/help">Help</Link>
+
+                        <NavLink className="nav-link" activeClassName="active" to="/dashboard">Dashboard</NavLink>
+                        <NavLink className="nav-link" activeClassName="active" to="/create">Create</NavLink>
+                        <NavLink className="nav-link" activeClassName="active" to="/find">Find</NavLink>
+                        <NavLink className="nav-link" activeClassName="active" to="/auto">Auto</NavLink>
+                        <NavLink className="nav-link" activeClassName="active" to="/help">Help</NavLink>
                     </Nav>
                     
                     <Nav className="ml-auto">
