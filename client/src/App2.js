@@ -1,8 +1,7 @@
-import React from "react";
+import {React, Component} from "react";
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Route } from 'react-router-dom'
-//import Landing from './components/Landing';
+import { BrowserRouter, Route, Switch } from 'react-router-dom'
 import Login from './components/Login'
 import CreateAccount from './components/CreateAccount'
 import Dashboard from './components/student/Dashboard'
@@ -11,42 +10,64 @@ import FindGroup from "./components/student/FindGroup";
 import AutoGroup from "./components/student/AutoGroup";
 import HelpStudent from "./components/student/HelpStudent";
 import StudentProfile from "./components/student/StudentProfile";
-import Header from './components/Header';
-// import Footer from './components/Footer';
-// import Navigation from './components/Navigation';
-//import DummyHolder from './components/student/test/DummyHolder'
+import AppHeader from './components/AppHeader';
 import Footer from "./components/Footer";
-import StudentRouteHolder from './components/student/StudentRouteHolder'
+import StudentDataConnector from './services/StudentDataConnector'
+import AppNavHolder from "./components/AppNavHolder";
 
+class App2 extends Component {
+    constructor(props){
+        super(props)
+        this.state = {
+            loggedIn: false
+        }
+    }
 
-////////////// This component is just for testing purposes ////////////////////
+    componentDidMount(){
+        StudentDataConnector.getDashboard()
+            .then(result => {
+                this.setState({ userdata: result.data, loggedIn: true })
+            })
+            .catch(err => {
+                this.setState({ loggedIn: false }) //user is not logged in
+            })
+    }
 
-function App() {
-    return (
+    render(){
+        //can also check here for user type and then load appropriate dashboard
+        if (this.state.loggedIn){
+            return (
+                <BrowserRouter>
+                    <AppHeader />
+                    <AppNavHolder data={this.state.userdata}/>
+                    <Switch>
+                        <Route path='/' exact component={Login} />
+                        <Route path='/signup' component={CreateAccount} />
 
-        <div>
-            <Route path='/' exact component={Login} />
-            <Route path='/signup' component={CreateAccount} />
-            
-            <Header/>
-            <div>
-                <Route path="/dashboard" component={Dashboard} />
-                <Route path="/create" component={CreateGroup} />
-                <Route path="/find" component={FindGroup} />
-                <Route path="/auto" component={AutoGroup} />
-                <Route path="/help" component={HelpStudent} />
-                <Route path="/profile" component={StudentProfile} />
-            </div>
-            <Footer/>
-
-
-            <Route path="/student">
-                <StudentRouteHolder/>
-            </Route>
-        </div>
-
-
-    );
+                        <Route path="/dashboard" component={Dashboard} />
+                        <Route path="/create" component={CreateGroup} />
+                        <Route path="/find" component={FindGroup} />
+                        <Route path="/auto" component={AutoGroup} />
+                        <Route path="/help" component={HelpStudent} />
+                        <Route path="/profile" component={StudentProfile} />
+                    </Switch>
+                    <Footer/>
+                </BrowserRouter>
+            )
+        }
+        else{
+            return (
+                <BrowserRouter>
+                    <AppHeader/>
+                    <Switch>
+                        <Route path="/" exact component={Login}/>
+                        <Route path='/signup' component={CreateAccount} />
+                    </Switch>
+                    <Footer />
+                </BrowserRouter>
+            )
+        }
+    }
 }
 
-export default App;
+export default App2;

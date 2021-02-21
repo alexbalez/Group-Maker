@@ -8,7 +8,7 @@ import AuthDataConnector from '../services/AuthDataConnector'
 class Navigation extends Component {
     constructor(props){
         super(props);
-        this.location = props.location
+        // this.location = props.location
         this.state = {            
             data: this.props.data,
             username: 'user' //replace email with this? User object from db doesn't include a username 
