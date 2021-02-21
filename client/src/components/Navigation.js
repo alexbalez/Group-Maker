@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Link, NavLink } from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
 import './components.css';
 import { Navbar, NavDropdown, Nav } from 'react-bootstrap';
 import profilePhoto from '../img/avatar-placeholder.gif'
