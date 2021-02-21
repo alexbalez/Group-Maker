@@ -24,6 +24,7 @@ const userRatingRouter = require('./routes/entity_relationship_routes/UserRating
 const userCollegeRouter = require('./routes/entity_relationship_routes/UserCollegeRoutes.js');
 const userCampusRouter = require('./routes/entity_relationship_routes/UserCampusRoutes.js');
 const userProgramRouter = require('./routes/entity_relationship_routes/UserProgramRoutes.js');
+const userCourseRouter = require('./routes/entity_relationship_routes/UserCourseRoutes.js');
 
 
 
@@ -58,6 +59,7 @@ app.use(userRatingRouter);
 app.use(userCollegeRouter);
 app.use(userCampusRouter);
 app.use(userProgramRouter);
+app.use(userCourseRouter);
 
 
 
