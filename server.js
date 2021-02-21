@@ -28,9 +28,7 @@ const userCourseRouter = require('./routes/entity_relationship_routes/UserCourse
 const userProjectRouter = require('./routes/entity_relationship_routes/UserProjectRoutes.js');
 const groupCollegeRouter = require('./routes/entity_relationship_routes/GroupCollegeRoutes.js');
 const groupCampusRouter = require('./routes/entity_relationship_routes/GroupCampusRoutes.js');
-
-
-
+const groupProgramRouter = require('./routes/entity_relationship_routes/GroupProgramRoutes.js');
 
 
 const app = express();
@@ -66,6 +64,7 @@ app.use(userCourseRouter);
 app.use(userProjectRouter);
 app.use(groupCollegeRouter);
 app.use(groupCampusRouter);
+app.use(groupProgramRouter);
 
 
 // MongoDB Connection
