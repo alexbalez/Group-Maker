@@ -49,9 +49,7 @@ app.use(bodyParser.json());
 
 app.use(studentRoute);
 app.use(authRoute); //authRoute exports express.Router()
-<<<<<<< HEAD
 app.use(userRoute);
-=======
 app.use(userRouter);
 app.use(roleRouter);
 app.use(groupRouter);
@@ -77,7 +75,6 @@ app.use(groupCampusRouter);
 app.use(groupProgramRouter);
 app.use(groupCourseRouter);
 app.use(groupProjectRouter);
->>>>>>> database
 
 // MongoDB Connection
 //const DB_URL = "mongodb+srv://thiago:mypassword@cluster0.siwfc.mongodb.net/group-maker?retryWrites=true&w=majority";
@@ -95,7 +92,6 @@ mongoose.connect(DB_URL, { useNewUrlParser: true, useUnifiedTopology: true, useC
     });
 
 // Server
-<<<<<<< HEAD
 const server = app.listen(port, () => console.log(`Server running on port ${port}`));
 
 
@@ -133,8 +129,3 @@ app.get('/read-cookies', (req, res) => {
     res.json(cookies);
 
 });
-=======
-// const server = app.listen(port, () => console.log(`Server running on port ${port}`));
-app.listen(port, () => console.log(`Server running on port ${port}`));
-
->>>>>>> database
