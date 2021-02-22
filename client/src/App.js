@@ -14,6 +14,7 @@ import AppHeader from './components/AppHeader';
 import Footer from "./components/Footer";
 import StudentDataConnector from './services/StudentDataConnector'
 import AppNavHolder from "./components/AppNavHolder";
+import FourOhFour from "./components/404"
 
 class App extends Component {
     constructor(props){
@@ -47,13 +48,13 @@ class App extends Component {
                         
                         {/* todo: create redirect component if logged in, redirect any "/" to 
                             dashboard and if logged out, redirect and protected route to login*/}
-                        <Route path="/" exact component={Dashboard} />
                         <Route path="/dashboard" component={Dashboard} />
                         <Route path="/create" component={CreateGroup} />
                         <Route path="/find" component={FindGroup} />
                         <Route path="/auto" component={AutoGroup} />
                         <Route path="/help" component={HelpStudent} />
                         <Route path="/profile" component={StudentProfile} />
+                        <Route path="/*" component={FourOhFour} />
                     </Switch>
                     <Footer/>
                 </BrowserRouter>
