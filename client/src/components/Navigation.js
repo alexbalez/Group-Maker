@@ -8,7 +8,6 @@ import AuthDataConnector from '../services/AuthDataConnector'
 class Navigation extends Component {
     constructor(props){
         super(props);
-        // this.location = props.location
         this.state = {            
             data: this.props.data,
             username: 'user' //replace email with this? User object from db doesn't include a username 
@@ -49,9 +48,6 @@ class Navigation extends Component {
                     </Nav>
                     
                     <Nav className="ml-auto">
-                                            {/* You can't really style navdropdowns as far as I can tell, 
-                                            so it tries to slide off the page's right side. 
-                                        If we want to style it we'll need to use a dropdown */}
                         <NavDropdown className="bg-dark" title={this.state.data.email} id="nav-dropdown">
                             <NavDropdown.Item onClick={ this.goToProfile }>My Profile</NavDropdown.Item>
                             <NavDropdown.Item onClick={ this.logout }>Logout</NavDropdown.Item>
