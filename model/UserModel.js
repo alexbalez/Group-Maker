@@ -4,19 +4,19 @@ const { isEmail } = require('validator');
 const UserSchema = new mongoose.Schema({
   firstname: {
     type: String,
-    required: true,
+    required: false,
     trim: true,
     lowercase: true
   },
   lastname: {
     type: String,
-    required: true,
+    required: false,
     trim: true,
     lowercase: true
   },
   username: {
     type: String,
-    required: true,
+    required: false,
     trim: true,
     lowercase: true,
     unique: true

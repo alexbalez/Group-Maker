@@ -3,17 +3,40 @@ const userModel = require('../../model/UserModel');
 const roleModel = require('../../model/RoleModel')
 const app = express();
 
-// Create
-app.post('/user', async (req, res) => {
-  const user = new userModel(req.body);
+
+
+const { requireAuth } = require('../../auth/authMiddleware');
+
+// this uses the requreAuth middleware to check that there is a valid token on the client
+// the requireAuth middleware also attaches the userid from the token to the req object
+app.get('/dashboard', requireAuth, async (req, res) => {
+  console.log(req.userid)
+  const user = await userModel.findById({ _id: req.userid })
   try {
-    await user.save();
-    res.send(user);
+    console.log(user)
+    res.json(user);
   }
   catch (err) {
     res.status(500).send(err);
   }
+
 });
+
+
+
+// Create
+//This function is handled in authRoute.js through the /signup route
+
+// app.post('/user', async (req, res) => {
+//   const user = new userModel(req.body);
+//   try {
+//     await user.save();
+//     res.send(user);
+//   }
+//   catch (err) {
+//     res.status(500).send(err);
+//   }
+// });
 
 // Retrieve
 app.get('/users', async (req, res) => {

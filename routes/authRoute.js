@@ -5,7 +5,7 @@ const bcrypt = require('bcryptjs');
 const config = require('../auth/config');
 
 const router = express.Router();
-const User = require('../model/User');
+const User = require('../model/UserModel'); //switched to kevins user model
 
 const handleErrors = (err) =>{
     console.log(err)
