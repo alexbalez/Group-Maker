@@ -14,7 +14,7 @@ class CreateGroup extends Component {
         return (
             <div>
                 {/*<Header history={this.props.history}/>*/}
-                <div className="col mx-auto mt-4">
+                <div className="col-6 mx-auto mt-4">
                     <Form>
 
                         {/* Group Type */}
@@ -98,7 +98,7 @@ class CreateGroup extends Component {
                         </Button>
                     </Form>
                 </div>
-                
+
             </div>
         );
     }
