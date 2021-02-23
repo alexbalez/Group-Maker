@@ -54,6 +54,7 @@ class App extends Component {
                         <Route path="/auto" component={AutoGroup} />
                         <Route path="/help" component={HelpStudent} />
                         <Route path="/profile" component={StudentProfile} />
+                        <Route path="/" exact component={Dashboard} />
                         <Route path="/*" component={FourOhFour} />
                     </Switch>
                     <Footer/>
