@@ -42,21 +42,18 @@ class App extends Component {
                 <BrowserRouter>
                     <AppHeader />
                     <AppNavHolder data={this.state.userdata}/>
-                    <Switch>
-                        {/* <Route path='/' exact component={Login} />
-                        <Route path='/signup' component={CreateAccount} /> */}
-                        
-                        {/* todo: create redirect component if logged in, redirect any "/" to 
-                            dashboard and if logged out, redirect and protected route to login*/}
-                        <Route path="/dashboard" component={Dashboard} />
-                        <Route path="/create" component={CreateGroup} />
-                        <Route path="/find" component={FindGroup} />
-                        <Route path="/auto" component={AutoGroup} />
-                        <Route path="/help" component={HelpStudent} />
-                        <Route path="/profile" component={StudentProfile} />
-                        <Route path="/" exact component={Dashboard} />
-                        <Route path="/*" component={FourOhFour} />
-                    </Switch>
+                    <div className="App-body">
+                        <Switch>
+                            <Route path="/dashboard" component={Dashboard} />
+                            <Route path="/create" component={CreateGroup} />
+                            <Route path="/find" component={FindGroup} />
+                            <Route path="/auto" component={AutoGroup} />
+                            <Route path="/help" component={HelpStudent} />
+                            <Route path="/profile" component={StudentProfile} />
+                            <Route path="/" exact component={Dashboard} />
+                            <Route path="/*" component={FourOhFour} />
+                        </Switch>
+                    </div>
                     <Footer/>
                 </BrowserRouter>
             )

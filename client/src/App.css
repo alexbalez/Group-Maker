@@ -1,5 +1,29 @@
-body {
+/* body {
   overflow-y: scroll;
+} */
+
+.App-body{
+  padding-bottom: 50px;
+}
+
+
+/* For scrolling */
+
+body::-webkit-scrollbar {
+  width: 4px;
+}
+body::-webkit-scrollbar-thumb {
+  background-color: #343A40;
+}
+
+body::-webkit-scrollbar-track-piece:start {
+  background: solid;
+  background-color: #007BFF;
+}
+
+body::-webkit-scrollbar-track-piece:end {
+  background: solid;
+  background-color: #007BFF;
 }
 
 
