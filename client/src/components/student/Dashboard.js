@@ -9,6 +9,7 @@ class Dashboard extends Component {
         this.state = {
             data: this.props.data
         }
+        console.log(this.state.data.groups)
     }
 
     // componentDidMount() {
