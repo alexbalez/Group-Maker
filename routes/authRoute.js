@@ -8,10 +8,13 @@ const router = express.Router();
 const User = require('../model/UserModel'); //switched to kevins user model
 
 const handleErrors = (err) =>{
-    console.log(err)
+    console.log('------DB error msg and code', err.message, err.code)
 
     //todo: check the err object itself and return desireable messages from db
-    return err
+    return {
+        message: err.message,
+        code: err.code
+    }
 }
 
 const createToken = (user) =>{

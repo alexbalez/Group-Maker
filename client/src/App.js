@@ -37,14 +37,17 @@ class App extends Component {
     render(){
         //can also check here for user type and then load appropriate dashboard
         //protected routes
+        
         if (this.state.loggedIn){
+            console.log(this.state.userdata.email)
             return (
                 <BrowserRouter>
                     <AppHeader />
                     <AppNavHolder data={this.state.userdata}/>
                     <div className="App-body">
                         <Switch>
-                            <Route path="/dashboard" component={Dashboard} />
+
+                            <Route path="/dashboard"><Dashboard data={this.state.userdata}/></Route>
                             <Route path="/create"><CreateGroup user={this.state.userdata}/></Route>
                             <Route path="/find" component={FindGroup} />
                             <Route path="/auto" component={AutoGroup} />
