@@ -1,6 +1,6 @@
-import React, { Component } from "react"
-import './components.css'
-import StudentDataConnector from '../services/StudentDataConnector'
+import './components.css';
+import React, { Component } from "react";
+import {Link} from 'react-router-dom'
 
 
 class FourOhFour extends Component{
@@ -28,7 +28,12 @@ class FourOhFour extends Component{
         console.log(Date.now()+": 404: "+window.location.href+" "+this.state.data)
         return (
             <div>
-                404 :(
+                <div style={{ height: "300px" }} className="m-5">
+                    <h1>404 Not Found</h1>
+                    <p>The Page you requested does not exist</p>
+                    <Link to="/dashboard">Back to Dashboard</Link>
+                </div>
+
             </div>
         )
     }
