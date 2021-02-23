@@ -30,8 +30,12 @@ class StudentProfile extends Component {
                 {/*<Header history={this.props.history}/>*/}
                 <div style={{ height: "300px" }} className="m-5">
                     <h1>My Profile</h1>
-                    <p><strong>ID:</strong> {this.state.data._id}</p>
+                    {/*<p><strong>ID:</strong> {this.state.data._id}</p>*/}
+                    <p><strong>Username:</strong> {this.state.data.username}</p>
                     <p><strong>Email:</strong> {this.state.data.email}</p>
+                    <h1>My Data</h1>
+                    <p><strong>Colleges:</strong> {this.state.data.colleges}</p>
+                    <p><strong>Campuses:</strong> {this.state.data.campuses}</p>
                 </div>
                 <Footer />
             </div>
