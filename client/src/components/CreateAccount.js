@@ -10,6 +10,7 @@ class CreateAccount extends Component{
             password: "",
             username: "",
             confirm: "",
+            uerror: "",
             pwerror: "",
             emailerror: ""
         };
@@ -90,6 +91,7 @@ class CreateAccount extends Component{
                                             Invalid username.
                                         </div>
                                     </div>
+
                                     <div className="form-group has-validation">
                                         <label>Email</label>
                                         <input placeholder="Email" name="email" className={"form-control"+this.state.emailerror} type="email" required
