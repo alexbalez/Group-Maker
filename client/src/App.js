@@ -45,7 +45,7 @@ class App extends Component {
                     <div className="App-body">
                         <Switch>
                             <Route path="/dashboard" component={Dashboard} />
-                            <Route path="/create" component={CreateGroup} />
+                            <Route path="/create"><CreateGroup user={this.state.userdata}/></Route>
                             <Route path="/find" component={FindGroup} />
                             <Route path="/auto" component={AutoGroup} />
                             <Route path="/help" component={HelpStudent} />

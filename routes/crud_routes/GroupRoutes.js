@@ -10,6 +10,7 @@ app.post('/group', async (req, res) => {
     res.send(group);
   }
   catch (err) {
+      console.log(err);
     res.status(500).send(err);
   }
 });
@@ -20,7 +21,7 @@ app.get('/groups', async (req, res) => {
   try {
     res.append('Access-Control-Allow-Origin', ['*']);
     res.send(groups);
-  } 
+  }
   catch (err) {
     res.status(500).send(err);
   }
