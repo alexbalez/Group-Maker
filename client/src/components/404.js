@@ -25,7 +25,7 @@ class FourOhFour extends Component{
     }
 */
     render(){
-        console.log(Date.now()+": 404: "+window.location.href+" "+this.state.data)
+        console.log(Date.now()+": 404: "+window.location.href+" "+JSON.stringify(this.state.data))
         return (
             <div>
                 <div style={{ height: "300px" }} className="m-5">
