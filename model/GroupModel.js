@@ -1,33 +1,40 @@
 const mongoose = require('mongoose');
 
 const GroupSchema = new mongoose.Schema({
+    name: {
+        type: String,
+        required: true
+    },
+    description: {
+        type: String
+    },
     college: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "colleges"
+        type: String,
     },
     campus: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "campuses"
+        type: String,
     },
     program: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "programs"
+        type: String,
     },
     course: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "courses"
+        type: String,
     },
     project: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "projects"
+        type: String,
     },
     users: [
         {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "users"
+            type: [String],
+        }
+    ],
+    preferences: [
+        {
+            type: [String],
+            required: false
         }
     ]
 });
-  
+
 const Group = mongoose.model("Groups", GroupSchema);
 module.exports = Group;

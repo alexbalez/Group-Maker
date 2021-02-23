@@ -46,11 +46,9 @@ class App extends Component {
                     <AppNavHolder data={this.state.userdata}/>
                     <div className="App-body">
                         <Switch>
-                            {/* <Route path="/dashboard" component={Dashboard} /> */}
-                            <Route path="/dashboard">
-                                <Dashboard data={this.state.userdata}/>
-                            </Route>
-                            <Route path="/create" component={CreateGroup} />
+
+                            <Route path="/dashboard"><Dashboard data={this.state.userdata}/></Route>
+                            <Route path="/create"><CreateGroup user={this.state.userdata}/></Route>
                             <Route path="/find" component={FindGroup} />
                             <Route path="/auto" component={AutoGroup} />
                             <Route path="/help" component={HelpStudent} />
