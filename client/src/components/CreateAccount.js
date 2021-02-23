@@ -8,6 +8,7 @@ class CreateAccount extends Component{
         this.state = {
             email: "",
             password: "",
+            username: "",
             confirm: "",
             pwerror: "",
             emailerror: ""
@@ -42,6 +43,7 @@ class CreateAccount extends Component{
         }
 
         const user = {
+            username: this.state.username,
             email: this.state.email,
             password: this.state.password
         };
@@ -79,6 +81,15 @@ class CreateAccount extends Component{
                             <h3 className="text-center mt-3">Create Account</h3>
                             <div className="card-body">
                                 <form>
+                                    <div className="form-group has-validation">
+                                        <label>Username</label>
+                                        <input placeholder="Username" name="username" className={"form-control"+this.state.uerror} type="text" required
+                                           onChange={this.handleChange}/>
+                                           
+                                        <div className="invalid-feedback">
+                                            Invalid username.
+                                        </div>
+                                    </div>
                                     <div className="form-group has-validation">
                                         <label>Email</label>
                                         <input placeholder="Email" name="email" className={"form-control"+this.state.emailerror} type="email" required

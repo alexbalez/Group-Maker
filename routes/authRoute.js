@@ -61,6 +61,7 @@ router.post('/signup', (req, res)=>{
     let errors = {}
     const hashedPassword = bcrypt.hashSync(req.body.password, 8); //encrypt pw with Bcrypt’s hashing method
     const user = {
+        username: req.body.username,
         email: req.body.email,
         password: hashedPassword
     };
