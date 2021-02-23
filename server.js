@@ -49,7 +49,7 @@ app.use(bodyParser.json());
 
 app.use(studentRoute);
 app.use(authRoute); //authRoute exports express.Router()
-app.use(userRoute);
+// app.use(userRoute); //moved this functionality to userRouter
 app.use(userRouter);
 app.use(roleRouter);
 app.use(groupRouter);
