@@ -39,19 +39,19 @@ router.post('/login', (req, res)=>{
 
         //check for misc db errors
         if (err){
-            errors = handleErrors(err);
+            //errors = handleErrors(err);
             return res.status(500).json(errors);
         } 
         //check for user found
         if (!user) {
-            errors = handleErrors(err);
-            return res.status(404).json(errors);
+            //errors = handleErrors(err);
+            return res.status(404)//.json(errors);
         }
         //check password
         const passwordIsValid = bcrypt.compareSync(req.body.password, user.password);
         if (!passwordIsValid) {
-            errors = handleErrors(err);
-            return res.status(401).json(errors);
+            //errors = handleErrors(err);
+            return res.status(401)//.json(errors);
         }
         //create token, store in cookie, attach to response, and send response as json with userid
         const token = createToken(user); 
@@ -74,7 +74,7 @@ router.post('/signup', (req, res)=>{
             errors = handleErrors(err);
             return res.status(500).json({message: "There was a problem registering the user.", errors});
         }
-        //create token, store in cookie, attach to response, and send response as json with userid
+        //create token, store in cookie, attach to response, and send response as json with userid 
         const token = createToken(user);
         createCookie(token, res);
         res.status(200).json({userid: user._id});
