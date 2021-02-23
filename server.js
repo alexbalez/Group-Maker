@@ -1,4 +1,5 @@
 const dotenv = require('dotenv');
+const result = dotenv.config();
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
@@ -35,6 +36,7 @@ const groupProjectRouter = require('./routes/entity_relationship_routes/GroupPro
 
 const app = express();
 const port = 5000;
+
 
 // cookies middleware
 const cookieParser = require('cookie-parser');
