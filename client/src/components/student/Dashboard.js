@@ -31,7 +31,7 @@ class Dashboard extends Component {
     render() {
         return (
             <div>
-                <p>Prop passed to dashboard from App: {this.state.data.email}</p>
+                {/*<p>Prop passed to dashboard from App: {this.state.data.email}</p>*/}
                 {/*<Header history={this.props.history}/>*/}
                 {/* Search */}
                 <Navbar className="bg-light justify-content-center">
@@ -114,7 +114,7 @@ class Dashboard extends Component {
                     <Button variant="warning">Archived Groups</Button>
                 </Container>
 
-                
+
             </div>
         );
     }
