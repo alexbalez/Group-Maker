@@ -9,7 +9,7 @@ class Dashboard extends Component {
         this.state = {
             data: this.props.data
         }
-        console.log(this.state.data.groups)
+        //console.log(this.state.data.groups)
     }
 
     // componentDidMount() {
@@ -113,7 +113,7 @@ class Dashboard extends Component {
                     <Button variant="warning">Archived Groups</Button>
                 </Container>
 
-                
+
             </div>
         );
     }

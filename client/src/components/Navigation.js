@@ -22,6 +22,7 @@ class Navigation extends Component {
                     //https://stackoverflow.com/questions/43837212/this-props-history-push-works-in-some-components-and-not-others
                     window.location.reload() //reload page so navbar disappears
                     this.props.history.push('/')
+                    
                 })
                 .catch((err)=>{
                     console.log('Could not logout', err)
