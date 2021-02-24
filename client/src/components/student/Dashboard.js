@@ -31,7 +31,6 @@ class Dashboard extends Component {
     render() {
         return (
             <div>
-                <p>Prop passed to dashboard from App: {this.state.data.email}</p>
                 {/*<Header history={this.props.history}/>*/}
                 {/* Search */}
                 <Navbar className="bg-light justify-content-center">
