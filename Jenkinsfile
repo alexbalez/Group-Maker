@@ -10,7 +10,7 @@ pipeline {
 
     stage('Deliver') {
       steps {
-        sh 'sh jenkins/scripts/deliver.sh &'
+        sh 'sh jenkins/scripts/deliver.sh'
         input(message: 'Kill the server?', ok: 'Yes')
       }
     }
