@@ -7,12 +7,36 @@ const mongoose = require('mongoose');
 const studentRoute = require('./routes/studentRoute');
 const userRoute = require('./routes/userRoute');
 const authRoute = require('./routes/authRoute');
+const userRouter = require('./routes/crud_routes/UserRoutes.js');
+const roleRouter = require('./routes/crud_routes/RoleRoutes.js');
+const groupRouter = require('./routes/crud_routes/GroupRoutes.js');
+const collegeRouter = require('./routes/crud_routes/CollegeRoutes.js');
+const campusRouter = require('./routes/crud_routes/CampusRoutes.js');
+const programRouter = require('./routes/crud_routes/ProgramRoutes.js');
+const courseRouter = require('./routes/crud_routes/CourseRoutes.js');
+const projectRouter = require('./routes/crud_routes/ProjectRoutes.js');
+const ratingRouter = require('./routes/crud_routes/RatingRoutes.js');
+const preferenceRouter = require('./routes/crud_routes/PreferenceRoutes.js');
+
+const userRoleRouter = require('./routes/entity_relationship_routes/UserRoleRoutes.js');
+const userGroupRouter = require('./routes/entity_relationship_routes/UserGroupRoutes.js');
+const userPreferenceRouter = require('./routes/entity_relationship_routes/UserPreferenceRoutes.js');
+const userRatingRouter = require('./routes/entity_relationship_routes/UserRatingRoutes.js');
+const userCollegeRouter = require('./routes/entity_relationship_routes/UserCollegeRoutes.js');
+const userCampusRouter = require('./routes/entity_relationship_routes/UserCampusRoutes.js');
+const userProgramRouter = require('./routes/entity_relationship_routes/UserProgramRoutes.js');
+const userCourseRouter = require('./routes/entity_relationship_routes/UserCourseRoutes.js');
+const userProjectRouter = require('./routes/entity_relationship_routes/UserProjectRoutes.js');
+const groupCollegeRouter = require('./routes/entity_relationship_routes/GroupCollegeRoutes.js');
+const groupCampusRouter = require('./routes/entity_relationship_routes/GroupCampusRoutes.js');
+const groupProgramRouter = require('./routes/entity_relationship_routes/GroupProgramRoutes.js');
+const groupCourseRouter = require('./routes/entity_relationship_routes/GroupCourseRoutes.js');
+const groupProjectRouter = require('./routes/entity_relationship_routes/GroupProjectRoutes.js');
+
 
 const app = express();
 const port = 5000;
 
-// Config Log
-console.log(result.parsed);
 
 // cookies middleware
 const cookieParser = require('cookie-parser');
@@ -23,11 +47,38 @@ app.use(bodyParser.json());
 
 app.use(studentRoute);
 app.use(authRoute); //authRoute exports express.Router()
-app.use(userRoute);
+// app.use(userRoute); //moved this functionality to userRouter
+app.use(userRouter);
+app.use(roleRouter);
+app.use(groupRouter);
+app.use(collegeRouter);
+app.use(campusRouter);
+app.use(programRouter);
+app.use(courseRouter);
+app.use(projectRouter);
+app.use(ratingRouter);
+app.use(preferenceRouter);
+
+app.use(userRoleRouter);
+app.use(userGroupRouter);
+app.use(userPreferenceRouter);
+app.use(userRatingRouter);
+app.use(userCollegeRouter);
+app.use(userCampusRouter);
+app.use(userProgramRouter);
+app.use(userCourseRouter);
+app.use(userProjectRouter);
+app.use(groupCollegeRouter);
+app.use(groupCampusRouter);
+app.use(groupProgramRouter);
+app.use(groupCourseRouter);
+app.use(groupProjectRouter);
 
 // MongoDB Connection
 //const DB_URL = "mongodb+srv://thiago:mypassword@cluster0.siwfc.mongodb.net/group-maker?retryWrites=true&w=majority";
-const DB_URL = "mongodb+srv://barri:test@cluster0.rpou1.mongodb.net/gbc_fullstack?retryWrites=true&w=majority";
+const DB_URL = "mongodb+srv://barri:test@cluster0.rpou1.mongodb.net/group_maker?retryWrites=true&w=majority";
+// const DB_URL = "mongodb+srv://KevinUfkes:harpoonharpoon12345!@cluster0.gmis5.mongodb.net/groupMakerDatabaseBranch?retryWrites=true&w=majority";
+
 mongoose.Promise = global.Promise;
 mongoose.connect(DB_URL, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true })
     .then(() => {

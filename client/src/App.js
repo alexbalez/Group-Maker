@@ -14,6 +14,7 @@ import AppHeader from './components/AppHeader';
 import Footer from "./components/Footer";
 import StudentDataConnector from './services/StudentDataConnector'
 import AppNavHolder from "./components/AppNavHolder";
+import FourOhFour from "./components/404"
 
 class App extends Component {
     constructor(props){
@@ -24,6 +25,9 @@ class App extends Component {
     }
 
     componentDidMount(){
+
+        //check if cookie
+
         StudentDataConnector.getDashboard()
             .then(result => {
                 this.setState({ userdata: result.data, loggedIn: true })
@@ -36,25 +40,26 @@ class App extends Component {
     render(){
         //can also check here for user type and then load appropriate dashboard
         //protected routes
+        
         if (this.state.loggedIn){
+            console.log(this.state.userdata.email)
             return (
                 <BrowserRouter>
                     <AppHeader />
                     <AppNavHolder data={this.state.userdata}/>
-                    <Switch>
-                        {/* <Route path='/' exact component={Login} />
-                        <Route path='/signup' component={CreateAccount} /> */}
-                        
-                        {/* todo: create redirect component if logged in, redirect any "/" to 
-                            dashboard and if logged out, redirect and protected route to login*/}
-                        <Route path="/" exact component={Dashboard} />
-                        <Route path="/dashboard" component={Dashboard} />
-                        <Route path="/create" component={CreateGroup} />
-                        <Route path="/find" component={FindGroup} />
-                        <Route path="/auto" component={AutoGroup} />
-                        <Route path="/help" component={HelpStudent} />
-                        <Route path="/profile" component={StudentProfile} />
-                    </Switch>
+                    <div className="App-body">
+                        <Switch>
+
+                            <Route path="/dashboard"><Dashboard data={this.state.userdata}/></Route>
+                            <Route path="/create"><CreateGroup user={this.state.userdata}/></Route>
+                            <Route path="/find" component={FindGroup} />
+                            <Route path="/auto" component={AutoGroup} />
+                            <Route path="/help" component={HelpStudent} />
+                            <Route path="/profile" component={StudentProfile} />
+                            <Route path="/" exact component={Dashboard} />
+                            <Route path="/*" component={FourOhFour} />
+                        </Switch>
+                    </div>
                     <Footer/>
                 </BrowserRouter>
             )

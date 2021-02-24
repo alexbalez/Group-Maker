@@ -6,7 +6,7 @@ import Navigation from './Navigation'
 class AppNavHolder extends Component {
    
     render() {
-        console.log("Render AppNavHolder",this.props.history)
+        //console.log("Render AppNavHolder",this.props.history)
         return (
             <Navigation data={this.props.data} history={this.props.history} />
         );

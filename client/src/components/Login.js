@@ -6,9 +6,12 @@ class Login extends Component{
     constructor(props){
         super(props);
         this.state = {
-            email: React.createRef(),
-            password: React.createRef()
+            email: "",
+            password: "",
+            error: ""
         };
+
+        this.handleChange = this.handleChange.bind(this);
 
         this.signup = () =>{
             this.props.history.push('/signup')
@@ -16,9 +19,10 @@ class Login extends Component{
 
         this.submit = (event) =>{
             event.preventDefault();
+            this.setState({error: ""})
             const credentials = {
-                email: this.state.email.current.value,
-                password: this.state.password.current.value
+                email: this.state.email,
+                password: this.state.password
             };
 
             AuthDataConnector.getAuth(credentials)
@@ -32,9 +36,21 @@ class Login extends Component{
                 .catch(err => {
                     //todo: code error fields in form that use this err.response object
                     console.log('Could not login.', err.response)
+                    this.setState({error: " is-invalid"})
                 });
         }
 
+    }
+
+    handleChange(event){
+        //get input that changed, set state = that value
+        const input = event.target
+        const value = input.value
+        const name = input.name
+        
+        this.setState({
+            [name]: value
+        })
     }
 
     render() {
@@ -45,16 +61,24 @@ class Login extends Component{
                         <h3 className="text-center mt-3">Login</h3>
                         <div className="card-body">
                             <form>
-                                <div className="form-group">
+                                <div className="form-group has-validation">
                                     <label>Email</label>
-                                    <input placeholder="Email" name="email" className="form-control"
-                                        ref={this.state.email} />
+                                    <input placeholder="Email" name="email" className={"form-control"+this.state.error} type="email"
+                                         onChange={this.handleChange} />
+
+                                         <div className="invalid-feedback">
+                                             Email or password incorrect.
+                                         </div>
                                 </div>
 
-                                <div className="form-group">
+                                <div className="form-group has-validation">
                                     <label>Password</label>
-                                    <input placeholder="Password" name="password" type="password" className="form-control"
-                                        ref={this.state.password} />
+                                    <input placeholder="Password" name="password" type="password" className={"form-control"+this.state.error}
+                                         onChange={this.handleChange} />
+
+                                         <div className="invalid-feedback">
+                                             Email or password incorrect.
+                                         </div>
                                 </div>
 
                                 <div className="form-group">

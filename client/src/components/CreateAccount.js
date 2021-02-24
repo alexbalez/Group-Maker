@@ -8,9 +8,12 @@ class CreateAccount extends Component{
         this.state = {
             email: "",
             password: "",
+            username: "",
             confirm: "",
+            uerror: "",
             pwerror: "",
-            emailerror: ""
+            emailerror: "",
+            message: ""
         };
 
         this.handleChange = this.handleChange.bind(this);
@@ -29,6 +32,7 @@ class CreateAccount extends Component{
         //validate email and password
         if (!/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(this.state.email)){
             this.setState({emailerror: ' is-invalid'})
+            this.setState({message: "Invalid email format."})
             return
         } else {
             this.setState({emailerror: ' is-valid'})
@@ -36,12 +40,14 @@ class CreateAccount extends Component{
 
         if (this.state.password !== this.state.confirm){
             this.setState({pwerror: " is-invalid"})
+            this.setState({message: "Passwords do not match."})
             return
         } else {
             this.setState({pwerror: ' is-valid'})
         }
 
         const user = {
+            username: this.state.username,
             email: this.state.email,
             password: this.state.password
         };
@@ -56,6 +62,22 @@ class CreateAccount extends Component{
             })
             .catch((err) => {
                 console.log('Could not add user', err.response)
+                if(err.response.data.errors.message.includes("username")){
+                    this.setState({uerror: " is-invalid"})
+                    this.setState({message: "Username taken."})
+                    return
+                } else {
+                    this.setState({uerror: ' is-valid'})
+                }
+
+                if(err.response.data.errors.message.includes("email")){
+                    this.setState({emailerror: ' is-invalid'})            
+                    this.setState({message: "Email taken."})
+                    return
+                } else {
+                    this.setState({emailerror: ' is-valid'})
+                }
+        
             });
     }
 
@@ -80,30 +102,40 @@ class CreateAccount extends Component{
                             <div className="card-body">
                                 <form>
                                     <div className="form-group has-validation">
-                                        <label>Email</label>
-                                        <input placeholder="Email" name="email" className={"form-control"+this.state.emailerror} type="email" required
+                                        <label>Username</label>
+                                        <input placeholder="Username" name="username" className={"form-control"+this.state.uerror} type="text" required autoComplete="off"
                                            onChange={this.handleChange}/>
                                            
                                         <div className="invalid-feedback">
-                                            Invalid email format.
+                                            {this.state.message}
+                                        </div>
+                                    </div>
+
+                                    <div className="form-group has-validation">
+                                        <label>Email</label>
+                                        <input placeholder="Email" name="email" className={"form-control"+this.state.emailerror} type="email" required autoComplete="off"
+                                           onChange={this.handleChange}/>
+                                           
+                                        <div className="invalid-feedback">
+                                            {this.state.message}
                                         </div>
                                     </div>
 
                                     <div className="form-group has-validation">
                                         <label>Password</label>
-                                        <input type="password" placeholder="Password" name="password" className={"form-control"+this.state.pwerror} required
+                                        <input type="password" placeholder="Password" name="password" className={"form-control"+this.state.pwerror} required autoComplete="off"
                                             onChange={this.handleChange}/>
                                             <div className="invalid-feedback">
-                                                Passwords do not match.
+                                                {this.state.message}
                                             </div>
                                     </div>
 
                                     <div className="form-group has-validation">
                                         <label>Confirm Password</label>
-                                        <input type="password" placeholder="Confirm password" name="confirm" className={"form-control"+ this.state.pwerror} required
+                                        <input type="password" placeholder="Confirm password" name="confirm" className={"form-control"+ this.state.pwerror} required autoComplete="off"
                                             onChange={this.handleChange}/>
                                             <div className="invalid-feedback">
-                                                Passwords do not match.
+                                                {this.state.message}
                                             </div>
                                     </div>
 
