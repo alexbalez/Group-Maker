@@ -25,6 +25,9 @@ class App extends Component {
     }
 
     componentDidMount(){
+
+        //check if cookie
+
         StudentDataConnector.getDashboard()
             .then(result => {
                 this.setState({ userdata: result.data, loggedIn: true })

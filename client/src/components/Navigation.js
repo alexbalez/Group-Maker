@@ -20,8 +20,8 @@ class Navigation extends Component {
                     console.log('Logout successful') 
                     //must pass the history from parent component
                     //https://stackoverflow.com/questions/43837212/this-props-history-push-works-in-some-components-and-not-others
-                    this.props.history.push('/')
                     window.location.reload() //reload page so navbar disappears
+                    this.props.history.push('/')
                 })
                 .catch((err)=>{
                     console.log('Could not logout', err)
