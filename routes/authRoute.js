@@ -40,18 +40,19 @@ router.post('/login', (req, res)=>{
         //check for misc db errors
         if (err){
             //errors = handleErrors(err);
-            return res.status(500).json(errors);
+            return res.status(500).send(err);
         } 
         //check for user found
         if (!user) {
             //errors = handleErrors(err);
-            return res.status(404)//.json(errors);
+            return res.status(404).send(err);
         }
         //check password
         const passwordIsValid = bcrypt.compareSync(req.body.password, user.password);
         if (!passwordIsValid) {
             //errors = handleErrors(err);
-            return res.status(401)//.json(errors);
+
+            return res.status(401).send(err);
         }
         //create token, store in cookie, attach to response, and send response as json with userid
         const token = createToken(user); 
