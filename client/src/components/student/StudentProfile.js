@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import '../components.css'
-import { Modal } from 'react-bootstrap';
+//import { Modal } from 'react-bootstrap';
 //import StudentDataConnector from '../../services/StudentDataConnector'
+import UpdateTextModal from '../UpdateTextModal'
 
 class StudentProfile extends Component {
     constructor(props){
@@ -25,7 +26,7 @@ class StudentProfile extends Component {
     }
 
     toggleEditAboutMe(){
-        console.log('--toggle:', this.state.showEditAboutMe)
+        //console.log('--toggle:', this.state.showEditAboutMe)
         this.setState({showEditAboutMe: !this.state.showEditAboutMe})
     }
 
@@ -73,27 +74,15 @@ class StudentProfile extends Component {
                         {this.state.aboutMe}
                     </div>
 
-
-                    <Modal show={this.state.showEditAboutMe} onHide={this.toggleEditAboutMe}>
-                        <Modal.Header closeButton>
-                            <Modal.Title>Edit About Me</Modal.Title>
-                        </Modal.Header>
-                        <Modal.Body>
-                            <textarea onChange={this.handleChange} 
-                            name="aboutMeUpdate" 
-                            defaultValue={this.state.aboutMe}
-                            style={{width: '100%', height:500}}
-                            />
-                        </Modal.Body>
-                        <Modal.Footer>
-                            <button className="btn btn-primary" onClick={this.toggleEditAboutMe}>
-                                Cancel
-                            </button>
-                            <button className="btn btn-warning" onClick={this.updateAboutMe}>
-                                Save Changes
-                            </button>
-                        </Modal.Footer>
-                    </Modal>
+                    <UpdateTextModal
+                        title="Edit About Me"
+                        text={this.state.aboutMe}
+                        show={this.state.showEditAboutMe}
+                        name="aboutMeUpdate"
+                        toggleShow={this.toggleEditAboutMe}
+                        handleChange={this.handleChange}
+                        saveChanges={this.updateAboutMe}
+                    />
 
                     <h4>Phone</h4>
                     <h4>Interests</h4>
