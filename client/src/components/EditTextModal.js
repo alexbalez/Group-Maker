@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Modal } from 'react-bootstrap';
 import './components.css';
 
-class UpdateTextModal extends Component {
+class EditTextModal extends Component {
 
     render() {
         return (
@@ -30,4 +30,4 @@ class UpdateTextModal extends Component {
     }
 }
 
-export default UpdateTextModal;
+export default EditTextModal;

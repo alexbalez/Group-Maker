@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import '../components.css'
 //import { Modal } from 'react-bootstrap';
 //import StudentDataConnector from '../../services/StudentDataConnector'
-import UpdateTextModal from '../UpdateTextModal'
+import EditTextModal from '../EditTextModal'
 
 class StudentProfile extends Component {
     constructor(props){
@@ -74,7 +74,7 @@ class StudentProfile extends Component {
                         {this.state.aboutMe}
                     </div>
 
-                    <UpdateTextModal
+                    <EditTextModal
                         title="Edit About Me"
                         text={this.state.aboutMe}
                         show={this.state.showEditAboutMe}
