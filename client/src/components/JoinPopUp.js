@@ -9,9 +9,9 @@ class JoinPopUp extends Component{
     render(){
         return (
             <div className='join-popup'>
-                <div className='join-popup-inner'>
+                <div className='join-popup-inner p-4'>
                     <h1>{this.props.text}</h1>
-                    <button onClick={this.props.closePopup}>close me</button>
+                    <button className="btn btn-warning" onClick={this.props.closePopup}>close me</button>
                 </div>
             </div>
         );
