@@ -55,7 +55,7 @@ class App extends Component {
                             <Route path="/find" component={FindGroup} />
                             <Route path="/auto" component={AutoGroup} />
                             <Route path="/help" component={HelpStudent} />
-                            <Route path="/profile" component={StudentProfile} />
+                            <Route path="/profile"><StudentProfile data={this.state.userdata}/></Route>
                             <Route path="/" exact component={Dashboard} />
                             <Route path="/*" component={FourOhFour} />
                         </Switch>

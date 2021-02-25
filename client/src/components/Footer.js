@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import {Link} from 'react-router-dom'
 import './components.css';
 import { Container, Row, Col } from 'react-bootstrap'
 
@@ -19,9 +20,9 @@ class Footer extends Component {
                     <Col sm></Col>
                     <Col sm className="text-center">&copy;2021 Group Maker</Col>
                     <Col sm className="text-right">
-                        <a className="text-white" href="/about">About</a>
+                        <Link className="text-white" to="/about">About</Link>
                         &nbsp;| &nbsp;
-                        <a className="text-white" href="/contact">Contact Us</a>
+                        <Link className="text-white" to="/contact">Contact Us</Link>
                     </Col>
                 </Row>
             </Container>

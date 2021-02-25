@@ -69,6 +69,7 @@ app.get('/user/:id', async(req,res) => {
 });
 
 // Update (use patch instead of put so you only have to send the data you want to change)
+//todo: add requireAuth here
 app.patch('/user/:id', async (req, res) => {
     try {
       await userModel.findByIdAndUpdate(req.params.id, req.body)
