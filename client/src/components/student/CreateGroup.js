@@ -122,7 +122,7 @@ class CreateGroup extends Component {
                                 <InputGroup.Text id="basic-addon1">Primary</InputGroup.Text>
                             </InputGroup.Prepend>
                             <Dropdown onSelect={this.handleGroupPreference1Select}>
-                                <Dropdown.Toggle id="dropdown-basic" variant="light">
+                                <Dropdown.Toggle id="dropdown-basic" variant="success">
                                     {this.state.groupPreference1}
                                 </Dropdown.Toggle>
 
@@ -139,7 +139,7 @@ class CreateGroup extends Component {
                                 <InputGroup.Text id="basic-addon1">Secondary</InputGroup.Text>
                             </InputGroup.Prepend>
                             <Dropdown onSelect={this.handleGroupPreference2Select}>
-                                <Dropdown.Toggle id="dropdown-basic" variant="light">
+                                <Dropdown.Toggle id="dropdown-basic" variant="success">
                                     {this.state.groupPreference2}
                                 </Dropdown.Toggle>
 
