@@ -52,7 +52,8 @@ class FindGroup extends Component {
                 </Navbar>
 
                 {/* Groups Table */}
-                <div className="col-8 mx-auto mt-4 mb-5">
+                {/* col-sm-8 mx-auto mt-4 */}
+                <div className="col-sm-8 mx-auto mt-4 mb-5"> 
                     <h4 className="d-flex justify-content-center">Suggested Groups</h4>
                     <Table className="mx-auto mt-3" striped bordered hover>
                         <thead>

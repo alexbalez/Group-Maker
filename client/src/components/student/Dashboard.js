@@ -57,7 +57,7 @@ class Dashboard extends Component {
                 </Navbar>
 
                 {/* New Groups */}
-                <Table className="col-8 ml-auto mr-auto mt-3" striped bordered hover>
+                <Table className="col-sm-8 mx-auto mt-4" striped bordered hover>
                     <thead>
                     <tr>
                         <th colSpan="4">New Groups</th>
@@ -83,7 +83,7 @@ class Dashboard extends Component {
                 </Table>
 
                 {/* Current Groups */}
-                <Table className="col-8 ml-auto mr-auto mt-3 mb-2" striped bordered hover>
+                <Table className="col-sm-8 mx-auto mt-4 mb-2" striped bordered hover>
                     <thead>
                     <tr>
                         <th colSpan="4">Current Groups</th>

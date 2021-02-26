@@ -81,7 +81,7 @@ class CreateGroup extends Component {
         return (
             <div>
                 {/*<Header history={this.props.history}/>*/}
-                <div className="col-6 mx-auto mt-4">
+                <div className="col-sm-8 mx-auto mt-4">
                     <Form>
 
                         {/* Group Type */}

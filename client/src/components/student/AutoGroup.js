@@ -39,7 +39,7 @@ class AutoGroup extends Component {
 
     render() {
         return (
-            <div className="col-6 mx-auto mt-4">
+            <div className="col-sm-8 mx-auto mt-4">
                 {/*<Header history={this.props.history}/>*/}
                 <Form>
                 <div style={{ height: "300px" }} className="m-5">
