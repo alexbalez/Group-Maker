@@ -22,3 +22,32 @@
     
 }
 
+/* Bootstrap-esque styles */
+.inline-label{
+    background-color: #f0ecec;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+    border-left: 1px solid #ced4da;
+    border-top: 1px solid #ced4da;
+    border-bottom: 1px solid #ced4da;
+    width: 100px;
+}
+.inline-content{
+    border: 1px solid #ced4da;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+.border-grey-round{
+    border: 1px solid #ced4da;
+    border-radius: 5px;
+
+}
+
+.item-pill{
+    background-color: #f0ecec;
+    border-radius: 5px;
+    border: 1px solid #ced4da;
+    padding: 0.4rem;
+    margin: 0.1rem;
+}
+

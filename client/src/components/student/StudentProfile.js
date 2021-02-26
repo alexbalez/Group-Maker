@@ -97,7 +97,12 @@ class StudentProfile extends Component {
                     {/* College Level Affiliations */}
                     
                     <div className="form-group">
-                        <div className="row"><h4>Affiliation</h4></div>
+                        <div className="row">
+                            <h4>Affiliation</h4>
+                            <div>
+                                <button className="btn btn-warning btn-sm ml-3">Edit</button>
+                            </div>
+                        </div>
 
                         <select className="btn btn-light dropdown-toggle w-100 mt-1" name="campus" onChange={this.handleChange}>
                             {/* TODO: pull these options from db */}
