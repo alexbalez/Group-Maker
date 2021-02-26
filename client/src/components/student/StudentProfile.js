@@ -3,6 +3,7 @@ import '../components.css'
 //import { Modal } from 'react-bootstrap';
 //import StudentDataConnector from '../../services/StudentDataConnector'
 import EditTextModal from '../EditTextModal'
+import TextInputRow from '../TextInputRow'
 
 class StudentProfile extends Component {
     constructor(props){
@@ -11,16 +12,23 @@ class StudentProfile extends Component {
             data: this.props.data,
             aboutMe: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
             showEditAboutMe: false,
-            editPhone: false
+            showEditPhone: false,
+            showEditFirstname: false,
+            showEditLastname: false,
         }
         
         this.handleChange = this.handleChange.bind(this)
         this.toggleEditAboutMe = this.toggleEditAboutMe.bind(this)
         this.updateAboutMe = this.updateAboutMe.bind(this)
-        this.toggleEditPhone = this.toggleEditPhone.bind(this)
+
+        this.toggleShowEditPhone = this.toggleShowEditPhone.bind(this)
         this.saveEditPhone = this.saveEditPhone.bind(this)
 
-        this.phoneInput = React.createRef()
+        this.toggleShowEditFirstname = this.toggleShowEditFirstname.bind(this)
+        this.saveEditFirstname = this.saveEditFirstname.bind(this)
+
+        this.toggleShowEditLastname = this.toggleShowEditLastname.bind(this)
+        this.saveEditLastname = this.saveEditLastname.bind(this)
     }
 
     handleChange(e){
@@ -30,11 +38,11 @@ class StudentProfile extends Component {
         console.log(e.target.name, e.target.value)
     }
 
+    //About me
     toggleEditAboutMe(){
         //console.log('--toggle:', this.state.showEditAboutMe)
         this.setState({showEditAboutMe: !this.state.showEditAboutMe})
     }
-
     updateAboutMe(){
         if(this.state.aboutMeUpdate){
             this.setState({aboutMe: this.state.aboutMeUpdate, aboutMeUpdate: null})
@@ -42,19 +50,36 @@ class StudentProfile extends Component {
         this.toggleEditAboutMe()
     }
 
-    toggleEditPhone(){
-        console.log("edit phone")
-        if(!this.state.editPhone){
-            this.phoneInput.current.focus()
-        }
-        this.setState( {editPhone: !this.state.editPhone} )
+    //Phone number
+    toggleShowEditPhone(){
+        this.setState( {showEditPhone: !this.state.showEditPhone} )
+    }
+    saveEditPhone(value){
+        // TODO: transform the string here and do some validation to make sure it's a phone number
+        this.setState({phone: value})
+        this.toggleShowEditPhone()
     }
 
-    saveEditPhone(){
-        // TODO: transform the string here and do some validation to make sure it's a phone number
-        this.setState({phone: this.phoneInput})
-        this.toggleEditPhone()
+    //First name
+    toggleShowEditFirstname(){
+        this.setState({showEditFirstname: !this.state.showEditFirstname})
     }
+    saveEditFirstname(value){
+        this.setState({firstname: value})
+        this.toggleShowEditFirstname()
+    }
+
+
+    //Last name
+    toggleShowEditLastname() {
+        this.setState({ showEditLastname: !this.state.showEditLastname })
+    }
+    saveEditLastname(value) {
+        this.setState({ lastname: value })
+        this.toggleShowEditFirstname()
+    }
+
+
 
     submit = (e)=>{
         e.preventDefault()
@@ -74,14 +99,14 @@ class StudentProfile extends Component {
                     <div className="form-group">
                         <div className="row"><h4>Affiliation</h4></div>
 
-                        <select className="btn btn-light dropdown-toggle w-100-percent mt-1" name="campus" onChange={this.handleChange}>
+                        <select className="btn btn-light dropdown-toggle w-100 mt-1" name="campus" onChange={this.handleChange}>
                             {/* TODO: pull these options from db */}
                             <option className="bg-white text-dark" value>Select Campus</option>
                             <option className="bg-white text-dark" value="Casa Loma">Casa Loma</option>
                             <option className="bg-white text-dark" value="St James">St James</option>
                             <option className="bg-white text-dark" value="Waterfront">Waterfront</option>
                         </select>
-                        <select className="btn btn-light dropdown-toggle w-100-percent mt-1" name="school" onChange={this.handleChange}>
+                        <select className="btn btn-light dropdown-toggle w-100 mt-1" name="school" onChange={this.handleChange}>
                             <option className="bg-white text-dark" value>Select School</option>
                             <option className="bg-white text-dark" value="Design and Tech">Design and Tech</option>
                             <option className="bg-white text-dark" value="Construction engineering">Construction Engineering</option>
@@ -120,25 +145,37 @@ class StudentProfile extends Component {
                     </div>
 
                     {/* Phone */}
+
                     <div className="form-group">
-                        <div className="row">
-                            <h4>Phone</h4>
-                            <input className="ml-3" type="text" ref={this.phoneInput} readOnly={!this.state.editPhone} />
-                            {
-                                !this.state.editPhone ? 
-                                
-                                <div>
-                                    <button className="btn btn-warning btn-sm ml-3" onClick={this.toggleEditPhone}>Edit</button>
-                                </div>
-                                :
-                                <div>
-                                        <button className="btn btn-primary btn-sm ml-3" onClick={this.toggleEditPhone}>Cancel</button>
-                                        <button className="btn btn-success btn-sm ml-1" onClick={this.saveEditPhone}>Save</button>
-                                </div>
-                            }
-                        </div>
-                        
+                        <TextInputRow
+                            title="Phone"
+                            // TODO: Replace this with value pulled from db
+                            value={'420-698-0085'}
+                            isOpenForEdit={this.state.showEditPhone}
+                            toggleForEdit={this.toggleShowEditPhone}
+                            save={this.saveEditPhone}
+                        />
                     </div>
+
+                    {/* <div className="form-group">
+                        <TextInputRow
+                            title="First Name"
+                            value={this.state.data.firstname}
+                            isOpenForEdit={this.state.showEditFirstname}
+                            toggleForEdit={this.toggleShowEditFirstname}
+                            save={this.saveEditFirstname}
+                        />
+                    </div>
+
+                    <div className="form-group">
+                        <TextInputRow
+                            title="Last Name"
+                            value={this.state.data.lastname}
+                            isOpenForEdit={this.state.showEditLastname}
+                            toggleForEdit={this.toggleShowEditLastname}
+                            save={this.saveEditLastname}
+                        />
+                    </div> */}
 
 
                     <div className="row"><h4>Interests</h4></div>
