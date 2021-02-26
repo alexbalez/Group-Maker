@@ -17,10 +17,36 @@ class ProfileEditAboutMeModal extends Component {
 
         this.handleChange = this.handleChange.bind(this)
         this.saveData = this.saveData.bind(this)
+
+        this.addInterest = this.addInterest.bind(this)
+        this.deleteInterest = this.deleteInterest.bind(this)
+
+        this.addSkill = this.addSkill.bind(this)
+        this.deleteSkill = this.deleteSkill.bind(this)
     }
 
     handleChange(e){
         this.setState({ [e.target.name]: e.target.value })
+    }
+
+    addInterest(e){
+        
+    }
+    deleteInterest(e){
+        const index = e.target.getAttribute("data-index")
+        let  temp = this.state.interests
+        temp.splice(index, 1)
+        this.setState({interests: temp})
+    }
+
+    addSkill(){
+
+    }
+    deleteSkill(e){
+        const index = e.target.getAttribute("data-index")
+        let temp = this.state.skills
+        temp.splice(index, 1)
+        this.setState({ skills: temp })
     }
 
     saveData(){
@@ -55,6 +81,42 @@ class ProfileEditAboutMeModal extends Component {
 
                     <div className="form-row mb-2">
                         <textarea style={{height: 300}} className="form-control" onChange={this.handleChange} defaultValue={this.state.about} name="about" />
+                    </div>
+
+                    {/* Interests */}
+
+                    <div className="form-inline mt-3 mb-2">
+                        <h4>Interests</h4>
+                    </div>
+                    <div className="form-inline border-grey-round p-2">
+                        {
+                            this.state.interests.map((interest, index) => {
+                                return (
+                                    <div key={index} className="item-pill">
+                                        {interest.secondary}
+                                        <button className="btn btn-secondary ml-2 btn-sm" data-index={index} onClick={this.deleteInterest}>X</button>
+                                    </div>
+                                )
+                            })
+                        }
+                    </div>
+
+                    {/* Skills */}
+
+                    <div className="form-inline mt-3 mb-2">
+                        <h4>Skills</h4>
+                    </div>
+                    <div className="form-inline border-grey-round p-2">
+                        {
+                            this.state.skills.map((skill, index) => {
+                                return (
+                                    <div key={index} className="item-pill">
+                                        {skill.secondary}
+                                        <button className="btn btn-secondary ml-2 btn-sm" data-index={index} onClick={this.deleteSkill}>X</button>
+                                    </div>
+                                )
+                            })
+                        }
                     </div>
                     
                 </Modal.Body>
