@@ -20,19 +20,19 @@ class StudendProfile2 extends Component {
             phone: "123-456-7894",
             about: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
             interests: [
-                { primary: "gaming", secondary: "fps games" },
-                { primary: "gaming", secondary: "board games" },
-                { primary: "sports", secondary: "hockey" },
-                { primary: "sports", secondary: "soccer" },
-                { primary: "computer programming", secondary: "andoid development" },
+                { category: "gaming", interest: "fps games" },
+                { category: "gaming", interest: "board games" },
+                { category: "sports", interest: "hockey" },
+                { category: "sports", interest: "soccer" },
+                { category: "computer programming", interest: "andoid development" },
             ],
             skills: [
-                { primary: "backend", secondary: "database design" },
-                { primary: "backend", secondary: "express.js" },
-                { primary: "backend", secondary: "rest api" },
-                { primary: "planning", secondary: "uml diagram" },
-                { primary: "teamwork", secondary: "communication" },
-                { primary: "teamwork", secondary: "friendly" },
+                { category: "backend", skill: "database design" },
+                { category: "backend", skill: "express.js" },
+                { category: "backend", skill: "rest api" },
+                { category: "planning", skill: "uml diagram" },
+                { category: "teamwork", skill: "communication" },
+                { category: "teamwork", skill: "friendly" },
             ]
             
        }
@@ -110,7 +110,7 @@ class StudendProfile2 extends Component {
                         <div className="form-inline border-grey-round p-2">
                             {/* <div className="item-pill">Video games</div> */}
                             {this.state.interests.map((interest, index) =>{
-                                return <div key={index} className="item-pill">{interest.secondary}</div>
+                                return <div key={index} className="item-pill">{interest.interest}</div>
                             })}
                         </div>
 
@@ -119,7 +119,7 @@ class StudendProfile2 extends Component {
                         </div>
                         <div className="form-inline border-grey-round p-2">
                             {this.state.skills.map((skill, index) => {
-                                return <div key={index} className="item-pill">{skill.secondary}</div>
+                                return <div key={index} className="item-pill">{skill.skill}</div>
                             })}
                         </div>
                     </div>

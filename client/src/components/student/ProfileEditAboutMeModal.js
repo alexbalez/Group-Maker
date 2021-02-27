@@ -11,8 +11,26 @@ class ProfileEditAboutMeModal extends Component {
             lastname: this.props.data.lastname,
             phone: this.props.data.phone,
             about: this.props.data.about,
+            
             interests: this.props.data.interests,
-            skills: this.props.data.skills
+            skills: this.props.data.skills,
+
+            //pull this from db interests collection and skills collection
+            // interestOptions: {
+            //     gaming: ["fps games", "board games"],
+            //     sports: ["hockey", "soccer"],
+            //     "computer programming": ["android development", "javascript"]
+            // }
+            interestCatOptions: ["gaming", "sports", "computer programming"],
+            intCat: "",
+            interest: "",
+            interestOptions: [
+                { category: "gaming", interest: "fps games" },
+                { category: "gaming", interest: "board games" },
+                { category: "sports", interest: "hockey" },
+                { category: "sports", interest: "soccer" },
+                { category: "computer programming", interest: "andoid development" },
+            ]
         }
 
         this.handleChange = this.handleChange.bind(this)
@@ -20,6 +38,7 @@ class ProfileEditAboutMeModal extends Component {
 
         this.addInterest = this.addInterest.bind(this)
         this.deleteInterest = this.deleteInterest.bind(this)
+        //this.handleIntCatChange = this.handleIntCatChange.bind(this)
 
         this.addSkill = this.addSkill.bind(this)
         this.deleteSkill = this.deleteSkill.bind(this)
@@ -27,10 +46,22 @@ class ProfileEditAboutMeModal extends Component {
 
     handleChange(e){
         this.setState({ [e.target.name]: e.target.value })
+        console.log("--handleChange: ", e.target.name, e.target.value)
     }
 
-    addInterest(e){
-        
+    addInterest(){
+        //get the value from both category and subcategory
+        //make the object and add to the array (this.state.interests)
+        console.log('--add interest')
+
+        if (this.state.intCat !== "" && this.state.interest !== "") {
+            let temp = this.state.interests
+            temp.push({ category: this.state.intCat, interest: this.state.interest })
+            this.setState(temp)
+        }
+        else {
+            alert("Please select a category and an interest")
+        }
     }
     deleteInterest(e){
         const index = e.target.getAttribute("data-index")
@@ -38,9 +69,13 @@ class ProfileEditAboutMeModal extends Component {
         temp.splice(index, 1)
         this.setState({interests: temp})
     }
+    // handleIntCatChange(e){
+    //     console.log("--int cat changed" ,e.target.name, e.target.value)
+    //     //switch the secondary options
+    // }
 
     addSkill(){
-
+        
     }
     deleteSkill(e){
         const index = e.target.getAttribute("data-index")
@@ -88,12 +123,34 @@ class ProfileEditAboutMeModal extends Component {
                     <div className="form-inline mt-3 mb-2">
                         <h4>Interests</h4>
                     </div>
+                    <div className="form-inline mb-2">
+                        <select className="btn btn-success dropdown-toggle" name="intCat" onChange={this.handleChange}>
+                            <option className="bg-white text-dark" value="">Select Category</option>
+                            {
+                                this.state.interestCatOptions.map((item, index)=>(
+                                    <option key={index} className="bg-white text-dark">{item}</option>
+                                ))
+                            }
+                        </select>
+
+                        <select className="btn btn-success dropdown-toggle ml-1" name="interest" onChange={this.handleChange}>
+                            <option className="bg-white text-dark" value="">-</option>
+                            {
+                                this.state.interestOptions.filter(interest => interest.category === this.state.intCat).map((interest, index) => (
+                                    <option key={index} className="bg-white text-dark" value={interest.interest}>{interest.interest}</option>
+                                ))
+                            }
+                        </select>
+
+                        {/* Add interest */}
+                        <button className="btn btn-primary ml-1" onClick={this.addInterest}>Add</button>
+                    </div>
                     <div className="form-inline border-grey-round p-2">
                         {
                             this.state.interests.map((interest, index) => {
                                 return (
                                     <div key={index} className="item-pill">
-                                        {interest.secondary}
+                                        {interest.interest}
                                         <button className="btn btn-secondary ml-2 btn-sm" data-index={index} onClick={this.deleteInterest}>X</button>
                                     </div>
                                 )
@@ -111,7 +168,7 @@ class ProfileEditAboutMeModal extends Component {
                             this.state.skills.map((skill, index) => {
                                 return (
                                     <div key={index} className="item-pill">
-                                        {skill.secondary}
+                                        {skill.skill}
                                         <button className="btn btn-secondary ml-2 btn-sm" data-index={index} onClick={this.deleteSkill}>X</button>
                                     </div>
                                 )
