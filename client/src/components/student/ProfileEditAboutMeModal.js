@@ -6,7 +6,6 @@ class ProfileEditAboutMeModal extends Component {
     constructor(props){
         super(props)
         this.state = {
-            // data: this.props.data,
             firstname: this.props.data.firstname,
             lastname: this.props.data.lastname,
             phone: this.props.data.phone,
@@ -15,12 +14,7 @@ class ProfileEditAboutMeModal extends Component {
             interests: this.props.data.interests,
             skills: this.props.data.skills,
 
-            //pull this from db interests collection and skills collection
-            // interestOptions: {
-            //     gaming: ["fps games", "board games"],
-            //     sports: ["hockey", "soccer"],
-            //     "computer programming": ["android development", "javascript"]
-            // }
+            // TODO: pull this from db interests collection and skills collection (add those schemas on the backend)
             interestCatOptions: ["gaming", "sports", "computer programming"],
             intCat: "",
             interest: "",
@@ -42,7 +36,6 @@ class ProfileEditAboutMeModal extends Component {
 
         this.addInterest = this.addInterest.bind(this)
         this.deleteInterest = this.deleteInterest.bind(this)
-        //this.handleIntCatChange = this.handleIntCatChange.bind(this)
 
         this.addSkill = this.addSkill.bind(this)
         this.deleteSkill = this.deleteSkill.bind(this)
@@ -50,13 +43,13 @@ class ProfileEditAboutMeModal extends Component {
 
     handleChange(e){
         this.setState({ [e.target.name]: e.target.value })
-        console.log("--handleChange: ", e.target.name, e.target.value)
+        // console.log("--handleChange: ", e.target.name, e.target.value)
     }
 
     addInterest(){
         //get the value from both category and subcategory
         //make the object and add to the array (this.state.interests)
-        console.log('--add interest')
+        //console.log('--add interest')
 
         if (this.state.intCat !== "" && this.state.interest !== "") {
             let temp = this.state.interests
@@ -74,10 +67,6 @@ class ProfileEditAboutMeModal extends Component {
         temp.splice(index, 1)
         this.setState({interests: temp})
     }
-    // handleIntCatChange(e){
-    //     console.log("--int cat changed" ,e.target.name, e.target.value)
-    //     //switch the secondary options
-    // }
 
     addSkill(){
         
@@ -139,7 +128,7 @@ class ProfileEditAboutMeModal extends Component {
                     <div className="form-inline mb-2">
 
                         {/* category dropdown */}
-                        <select className="btn btn-success dropdown-toggle"
+                        <select className="btn btn-success dropdown-toggle" style={{maxWidth: 200}}
                             name="intCat" value={this.state.intCat} onChange={this.handleChange}>
                             <option className="bg-white text-dark" value="">Select Category</option>
                             {
@@ -150,7 +139,7 @@ class ProfileEditAboutMeModal extends Component {
                         </select>
                         
                         {/* interest dropdown */}
-                        <select className="btn btn-success dropdown-toggle ml-1" 
+                        <select className="btn btn-success dropdown-toggle ml-1" style={{ maxWidth: 200 }}
                             name="interest" value={this.state.interest} onChange={this.handleChange}>
                             <option className="bg-white text-dark" value="">-</option>
                             {

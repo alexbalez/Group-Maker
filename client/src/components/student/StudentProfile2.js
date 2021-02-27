@@ -13,8 +13,7 @@ class StudendProfile2 extends Component {
             },
             data: this.props.data,
 
-            //the below should be dynamically loaded from db into this.state.data
-            
+            //the below should be dynamically loaded from db            
             firstname: "joe",
             lastname: "user",
             phone: "123-456-7894",
@@ -73,7 +72,7 @@ class StudendProfile2 extends Component {
                 <div className="col-sm-8 mx-auto mt-4">
                     <h1 className="text-center text-capitalize">{this.state.data.username}</h1>
 
-                    {/* First edit group */}
+                    {/* =============== Personal information group ================== */}
                     <div className="border border-primary p-3 ">
                         <div className="form-inline mb-2">
                             <h4>Basic Information</h4>
@@ -124,7 +123,7 @@ class StudendProfile2 extends Component {
                         </div>
                     </div>
 
-                    {/* Edit modal */}
+                    {/* =========== Edit Personal Information modal ================== */}
                     <ProfileEditAboutMeModal
                         title="Edit Your Personal Information"
                         show={this.state.flags.showEditAboutMe}
@@ -134,7 +133,7 @@ class StudendProfile2 extends Component {
                     />
 
 
-                    {/* Second edit group */}
+                    {/* ================== College Information group =========================== */}
                     <div className="border border-primary p-3 mt-4">
                         <div className="form-inline mb-3">
                             <h4>College Information</h4>
