@@ -134,8 +134,6 @@ class StudendProfile2 extends Component {
                     />
 
 
-
-
                     {/* Second edit group */}
                     <div className="border border-primary p-3 mt-4">
                         <div className="form-inline mb-3">

@@ -62,6 +62,7 @@ class ProfileEditAboutMeModal extends Component {
             let temp = this.state.interests
             temp.push({ category: this.state.intCat, interest: this.state.interest })
             this.setState(temp)
+            this.setState({interest: ""})
         }
         else {
             alert("Please select a category and an interest")
@@ -135,7 +136,7 @@ class ProfileEditAboutMeModal extends Component {
                     <div className="form-inline mb-2">
 
                         {/* category dropdown */}
-                        <select className="btn btn-success dropdown-toggle" name="intCat" onChange={this.handleChange}>
+                        <select className="btn btn-success dropdown-toggle" name="intCat" value={this.state.intCat} onChange={this.handleChange}>
                             <option className="bg-white text-dark" value="">Select Category</option>
                             {
                                 this.state.interestCatOptions.map((item, index)=>(
@@ -145,7 +146,7 @@ class ProfileEditAboutMeModal extends Component {
                         </select>
                         
                         {/* interest dropdown */}
-                        <select className="btn btn-success dropdown-toggle ml-1" name="interest" onChange={this.handleChange}>
+                        <select className="btn btn-success dropdown-toggle ml-1" name="interest" value={this.state.interest} onChange={this.handleChange}>
                             <option className="bg-white text-dark" value="">-</option>
                             {
                                 //return the interests whose category matches and who are not already in the list 
