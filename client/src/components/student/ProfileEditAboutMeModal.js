@@ -108,15 +108,18 @@ class ProfileEditAboutMeModal extends Component {
                 </Modal.Header>
                 <Modal.Body>
                     <div className="form-row mb-2">
-                        <input className="form-control" onChange={this.handleChange} defaultValue={this.state.firstname} name="firstname" />
+                        <input className="form-control" onChange={this.handleChange} 
+                            defaultValue={this.state.firstname} name="firstname" />
                     </div>
 
                     <div className="form-row mb-2">
-                        <input className="form-control" onChange={this.handleChange} defaultValue={this.state.lastname} name="lastname" />
+                        <input className="form-control" onChange={this.handleChange} 
+                            defaultValue={this.state.lastname} name="lastname" />
                     </div>
 
                     <div className="form-row mb-2">
-                        <input className="form-control" onChange={this.handleChange} defaultValue={this.state.phone} name="phone" />
+                        <input className="form-control" onChange={this.handleChange} 
+                            defaultValue={this.state.phone} name="phone" />
                     </div>
 
                     <div className="form-row mb-2">
@@ -136,7 +139,8 @@ class ProfileEditAboutMeModal extends Component {
                     <div className="form-inline mb-2">
 
                         {/* category dropdown */}
-                        <select className="btn btn-success dropdown-toggle" name="intCat" value={this.state.intCat} onChange={this.handleChange}>
+                        <select className="btn btn-success dropdown-toggle"
+                            name="intCat" value={this.state.intCat} onChange={this.handleChange}>
                             <option className="bg-white text-dark" value="">Select Category</option>
                             {
                                 this.state.interestCatOptions.map((item, index)=>(
@@ -146,7 +150,8 @@ class ProfileEditAboutMeModal extends Component {
                         </select>
                         
                         {/* interest dropdown */}
-                        <select className="btn btn-success dropdown-toggle ml-1" name="interest" value={this.state.interest} onChange={this.handleChange}>
+                        <select className="btn btn-success dropdown-toggle ml-1" 
+                            name="interest" value={this.state.interest} onChange={this.handleChange}>
                             <option className="bg-white text-dark" value="">-</option>
                             {
                                 //return the interests whose category matches and who are not already in the list 
@@ -154,7 +159,8 @@ class ProfileEditAboutMeModal extends Component {
                                     interest.category === this.state.intCat &&
                                     this.state.interests.find(item => item.interest === interest.interest) === undefined 
                                 )).map((interest, index) => (
-                                    <option key={index} className="bg-white text-dark" value={interest.interest}>{interest.interest}</option>
+                                    <option key={index} className="bg-white text-dark" 
+                                        value={interest.interest}>{interest.interest}</option>
                                 ))
                             }
                         </select>
@@ -170,7 +176,8 @@ class ProfileEditAboutMeModal extends Component {
                                 return (
                                     <div key={index} className="item-pill">
                                         {interest.interest}
-                                        <button className="btn btn-secondary ml-2 btn-sm" data-index={index} onClick={this.deleteInterest}>X</button>
+                                        <button className="btn btn-secondary ml-2 btn-sm" data-index={index} 
+                                            onClick={this.deleteInterest}>X</button>
                                     </div>
                                 )
                             })
@@ -188,7 +195,8 @@ class ProfileEditAboutMeModal extends Component {
                                 return (
                                     <div key={index} className="item-pill">
                                         {skill.skill}
-                                        <button className="btn btn-secondary ml-2 btn-sm" data-index={index} onClick={this.deleteSkill}>X</button>
+                                        <button className="btn btn-secondary ml-2 btn-sm" data-index={index} 
+                                            onClick={this.deleteSkill}>X</button>
                                     </div>
                                 )
                             })
