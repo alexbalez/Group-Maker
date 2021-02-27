@@ -107,19 +107,28 @@ class StudendProfile2 extends Component {
                             <h4>Interests</h4>
                         </div>
                         <div className="form-inline border-grey-round p-2">
-                            {/* <div className="item-pill">Video games</div> */}
-                            {this.state.interests.map((interest, index) =>{
-                                return <div key={index} className="item-pill">{interest.interest}</div>
-                            })}
+                            {
+                                this.state.interests.length > 0?
+                                    this.state.interests.map((interest, index) =>{
+                                        return <div key={index} className="item-pill">{interest.interest}</div>
+                                    })
+                                    :
+                                    <div className="text text-secondary text-center">You have no interests</div>
+                            }
                         </div>
 
                         <div className="form-inline mt-3 mb-2">
                             <h4>Skills</h4>
                         </div>
                         <div className="form-inline border-grey-round p-2">
-                            {this.state.skills.map((skill, index) => {
-                                return <div key={index} className="item-pill">{skill.skill}</div>
-                            })}
+                            {
+                                this.state.skills.length > 0 ?
+                                    this.state.skills.map((skill, index) => {
+                                        return <div key={index} className="item-pill">{skill.skill}</div>
+                                    })
+                                    :
+                                    <div className="text text-secondary text-center">You have no skills</div>
+                            }
                         </div>
                     </div>
 

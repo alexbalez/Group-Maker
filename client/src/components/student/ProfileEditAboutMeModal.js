@@ -161,15 +161,18 @@ class ProfileEditAboutMeModal extends Component {
                     {/* interests display container */}
                     <div className="form-inline border-grey-round p-2">
                         {
-                            this.state.interests.map((interest, index) => {
-                                return (
-                                    <div key={index} className="item-pill">
-                                        {interest.interest}
-                                        <button className="btn btn-secondary ml-2 btn-sm" data-index={index} 
-                                            onClick={this.deleteInterest}>X</button>
-                                    </div>
-                                )
-                            })
+                            this.state.interests.length > 0?
+                                this.state.interests.map((interest, index) => {
+                                    return (
+                                        <div key={index} className="item-pill">
+                                            {interest.interest}
+                                            <button className="btn btn-secondary ml-2 btn-sm" data-index={index} 
+                                                onClick={this.deleteInterest}>X</button>
+                                        </div>
+                                    )
+                                })
+                                :
+                                <div className="text text-secondary text-center">You have no interests</div>
                         }
                     </div>
 
@@ -179,16 +182,19 @@ class ProfileEditAboutMeModal extends Component {
                         <h4>Skills</h4>
                     </div>
                     <div className="form-inline border-grey-round p-2">
-                        {
-                            this.state.skills.map((skill, index) => {
-                                return (
-                                    <div key={index} className="item-pill">
-                                        {skill.skill}
-                                        <button className="btn btn-secondary ml-2 btn-sm" data-index={index} 
-                                            onClick={this.deleteSkill}>X</button>
-                                    </div>
-                                )
-                            })
+                        {   
+                            this.state.skills.length > 0 ?
+                                this.state.skills.map((skill, index) => {
+                                    return (
+                                        <div key={index} className="item-pill">
+                                            {skill.skill}
+                                            <button className="btn btn-secondary ml-2 btn-sm" data-index={index} 
+                                                onClick={this.deleteSkill}>X</button>
+                                        </div>
+                                    )
+                                })
+                                :
+                                <div className="text text-secondary text-center">You have no skills</div>
                         }
                     </div>
                     
