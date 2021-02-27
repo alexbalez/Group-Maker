@@ -27,9 +27,13 @@ class ProfileEditAboutMeModal extends Component {
             interestOptions: [
                 { category: "gaming", interest: "fps games" },
                 { category: "gaming", interest: "board games" },
+                { category: "gaming", interest: "rpg games"},
                 { category: "sports", interest: "hockey" },
+                { category: "sports", interest: "football" },
                 { category: "sports", interest: "soccer" },
                 { category: "computer programming", interest: "andoid development" },
+                { category: "computer programming", interest: "ios development" },
+                { category: "computer programming", interest: "restful api" },
             ]
         }
 
@@ -115,15 +119,22 @@ class ProfileEditAboutMeModal extends Component {
                     </div>
 
                     <div className="form-row mb-2">
-                        <textarea style={{height: 300}} className="form-control" onChange={this.handleChange} defaultValue={this.state.about} name="about" />
+                        <textarea 
+                            style={{height: 300}} 
+                            className="form-control" 
+                            onChange={this.handleChange} 
+                            defaultValue={this.state.about} name="about" 
+                        />
                     </div>
 
-                    {/* Interests */}
+                    {/* ======== Interests ============= */}
 
                     <div className="form-inline mt-3 mb-2">
                         <h4>Interests</h4>
                     </div>
                     <div className="form-inline mb-2">
+
+                        {/* category dropdown */}
                         <select className="btn btn-success dropdown-toggle" name="intCat" onChange={this.handleChange}>
                             <option className="bg-white text-dark" value="">Select Category</option>
                             {
@@ -132,19 +143,26 @@ class ProfileEditAboutMeModal extends Component {
                                 ))
                             }
                         </select>
-
+                        
+                        {/* interest dropdown */}
                         <select className="btn btn-success dropdown-toggle ml-1" name="interest" onChange={this.handleChange}>
                             <option className="bg-white text-dark" value="">-</option>
                             {
-                                this.state.interestOptions.filter(interest => interest.category === this.state.intCat).map((interest, index) => (
+                                //return the interests whose category matches and who are not already in the list 
+                                this.state.interestOptions.filter(interest =>(
+                                    interest.category === this.state.intCat &&
+                                    this.state.interests.find(item => item.interest === interest.interest) === undefined 
+                                )).map((interest, index) => (
                                     <option key={index} className="bg-white text-dark" value={interest.interest}>{interest.interest}</option>
                                 ))
                             }
                         </select>
 
-                        {/* Add interest */}
+                        {/* Add interest button */}
                         <button className="btn btn-primary ml-1" onClick={this.addInterest}>Add</button>
                     </div>
+
+                    {/* interests display container */}
                     <div className="form-inline border-grey-round p-2">
                         {
                             this.state.interests.map((interest, index) => {
@@ -158,7 +176,7 @@ class ProfileEditAboutMeModal extends Component {
                         }
                     </div>
 
-                    {/* Skills */}
+                    {/* =========== Skills ================= */}
 
                     <div className="form-inline mt-3 mb-2">
                         <h4>Skills</h4>
