@@ -31,13 +31,13 @@ class Dashboard extends Component {
     render() {
         return (
             <div>
-                {/*<Header history={this.props.history}/>*/}
-                {/* Search */}
+
                 <Navbar className="bg-light justify-content-center">
-                    <Form inline className="m-2">
-                        <InputGroup>
+                    <Form inline>
+                        {/* Dropdown */}
+                        <InputGroup  className="m-1">
                             <Dropdown>
-                                <Dropdown.Toggle id="dropdown-basic" variant="light">
+                                <Dropdown.Toggle id="dropdown-basic" variant="secondary">
                                     Filters
                                 </Dropdown.Toggle>
 
@@ -48,12 +48,12 @@ class Dashboard extends Component {
                                 </Dropdown.Menu>
                             </Dropdown>
                         </InputGroup>
+
+                        <FormControl type="text" placeholder="Search" className="m-1" />
+                        <Button variant="success" type="submit" className="m-1">Submit</Button>
+                        <Button className="m-1" variant="primary">View Invites</Button>
                     </Form>
-                    <Form inline className="m-2">
-                        <FormControl type="text" placeholder="Search" className=" mr-sm-2" />
-                        <Button variant="success" type="submit">Submit</Button>
-                    </Form>
-                    <Button className="m-2" variant="success">View Invites</Button>
+                    
                 </Navbar>
 
                 {/* New Groups */}
