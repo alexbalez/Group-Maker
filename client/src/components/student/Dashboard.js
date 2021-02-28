@@ -37,7 +37,7 @@ class Dashboard extends Component {
                         {/* Dropdown */}
                         <InputGroup  className="m-1">
                             <Dropdown>
-                                <Dropdown.Toggle id="dropdown-basic" variant="secondary">
+                                <Dropdown.Toggle id="dropdown-basic" variant="primary">
                                     Filters
                                 </Dropdown.Toggle>
 
@@ -49,8 +49,8 @@ class Dashboard extends Component {
                             </Dropdown>
                         </InputGroup>
 
-                        <FormControl type="text" placeholder="Search" className="m-1" />
-                        <Button variant="success" type="submit" className="m-1">Submit</Button>
+                        <FormControl type="text" placeholder="Search your groups" className="m-1" />
+                        <Button variant="success" type="submit" className="m-1">Search</Button>
                         <Button className="m-1" variant="primary">View Invites</Button>
                     </Form>
                     

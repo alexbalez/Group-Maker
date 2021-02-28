@@ -29,10 +29,10 @@ class FindGroup extends Component {
 
                 {/* Search Bar */}
                 <Navbar className="bg-light justify-content-center">
-                    <Form inline className="m-2">
-                        <InputGroup>
+                    <Form inline>
+                        <InputGroup className="m-1">
                             <Dropdown>
-                                <Dropdown.Toggle id="dropdown-basic" variant="light">
+                                <Dropdown.Toggle id="dropdown-basic" variant="primary">
                                     Filters
                                 </Dropdown.Toggle>
 
@@ -43,12 +43,12 @@ class FindGroup extends Component {
                                 </Dropdown.Menu>
                             </Dropdown>
                         </InputGroup>
+                    
+                        <FormControl type="text" placeholder="Search suggested" className="m-1" />
+                        <Button variant="success" type="submit" className="m-1">Search</Button>
+                        <Button className="m-1" variant="danger">Reset</Button>
+                    
                     </Form>
-                    <Form inline className="m-2">
-                        <FormControl type="text" placeholder="Search" className=" mr-sm-2" />
-                        <Button variant="success" type="submit">Search</Button>
-                    </Form>
-                    <Button className="m-2" variant="danger">Reset</Button>
                 </Navbar>
 
                 {/* Groups Table */}

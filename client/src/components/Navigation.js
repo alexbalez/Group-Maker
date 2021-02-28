@@ -40,7 +40,6 @@ class Navigation extends Component {
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="mr-auto">
-
                         <NavLink className="nav-link" activeClassName="active" to="/dashboard">Dashboard</NavLink>
                         <NavLink className="nav-link" activeClassName="active" to="/create">Create</NavLink>
                         <NavLink className="nav-link" activeClassName="active" to="/find">Find</NavLink>
@@ -51,8 +50,7 @@ class Navigation extends Component {
                     <Nav className="ml-auto">
                         <NavDropdown className="bg-dark mr-3" title={this.state.data.username} id="nav-dropdown">
                             <NavDropdown.Item onClick={ this.goToProfile }>My Profile</NavDropdown.Item>
-                            <NavDropdown.Item onClick={ this.logout }>Logout</NavDropdown.Item>
-                            
+                            <NavDropdown.Item onClick={ this.logout }>Logout</NavDropdown.Item> 
                         </NavDropdown>
                         <img src={profilePhoto} alt="Profile" width="50" height="50"/>
                     </Nav>
