@@ -28,7 +28,21 @@ class ProfileEditAboutMeModal extends Component {
                 { category: "computer programming", interest: "andoid development" },
                 { category: "computer programming", interest: "ios development" },
                 { category: "computer programming", interest: "restful api" },
+            ],
+
+            skillCatOptions: ["backend", "planning", "teamwork"],
+            skillCat: "",
+            skill: "",
+            skillOptions: [
+                { category: "backend", skill: "database design" },
+                { category: "backend", skill: "express.js" },
+                { category: "backend", skill: "rest api" },
+                { category: "planning", skill: "uml diagram" },
+                { category: "teamwork", skill: "communication" },
+                { category: "teamwork", skill: "friendly" },
             ]
+
+            
         }
 
         this.handleChange = this.handleChange.bind(this)
@@ -69,7 +83,15 @@ class ProfileEditAboutMeModal extends Component {
     }
 
     addSkill(){
-        
+        if (this.state.skillCat !== "" && this.state.skill !== "") {
+            let temp = this.state.skills
+            temp.push({ category: this.state.skillCat, skill: this.state.skill })
+            this.setState(temp)
+            this.setState({ skill: "" })
+        }
+        else {
+            alert("Please select a category and a skill")
+        }
     }
     deleteSkill(e){
         const index = e.target.getAttribute("data-index")
@@ -181,6 +203,42 @@ class ProfileEditAboutMeModal extends Component {
                     <div className="form-inline mt-3 mb-2">
                         <h4>Skills</h4>
                     </div>
+
+                    <div className="form-inline mb-2">
+
+                        {/* category dropdown */}
+                        <select className="btn btn-success dropdown-toggle" style={{ maxWidth: 200 }}
+                            name="skillCat" value={this.state.skillCat} onChange={this.handleChange}>
+                            <option className="bg-white text-dark" value="">Select Category</option>
+                            {
+                                this.state.skillCatOptions.map((item, index) => (
+                                    <option key={index} className="bg-white text-dark">{item}</option>
+                                ))
+                            }
+                        </select>
+
+                        {/* skill dropdown */}
+                        <select className="btn btn-success dropdown-toggle ml-1" style={{ maxWidth: 200 }}
+                            name="skill" value={this.state.skill} onChange={this.handleChange}>
+                            <option className="bg-white text-dark" value="">-</option>
+                            {
+                                //return the interests whose category matches and who are not already in the list 
+                                this.state.skillOptions.filter(skill => (
+                                    skill.category === this.state.skillCat &&
+                                    this.state.skills.find(item => item.skill === skill.skill) === undefined
+                                )).map((skill, index) => (
+                                    <option key={index} className="bg-white text-dark"
+                                        value={skill.skill}>{skill.skill}</option>
+                                ))
+                            }
+                        </select>
+
+                        {/* Add skill button */}
+                        <button className="btn btn-primary ml-1" onClick={this.addSkill}>Add</button>
+                    </div>
+                    
+
+                    {/* Skills display container */}
                     <div className="form-inline border-grey-round p-2">
                         {   
                             this.state.skills.length > 0 ?
