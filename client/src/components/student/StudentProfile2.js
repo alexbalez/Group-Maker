@@ -1,19 +1,20 @@
 import React, { Component } from 'react';
 import '../components.css';
-//import ProfileEditCollegeModal from './ProfileEditCollegeModal'
+import ProfileEditCollegeModal from './ProfileEditCollegeModal'
 import ProfileEditAboutMeModal from './ProfileEditAboutMeModal'
 
 class StudendProfile2 extends Component {
     constructor(props) {
-       super(props)
-       this.state = {
+        super(props)
+        this.state = {
             flags: {
                 showEditCollege: false,
                 showEditAboutMe: false
             },
             data: this.props.data,
 
-            //the below should be dynamically loaded from db            
+            //the below should be dynamically loaded from db
+            // ============ user personal info ===================     
             firstname: "joe",
             lastname: "user",
             phone: "123-456-7894",
@@ -32,23 +33,27 @@ class StudendProfile2 extends Component {
                 { category: "planning", skill: "uml diagram" },
                 { category: "teamwork", skill: "communication" },
                 { category: "teamwork", skill: "friendly" },
+            ],
+
+            //=========== user college info ===========================
+            campus: "casa loma",
+            school: "school of design and technology",
+            program: {code: "T127", title: "computer programmer analyst"},
+            semester: 2,
+            courses: [
+                { code: "COMP 1231", title: "Introduction to Javascript" },
+                { code: "MATH 1162", title: "College Math" },
             ]
             
-       }
+        }
 
-       this.toggleEditCollege = this.toggleEditCollege.bind(this)
-       this.saveEditCollege = this.saveEditCollege.bind(this)
-       this.toggleEditAboutMe = this.toggleEditAboutMe.bind(this)
-       this.saveEditAboutMe = this.saveEditAboutMe.bind(this)
+        this.toggleEditAboutMe = this.toggleEditAboutMe.bind(this)
+        this.saveEditAboutMe = this.saveEditAboutMe.bind(this)
+        this.toggleEditCollege = this.toggleEditCollege.bind(this)
+        this.saveEditCollege = this.saveEditCollege.bind(this)
     }
 
-    toggleEditCollege(){
-        this.setState({ flags: {showEditCollege: !this.state.flags.showEditCollege} })
-    }
-    saveEditCollege(data){
-        
-    }
-
+    // ================about me ================
     toggleEditAboutMe(){
         this.setState({ flags: {showEditAboutMe: !this.state.flags.showEditAboutMe} })
         console.log("--toggle edit About me")
@@ -64,6 +69,16 @@ class StudendProfile2 extends Component {
             skills: data.skills
         })
         this.toggleEditAboutMe()
+    }
+
+    // ========college==============
+    toggleEditCollege() {
+        this.setState({ flags: { showEditCollege: !this.state.flags.showEditCollege } })
+        console.log("--toggleEditCollege")
+    }
+    saveEditCollege(data) {
+        console.log("--saveEditCollege", data)
+        this.toggleEditCollege()
     }
 
     render() {
@@ -146,28 +161,28 @@ class StudendProfile2 extends Component {
                     <div className="border border-primary p-3 mt-4">
                         <div className="form-inline mb-3">
                             <h4>College Information</h4>
-                            <button className="btn btn-warning ml-auto">Edit</button>
+                            <button className="btn btn-warning ml-auto" onClick={this.toggleEditCollege}>Edit</button>
                         </div>
 
                         {/* Affiliations */}
                         <div className="mb-2 form-inline">
                             <span className="inline-label p-2">Campus</span>
-                            <span className="inline-content p-2">Casa Loma</span>
+                            <span className="inline-content text-capitalize p-2">{this.state.campus}</span>
                         </div>
                     
                         <div className="mb-2 form-inline">
                             <span className="inline-label p-2">School</span>
-                            <span className="inline-content p-2">Design and Technology</span>
+                            <span className="inline-content text-capitalize p-2">{this.state.school}</span>
                         </div>
                     
                         <div className="mb-2 form-inline">
                             <span className="inline-label p-2">Program</span>
-                            <span className="inline-content p-2">T127</span>
+                            <span className="inline-content text-capitalize p-2">{this.state.program.code}</span>
                         </div>
                         
                         <div className="mb-2 form-inline">
                             <span className="inline-label p-2">Semester</span>
-                            <span className="inline-content p-2">6</span>
+                            <span className="inline-content p-2">{this.state.semester}</span>
                         </div>
 
                         {/* Class list  */}
@@ -176,16 +191,28 @@ class StudendProfile2 extends Component {
                         </div>
 
                         <ul className="list-group">
-                            <li className="list-group-item">Cras justo odio</li>
-                            <li className="list-group-item">Dapibus ac facilisis in</li>
-                            <li className="list-group-item">Morbi leo risus</li>
-                            <li className="list-group-item">Porta ac consectetur ac</li>
-                            <li className="list-group-item">Vestibulum at eros</li>
+                            {/* <li className="list-group-item text-capitalize">Cras justo odio</li> */}
+                            {
+                                this.state.courses.map((course, index)=>(
+                                    <li key={index} className="list-group-item text-capitalize">
+                                        {course.code} - {course.title}
+                                    </li>
+                                ))
+                            }
+                            
                         </ul>
 
                     </div>
 
-                    
+                    {/* =================== Edit college info modal ========================== */}
+
+                    <ProfileEditCollegeModal
+                        title="Edit Your College Information"
+                        show={this.state.flags.showEditCollege}
+                        toggle={this.toggleEditCollege}
+                        data={this.state}
+                        save={this.saveEditCollege}
+                    />
                     
 
                 </div>
