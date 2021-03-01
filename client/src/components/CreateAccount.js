@@ -29,6 +29,12 @@ class CreateAccount extends Component{
     submit = (event) =>{
         event.preventDefault();
 
+        //don't submit form if passwords are blank
+        if(this.state.password === "") {
+            alert("Password cannot be blank")
+            return
+        }
+
         //validate email and password
         if (!/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(this.state.email)){
             this.setState({emailerror: ' is-invalid'})
