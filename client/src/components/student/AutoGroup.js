@@ -11,11 +11,6 @@ class AutoGroup extends Component {
             groupPreference1: 'None',
             groupPreference2: 'None',
         };
-
-        // this.handleGroupTypeSelect = this.handleGroupTypeSelect.bind(this);
-        // this.handleClassSelect = this.handleClassSelect.bind(this);
-        // this.handleGroupPreference1Select = this.handleGroupPreference1Select.bind(this);
-        // this.handleGroupPreference2Select = this.handleGroupPreference2Select.bind(this);
     }
 
     handleGroupTypeSelect = (e) => {
@@ -41,11 +36,11 @@ class AutoGroup extends Component {
     render() {
         return (
             <div className="col-sm-8 mx-auto mt-4">
-                {/*<Header history={this.props.history}/>*/}
                 <Form>
-                <div style={{ height: "300px" }} className="m-5">
-                    <h1>Auto</h1>
-                                            {/* Group Type */}
+                    <div style={{ height: "300px" }} className="m-5">
+                        <h1>Auto</h1>
+                        
+                        {/* Group Type */}
                         <h4 className="mt-3">Group Type</h4>
                         <InputGroup className="col-9 m-auto">
                             <Dropdown onSelect={this.handleGroupTypeSelect}>
@@ -106,15 +101,13 @@ class AutoGroup extends Component {
                             </Dropdown>
                         </InputGroup>
 
-                          {/* Submit  */}
-                          <Button onClick={this.handleSendJoinRequestTapped} variant="success" className="col-8 mx-auto btn-block mt-4">
+                            {/* Submit  */}
+                            <Button onClick={this.handleSendJoinRequestTapped} variant="success" className="col-8 mx-auto btn-block mt-4">
                             Send Join Request
                         </Button>
                         
-
-                </div>
+                    </div>
                 </Form>
-
             </div>
         );
     }
