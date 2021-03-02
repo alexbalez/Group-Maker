@@ -12,29 +12,30 @@ class AutoGroup extends Component {
             groupPreference2: 'None',
         };
 
-        this.handleGroupTypeSelect = this.handleGroupTypeSelect.bind(this);
-        this.handleClassSelect = this.handleClassSelect.bind(this);
-        this.handleGroupPreference1Select = this.handleGroupPreference1Select.bind(this);
-        this.handleGroupPreference2Select = this.handleGroupPreference2Select.bind(this);
+        // this.handleGroupTypeSelect = this.handleGroupTypeSelect.bind(this);
+        // this.handleClassSelect = this.handleClassSelect.bind(this);
+        // this.handleGroupPreference1Select = this.handleGroupPreference1Select.bind(this);
+        // this.handleGroupPreference2Select = this.handleGroupPreference2Select.bind(this);
     }
 
-    componentDidMount() {
-    }
-
-    handleGroupTypeSelect(e){
+    handleGroupTypeSelect = (e) => {
         this.setState({groupType: e});
     }
 
-    handleClassSelect(e){
+    handleClassSelect = (e) => {
         this.setState({groupClass: e});
     }
 
-    handleGroupPreference1Select(e){
+    handleGroupPreference1Select = (e) => {
         this.setState({groupPreference1: e});
     }
 
-    handleGroupPreference2Select(e){
+    handleGroupPreference2Select = (e) => {
         this.setState({groupPreference2: e});
+    }
+
+    handleSendJoinRequestTapped = () => {
+        console.log("--JoinRequestTapped")
     }
 
     render() {
@@ -106,7 +107,7 @@ class AutoGroup extends Component {
                         </InputGroup>
 
                           {/* Submit  */}
-                          <Button onClick={this.handleSendJoinRequestTapped} variant="success" type="submit" className="col-8 mx-auto btn-block mt-4">
+                          <Button onClick={this.handleSendJoinRequestTapped} variant="success" className="col-8 mx-auto btn-block mt-4">
                             Send Join Request
                         </Button>
                         

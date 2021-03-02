@@ -6,15 +6,13 @@ import JoinPopUp from '../JoinPopUp';
 class FindGroup extends Component {
     constructor(props){
         super(props);
-        this.state = {popup: false};
-        // Binding
-        this.handleJoin = this.handleJoin.bind(this);
+        this.state = {
+            popup: false
+        }
     }
 
-    componentDidMount() {
-    }
 
-    handleJoin(e){
+    handleJoin = (e) => {
         e.preventDefault();
         this.setState({popup: !this.state.popup});
     }
@@ -22,7 +20,6 @@ class FindGroup extends Component {
     render() {
         return (
             <div>
-                {/*<Header history={this.props.history}/>*/}
 
                 {/* Join PopUp - Fires when user clicks on "Join" */}
                 {this.state.popup ? <JoinPopUp text="Testing popup" closePopup={this.handleJoin}/> : null}
@@ -52,7 +49,6 @@ class FindGroup extends Component {
                 </Navbar>
 
                 {/* Groups Table */}
-                {/* col-sm-8 mx-auto mt-4 */}
                 <div className="col-sm-8 mx-auto mt-4 mb-5"> 
                     <h4 className="d-flex justify-content-center">Suggested Groups</h4>
                     <Table className="mx-auto mt-3" striped bordered hover>

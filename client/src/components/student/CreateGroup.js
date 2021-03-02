@@ -15,41 +15,32 @@ class CreateGroup extends Component {
             formDescription: ''
         };
 
-        // Button Binding
-        this.handleClearTapped = this.handleClearTapped.bind(this);
-        this.handleCreateGroupTapped = this.handleCreateGroupTapped.bind(this);
-        this.handleGroupTypeSelect = this.handleGroupTypeSelect.bind(this);
-        this.handleClassSelect = this.handleClassSelect.bind(this);
-        this.handleGroupPreference1Select = this.handleGroupPreference1Select.bind(this);
-        this.handleGroupPreference2Select = this.handleGroupPreference2Select.bind(this);
     }
 
     // Form Input References
     formGroupName = React.createRef();
     formDescription = React.createRef();
 
-    componentDidMount() {
-    }
 
     // TODO Refactor all these handles into one
-    handleGroupTypeSelect(e){
+    handleGroupTypeSelect = (e) => {
         this.setState({groupType: e});
     }
 
-    handleClassSelect(e){
+    handleClassSelect = (e) => {
         this.setState({groupClass: e});
     }
 
-    handleGroupPreference1Select(e){
+    handleGroupPreference1Select = (e) => {
         this.setState({groupPreference1: e});
     }
 
-    handleGroupPreference2Select(e){
+    handleGroupPreference2Select = (e) => {
         this.setState({groupPreference2: e});
     }
 
     // Create Group Button
-    handleCreateGroupTapped(e){
+    handleCreateGroupTapped = (e) => {
         e.preventDefault();
         let POST = http.createPOST({
             name: this.formGroupName.current.value,
@@ -73,8 +64,8 @@ class CreateGroup extends Component {
     }
 
     // Clear Button
-    handleClearTapped(){
-
+    handleClearTapped = () => {
+        window.location.reload()
     }
 
     render() {
@@ -161,7 +152,7 @@ class CreateGroup extends Component {
                         <Button onClick={this.handleCreateGroupTapped} variant="success" type="submit" className="col-8 mx-auto btn-block mt-4">
                             Create Group
                         </Button>
-                        <Button variant="danger" type="submit" className="col-8 mx-auto btn-block my-4">
+                        <Button variant="danger" className="col-8 mx-auto btn-block my-4" onClick={this.handleClearTapped}>
                             Clear
                         </Button>
                     </Form>
