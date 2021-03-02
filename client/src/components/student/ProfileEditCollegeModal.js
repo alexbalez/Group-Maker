@@ -9,16 +9,14 @@ class ProfileEditCollegeModal extends Component {
 
         }
 
-        this.handleChange = this.handleChange.bind(this)
-        this.saveData = this.saveData.bind(this)
     }
 
-    handleChange(e) {
+    handleChange = (e) => {
         this.setState({ [e.target.name]: e.target.value })
         // console.log("--handleChange: ", e.target.name, e.target.value)
     }
 
-    saveData() {
+    saveData = () => {
         this.props.save({
             
         })

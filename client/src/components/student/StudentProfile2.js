@@ -46,19 +46,15 @@ class StudendProfile2 extends Component {
             ]
             
         }
-
-        this.toggleEditAboutMe = this.toggleEditAboutMe.bind(this)
-        this.saveEditAboutMe = this.saveEditAboutMe.bind(this)
-        this.toggleEditCollege = this.toggleEditCollege.bind(this)
-        this.saveEditCollege = this.saveEditCollege.bind(this)
+        
     }
 
     // ================about me ================
-    toggleEditAboutMe(){
+    toggleEditAboutMe = () => {
         this.setState({ flags: {showEditAboutMe: !this.state.flags.showEditAboutMe} })
         console.log("--toggle edit About me")
     }
-    saveEditAboutMe(data){
+    saveEditAboutMe = (data) => {
         console.log("--saveEditAboutMe ", data)
         this.setState({ 
             firstname: data.firstname,
@@ -72,11 +68,11 @@ class StudendProfile2 extends Component {
     }
 
     // ========college==============
-    toggleEditCollege() {
+    toggleEditCollege = () => {
         this.setState({ flags: { showEditCollege: !this.state.flags.showEditCollege } })
         console.log("--toggleEditCollege")
     }
-    saveEditCollege(data) {
+    saveEditCollege = (data) => {
         console.log("--saveEditCollege", data)
         this.toggleEditCollege()
     }

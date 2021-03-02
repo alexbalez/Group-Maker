@@ -44,23 +44,14 @@ class ProfileEditAboutMeModal extends Component {
 
             
         }
-
-        this.handleChange = this.handleChange.bind(this)
-        this.saveData = this.saveData.bind(this)
-
-        this.addInterest = this.addInterest.bind(this)
-        this.deleteInterest = this.deleteInterest.bind(this)
-
-        this.addSkill = this.addSkill.bind(this)
-        this.deleteSkill = this.deleteSkill.bind(this)
     }
 
-    handleChange(e){
+    handleChange = (e) => {
         this.setState({ [e.target.name]: e.target.value })
         // console.log("--handleChange: ", e.target.name, e.target.value)
     }
 
-    addInterest(){
+    addInterest = () => {
         //get the value from both category and subcategory
         //make the object and add to the array (this.state.interests)
         //console.log('--add interest')
@@ -75,14 +66,14 @@ class ProfileEditAboutMeModal extends Component {
             alert("Please select a category and an interest")
         }
     }
-    deleteInterest(e){
+    deleteInterest = (e) => {
         const index = e.target.getAttribute("data-index")
         let  temp = this.state.interests
         temp.splice(index, 1)
         this.setState({interests: temp})
     }
 
-    addSkill(){
+    addSkill = () => {
         if (this.state.skillCat !== "" && this.state.skill !== "") {
             let temp = this.state.skills
             temp.push({ category: this.state.skillCat, skill: this.state.skill })
@@ -93,14 +84,14 @@ class ProfileEditAboutMeModal extends Component {
             alert("Please select a category and a skill")
         }
     }
-    deleteSkill(e){
+    deleteSkill = (e) => {
         const index = e.target.getAttribute("data-index")
         let temp = this.state.skills
         temp.splice(index, 1)
         this.setState({ skills: temp })
     }
 
-    saveData(){
+    saveData = () => {
         this.props.save({
             firstname: this.state.firstname,
             lastname: this.state.lastname,
