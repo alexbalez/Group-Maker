@@ -21,7 +21,6 @@ class FindGroup extends Component {
         axios.post('/groups/s/name', {
             name: this.state.search
         }).then((res) => {
-            console.log("result:",res)
             this.setState({results: res.data})
         }, (err) => {
             console.log("err",err)
