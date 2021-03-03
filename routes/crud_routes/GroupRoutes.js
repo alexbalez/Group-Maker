@@ -28,9 +28,9 @@ app.get('/groups', async (req, res) => {
 });
 
 //Search groups containing :name (no case)
-app.get('/groups/s/name/:name', async(req, res) => {
+app.post('/groups/s/name/', async(req, res) => {
   const group = await groupModel.find({
-    'name': { $regex: req.params.name, $options:'i' }
+    'name': { $regex: req.body.name, $options:'i' }
   }, 'id name description').exec((err, search) => {
     if (err) res.status(500).send(err)
     res.send(search)
