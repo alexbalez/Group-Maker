@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import '../components.css'
 import {Button, Form, InputGroup, FormControl, Dropdown, Table, Navbar} from 'react-bootstrap';
-import JoinPopUp from '../JoinPopUp';
 import axios from 'axios'
+import JoinGroupModal from './JoinGroupModal';
 
 
 class FindGroup extends Component {
@@ -12,8 +12,10 @@ class FindGroup extends Component {
             popup: false,
             id: '',
             search: '',
-            results: []
+            results: [],
+            modalData: []
         }
+
     }
 
     handleSearch = (e) => {
@@ -30,22 +32,42 @@ class FindGroup extends Component {
     handleSearchChange = (e) => {
         e.preventDefault()
         this.setState({search: e.target.value})
-        console.log(this.state.search)
     }
 
-    handleJoin = (e) => {
+    handleJoinPopup = (e) => {
         e.preventDefault();
         this.setState({id: e.target.value})
-        this.setState({popup: !this.state.popup});
+        this.togglePopup()
+    }
+
+    //if the popup is being set to visible, load the group's data
+    togglePopup = () => {
+        this.setState({popup: !this.state.popup}, () => {    
+            // needs to be in a callback, setState is async    
+            if(this.state.popup){
+                this.getGroupInfo(this.state.id)
+            } else {
+                // forget the data, workaround for data lasting between group viewings
+                this.setState({modalData: []})
+            }
+        })
+    }
+
+    getGroupInfo = (id) => {
+        axios.get('/group/'+id)
+        .then((res) => {
+            this.setState({modalData: res.data})
+        }, (err) => {
+            console.log(err)
+        })
     }
 
     handleSearchResults = (result, index) => {
-        console.log(result)
         return(
             <tr key={index}>
                 <td colSpan="2">{result.name}</td>
                 <td>{result.description}</td>
-                <td><Button variant="success" value={result._id} onClick={this.handleJoin}>Join</Button></td>
+                <td><Button variant="warning" value={result._id} onClick={this.handleJoinPopup}>View</Button></td>
             </tr>
         )
     }
@@ -53,9 +75,6 @@ class FindGroup extends Component {
     render() {
         return (
             <div>
-
-                {/* Join PopUp - Fires when user clicks on "Join" */}
-                {this.state.popup ? <JoinPopUp id={this.state.id} closePopup={this.handleJoin}/> : null}
 
                 {/* Search Bar */}
                 <Navbar className="bg-light justify-content-center">
@@ -97,6 +116,14 @@ class FindGroup extends Component {
                         </tbody>
                     </Table>
                 </div>
+
+                {/* Modal */}
+                <JoinGroupModal 
+                    data={this.state.modalData}
+                    toggle={this.togglePopup}
+                    show={this.state.popup}
+                    />
+
             </div>
         );
     }
