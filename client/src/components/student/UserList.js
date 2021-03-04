@@ -14,14 +14,12 @@ class UserList extends Component{
 
     updateList = () => {
         const users = this.state.users
-        console.log("users",users)
         const items = users.map((user) => 
             <li key={user.toString()}>
                 {user.toString()}
             </li>
         )
         this.setState({list: items})
-        return items
     }
 
     componentDidMount(){
