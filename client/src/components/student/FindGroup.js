@@ -45,9 +45,9 @@ class FindGroup extends Component {
         e.preventDefault()
         console.log('join clicked')
         //localhost:5000/usergroupadd/user60258b84d264fd40482b4d15/group60259e19788d5d30d8ba4061
-        axios.post('/usergroupadd/'+this.state.data._id+'/'+this.state.groupid)
+        axios.post('/usergroupadd/'+this.state.data._id+'/'+this.state.groupid) 
         .then((res) => {
-            console.log(res)
+            //console.log(res)
         }, (err) => {
             console.log(err)
         })
