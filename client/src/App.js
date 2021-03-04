@@ -52,7 +52,7 @@ class App extends Component {
 
                             <Route path="/dashboard"><Dashboard data={this.state.userdata}/></Route>
                             <Route path="/create"><CreateGroup user={this.state.userdata}/></Route>
-                            <Route path="/find" component={FindGroup} />
+                            <Route path="/find"><FindGroup data={this.state.userdata} /></Route>
                             <Route path="/auto" component={AutoGroup} />
                             <Route path="/help" component={HelpStudent} />
                             <Route path="/profile"><StudentProfile data={this.state.userdata}/></Route>
