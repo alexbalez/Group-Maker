@@ -10,10 +10,11 @@ class FindGroup extends Component {
         super(props);
         this.state = {
             popup: false,
-            id: '',
+            data: this.props.data,
+            groupid: '',
             search: '',
             results: [],
-            modalData: []
+            modalData: [],
         }
 
     }
@@ -35,9 +36,21 @@ class FindGroup extends Component {
     }
 
     handleJoinPopup = (e) => {
-        e.preventDefault();
-        this.setState({id: e.target.value})
+        e.preventDefault()
+        this.setState({groupid: e.target.value})
         this.togglePopup()
+    }
+
+    handleJoinGroup = (e) => {
+        e.preventDefault()
+        console.log('join clicked')
+        //localhost:5000/usergroupadd/user60258b84d264fd40482b4d15/group60259e19788d5d30d8ba4061
+        axios.post('/usergroupadd/'+this.state.data._id+'/'+this.state.groupid)
+        .then((res) => {
+            console.log(res)
+        }, (err) => {
+            console.log(err)
+        })
     }
 
     //if the popup is being set to visible, load the group's data
@@ -45,16 +58,17 @@ class FindGroup extends Component {
         this.setState({popup: !this.state.popup}, () => {    
             // needs to be in a callback, setState is async    
             if(this.state.popup){
-                this.getGroupInfo(this.state.id)
+                this.getGroupInfo(this.state.groupid)
             } else {
-                // forget the data, workaround for data lasting between group viewings
+                // forget the data, workaround for hiding data lasting between group viewings
                 this.setState({modalData: []})
             }
         })
     }
 
-    getGroupInfo = (id) => {
-        axios.get('/group/'+id)
+    //get group data for modal
+    getGroupInfo = (groupid) => {
+        axios.get('/group/'+groupid)
         .then((res) => {
             this.setState({modalData: res.data})
         }, (err) => {
@@ -122,6 +136,7 @@ class FindGroup extends Component {
                     data={this.state.modalData}
                     toggle={this.togglePopup}
                     show={this.state.popup}
+                    handleJoinGroup={this.handleJoinGroup}
                     />
 
             </div>
