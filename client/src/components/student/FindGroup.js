@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import '../components.css'
 import {Button, Form, InputGroup, FormControl, Dropdown, Table, Navbar} from 'react-bootstrap';
 import axios from 'axios'
-import JoinGroupModal from './JoinGroupModal';
+import GroupModal from './GroupModal';
 
 
 class FindGroup extends Component {
@@ -130,7 +130,7 @@ class FindGroup extends Component {
                 </div>
 
                 {/* Modal */}
-                <JoinGroupModal 
+                <GroupModal 
                     data={this.state.modalData}
                     toggle={this.togglePopup}
                     show={this.state.popup}
