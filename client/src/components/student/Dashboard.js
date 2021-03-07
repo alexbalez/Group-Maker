@@ -2,13 +2,79 @@ import React, { Component } from 'react'
 import '../components.css'
 import {Button, Navbar, Form, InputGroup, FormControl, Dropdown, Table, Container} from 'react-bootstrap'
 //import StudentDataConnector from '../../services/StudentDataConnector'
+import axios from 'axios'
+import GroupModal from './GroupModal'
 
 class Dashboard extends Component {
     constructor(props){
         super(props)
         this.state = {
-            data: this.props.data
+            data: this.props.data,
+            groups: [],
+            popup: false,
+            resolved: false,
+            modalData: [],
+            groupid: "",
         }
+        console.log(this.state.data)
+        this.loadGroups(this.state.data.groups)
+    }
+
+    //a lot of these functions are near copies of FindGroups.js for loading 
+    // a bit redendant loading of data in getGroupInfo
+
+    loadGroups = (groupids) => {
+        // load groups from data.groups
+        // mostly copied from modal to load users
+        const promises = groupids.map((groupid) => {
+            var res = axios.get('/group/'+groupid)
+            return res
+        })
+
+        Promise.all(promises).then((values)=>{
+            console.log(values)
+            this.setState({groups: values})     
+            this.setState({resolved: true})
+        })
+    }
+
+    handleGroups = (result, index) => {
+        return <tr key={result.data._id}>
+            <td colSpan="2">{result.data.name}</td>
+            <td>{result.data.description}</td>
+            <td><Button variant="warning" value={result.data._id} onClick={this.handleGroupPopup}>View</Button></td>
+        </tr>
+    }
+
+    //load current groups
+    //if the popup is being set to visible, load the group's data
+    togglePopup = () => {
+        this.setState({popup: !this.state.popup}, () => {    
+            // needs to be in a callback, setState is async    
+            if(this.state.popup){
+                //set modal data here
+                this.getGroupInfo(this.state.groupid)
+            } else {
+                // forget the data, workaround for hiding data lasting between group viewings
+                this.setState({modalData: []})
+            }
+        })
+    }
+
+    //get group data for modal
+    getGroupInfo = (groupid) => {
+        axios.get('/group/'+groupid)
+        .then((res) => {
+            this.setState({modalData: res.data})
+        }, (err) => {
+            console.log(err)
+        })
+    }
+
+    handleGroupPopup = (e) => {
+        e.preventDefault()
+        this.setState({groupid: e.target.value})
+        this.togglePopup()
     }
 
     render() {
@@ -69,28 +135,22 @@ class Dashboard extends Component {
                 <Table className="col-sm-8 mx-auto mt-4 mb-2" striped bordered hover>
                     <thead>
                     <tr>
-                        <th colSpan="4">Current Groups</th>
+                        <th colSpan="2">Group name</th>
+                        <th>Type</th>
+                        <th>Action</th>
                     </tr>
                     </thead>
                     <tbody>
-                    <tr>
-                        <td colSpan="2">COMP 1230 Study Group</td>
-                        <td>Course Group</td>
-                        <td><Button variant="warning">View</Button></td>
-                    </tr>
-                    <tr>
-                        <td colSpan="2">COMP 1101 Study Group</td>
-                        <td>Course Group</td>
-                        <td><Button variant="warning">View</Button></td>
-                    </tr>
-                    <tr>
-                        <td colSpan="2">COMP 1333 Study Group</td>
-                        <td>Course Group</td>
-                        <td><Button variant="warning">View</Button></td>
-                    </tr>
+                        {this.state.groups.map(this.handleGroups)}
                     </tbody>
                 </Table>
 
+                <GroupModal
+                    data={this.state.modalData}
+                    toggle={this.togglePopup}
+                    show={this.state.popup}
+                    handleJoinGroup={this.state.handleGroupPopup}
+                />
                 {/* Archived */}
                 <Container className="col-8 mt-3">
                     <Button variant="warning">Archived Groups</Button>
