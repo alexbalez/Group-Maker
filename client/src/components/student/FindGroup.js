@@ -19,6 +19,11 @@ class FindGroup extends Component {
 
     }
 
+    handleSearchChange = (e) => {
+        e.preventDefault()
+        this.setState({search: e.target.value})
+    }
+
     handleSearch = (e) => {
         e.preventDefault()
         axios.post('/groups/s/name', {
@@ -29,41 +34,7 @@ class FindGroup extends Component {
             console.log("err",err)
         })
     }
-
-    handleSearchChange = (e) => {
-        e.preventDefault()
-        this.setState({search: e.target.value})
-    }
-
-    handleJoinPopup = (e) => {
-        e.preventDefault()
-        this.setState({groupid: e.target.value})
-        this.togglePopup()
-    }
-
-    handleJoinGroup = (e) => {
-        e.preventDefault()
-        axios.post('/usergroupadd/'+this.state.data._id+'/'+this.state.groupid) 
-        .then((res) => {
-            //console.log(res)
-        }, (err) => {
-            console.log(err)
-        })
-    }
-
-    //if the popup is being set to visible, load the group's data
-    togglePopup = () => {
-        this.setState({popup: !this.state.popup}, () => {    
-            // needs to be in a callback, setState is async    
-            if(this.state.popup){
-                this.getGroupInfo(this.state.groupid)
-            } else {
-                // forget the data, workaround for hiding data lasting between group viewings
-                this.setState({modalData: []})
-            }
-        })
-    }
-
+    
     //get group data for modal
     getGroupInfo = (groupid) => {
         axios.get('/group/'+groupid)
@@ -82,6 +53,35 @@ class FindGroup extends Component {
                 <td><Button variant="warning" value={result._id} onClick={this.handleJoinPopup}>View</Button></td>
             </tr>
         )
+    }
+    
+    handleJoinPopup = (e) => {
+        e.preventDefault()
+        this.setState({groupid: e.target.value})
+        this.togglePopup()
+    }
+
+    //if the popup is being set to visible, load the group's data
+    togglePopup = () => {
+        this.setState({popup: !this.state.popup}, () => {    
+            // needs to be in a callback, setState is async    
+            if(this.state.popup){
+                this.getGroupInfo(this.state.groupid)
+            } else {
+                // forget the data, workaround for hiding data lasting between group viewings
+                this.setState({modalData: []})
+            }
+        })
+    }
+
+    handleJoinGroup = (e) => {
+        e.preventDefault()
+        axios.post('/usergroupadd/'+this.state.data._id+'/'+this.state.groupid) 
+        .then((res) => {
+            //console.log(res)
+        }, (err) => {
+            console.log(err)
+        })
     }
 
     render() {
