@@ -16,33 +16,18 @@ class UserList extends Component{
 
     resolveUsers = (users) => {
         // ids -> usernames
-        const resolved = []
         const promises = users.map((user) => {
-            /*axios.get('/user/'+user)
-            .then((res)=> {
-                resolved.push(res.data.username) // change later to prettify userlist? profile link?
-                return res.data.username
-            }, (err) => {
-                console.log(err)
-            })*/
-            var res = axios.get('/users/'+user)
+            var res = axios.get('/user/'+user)
             return res
         })
 
         //wait until all users have resolved, then update component
-        Promise.all(promises).then(()=>{
-            this.setState({usersresolved: resolved})
-            var items = this.state.usersresolved
-            console.log("users res:", this.state.usersresolved)
-            console.log(items.length)
-            //WHY DOES THIS MAP NOT WORK
-            const litems = items.map((item) => {
-                <li>{item}</li>
-            })
-            console.log("after", litems)
+        Promise.all(promises).then((values)=>{
+            const litems = values.map((item) => 
+                <li>{item.data.username}</li>
+            )
             this.setState({list: litems})     
             this.setState({resolved: true})
-
         })
     }
 
@@ -53,11 +38,9 @@ class UserList extends Component{
     }
 
     render(){
-
-            return(
-                <ul>{this.state.list}</ul>
-            )
-        
+        return(
+            <ul>{this.state.list}</ul>
+        )
     }
 }
 
