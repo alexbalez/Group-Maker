@@ -23,8 +23,8 @@ class UserList extends Component{
 
         //wait until all users have resolved, then update component
         Promise.all(promises).then((values)=>{
-            const litems = values.map((item) => 
-                <li>{item.data.username}</li>
+            const litems = values.map((item, index) => 
+                <li key={index}>{item.data.username}</li>
             )
             this.setState({list: litems})     
             this.setState({resolved: true})
