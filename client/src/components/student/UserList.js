@@ -18,13 +18,15 @@ class UserList extends Component{
         // ids -> usernames
         const resolved = []
         const promises = users.map((user) => {
-            axios.get('/user/'+user)
+            /*axios.get('/user/'+user)
             .then((res)=> {
                 resolved.push(res.data.username) // change later to prettify userlist? profile link?
                 return res.data.username
             }, (err) => {
                 console.log(err)
-            })
+            })*/
+            var res = axios.get('/users/'+user)
+            return res
         })
 
         //wait until all users have resolved, then update component
@@ -32,14 +34,13 @@ class UserList extends Component{
             this.setState({usersresolved: resolved})
             var items = this.state.usersresolved
             console.log("users res:", this.state.usersresolved)
-            console.log('items',items)
-            const mappeditems = items.map(user => {
-                <li key={user.toString()}>
-                    {user.toString()}
-                </li>
+            console.log(items.length)
+            //WHY DOES THIS MAP NOT WORK
+            const litems = items.map((item) => {
+                <li>{item}</li>
             })
-            console.log("after",mappeditems)
-            this.setState({list: mappeditems})     
+            console.log("after", litems)
+            this.setState({list: litems})     
             this.setState({resolved: true})
 
         })
