@@ -17,6 +17,7 @@ class GroupModal extends Component {
     }
 
     setJoinedState = () => {
+        // race condition ¯\_(ツ)_/¯
         if (this.props.data.users.includes(this.props.uid)) {
             //  you are, want to leave?
             //not impl, just graphically
