@@ -2,8 +2,64 @@ import React, { Component } from 'react';
 import { Modal } from 'react-bootstrap';
 import '../components.css';
 import UserList from './UserList';
+import axios from 'axios'
 
-class JoinGroupModal extends Component {
+class GroupModal extends Component {
+
+    constructor(props){
+        super(props)
+        this.state = {
+            groupJoinedStatus: false,
+            class: 'btn btn-success',
+            buttontext: "Join Group",
+            runonce: false,
+        }
+    }
+
+    setJoinedState = () => {
+        if (this.props.data.users.includes(this.props.uid)) {
+            //  you are, want to leave?
+            //not impl, just graphically
+            this.setState({groupJoinedStatus: true})
+            this.setState({class: 'btn btn-danger'})
+            this.setState({buttontext: "Leave Group"})
+        } else {
+            this.setState({groupJoinedStatus: false})
+            this.setState({class: 'btn btn-success'})
+            this.setState({buttontext: "Join Group"})
+        }
+
+    }
+
+    handleJoinGroup = (e) => {
+        e.preventDefault()
+        //TODO: modify to actually leave
+        axios.post('/usergroupadd/'+this.props.uid+'/'+this.props.data._id) 
+        .then((res) => {
+            //console.log(res)
+        }, (err) => {
+            console.log(err)
+        })
+    }
+
+    componentDidUpdate(){
+
+        if(this.props.data.users && this.props.show){
+            // console.log('shown and data!')
+            // console.log('uid:', this.props.uid, 'users', this.props.data.users)
+            if(!this.state.runonce){
+                this.setJoinedState()
+                this.setState({runonce: true})
+            }
+        } else {
+            if(this.state.runonce){
+                this.setJoinedState()
+                this.setState({runonce: false})
+            }
+        }
+        // console.log("gjs:", this.state.groupJoinedStatus)
+        // console.log("show:", this.props.show)
+    }
 
     render() {
         return (
@@ -29,8 +85,8 @@ class JoinGroupModal extends Component {
                     <button className="btn btn-primary" onClick={this.props.toggle}>
                         Cancel
                             </button>
-                    <button className="btn btn-success" onClick={this.props.handleJoinGroup}>
-                        Join Group
+                    <button className={this.state.class} onClick={this.handleJoinGroup}>
+                        {this.state.buttontext}
                             </button>
                 </Modal.Footer>
             </Modal>
@@ -38,4 +94,4 @@ class JoinGroupModal extends Component {
     }
 }
 
-export default JoinGroupModal;
+export default GroupModal;

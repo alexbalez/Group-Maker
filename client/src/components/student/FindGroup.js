@@ -40,6 +40,7 @@ class FindGroup extends Component {
         axios.get('/group/'+groupid)
         .then((res) => {
             this.setState({modalData: res.data})
+            console.log(this.state.modalData)
         }, (err) => {
             console.log(err)
         })
@@ -54,6 +55,15 @@ class FindGroup extends Component {
             </tr>
         )
     }
+
+    //actions are:
+    // page load, search done, view button's value set to group id.
+    // view button clicked -> popup modal shown ->  getGroupInfo 
+    // axios req data -> store modalData -> modal takes over
+    // takes data from props -> displays
+    // waits for axios userlist -> pass to UserList
+    // modal checks if user in group  -> sets button join/leave
+    // if button clicked -> handleJoinGroup
     
     handleJoinPopup = (e) => {
         e.preventDefault()
@@ -71,16 +81,6 @@ class FindGroup extends Component {
                 // forget the data, workaround for hiding data lasting between group viewings
                 this.setState({modalData: []})
             }
-        })
-    }
-
-    handleJoinGroup = (e) => {
-        e.preventDefault()
-        axios.post('/usergroupadd/'+this.state.data._id+'/'+this.state.groupid) 
-        .then((res) => {
-            //console.log(res)
-        }, (err) => {
-            console.log(err)
         })
     }
 
@@ -131,10 +131,10 @@ class FindGroup extends Component {
 
                 {/* Modal */}
                 <GroupModal 
+                    uid={this.state.data._id}
                     data={this.state.modalData}
                     toggle={this.togglePopup}
                     show={this.state.popup}
-                    handleJoinGroup={this.handleJoinGroup}
                     />
 
             </div>
