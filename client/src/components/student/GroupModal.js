@@ -34,13 +34,23 @@ class GroupModal extends Component {
 
     handleJoinGroup = (e) => {
         e.preventDefault()
-        //TODO: modify to actually leave
-        axios.post('/usergroupadd/'+this.props.uid+'/'+this.props.data._id) 
-        .then((res) => {
-            //console.log(res)
-        }, (err) => {
-            console.log(err)
-        })
+        //if in group, leave, else join
+        //working, but button state doesn't update yet
+        if (this.state.groupJoinedStatus){
+            axios.post('/usergroupdelete/'+this.props.uid+'/'+this.props.data._id) 
+            .then((res) => {
+                this.setJoinedState()
+            }, (err) => {
+                console.log(err)
+            })
+        } else {
+            axios.post('/usergroupadd/'+this.props.uid+'/'+this.props.data._id) 
+            .then((res) => {
+                this.setJoinedState()
+            }, (err) => {
+                console.log(err)
+            })
+        }
     }
 
     componentDidUpdate(){
