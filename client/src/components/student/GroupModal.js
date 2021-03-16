@@ -20,7 +20,6 @@ class GroupModal extends Component {
         // race condition ¯\_(ツ)_/¯
         if (this.props.data.users.includes(this.props.uid)) {
             //  you are, want to leave?
-            //not impl, just graphically
             this.setState({groupJoinedStatus: true})
             this.setState({class: 'btn btn-danger'})
             this.setState({buttontext: "Leave Group"})
