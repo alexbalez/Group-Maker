@@ -15,6 +15,7 @@ class Dashboard extends Component {
             resolved: false,
             modalData: [],
             groupid: "",
+            search: '',
         }
         console.log(this.state.data)
         this.loadGroups(this.state.data.groups)
@@ -22,6 +23,16 @@ class Dashboard extends Component {
 
     //a lot of these functions are near copies of FindGroups.js for loading 
     // a bit redendant loading of data in getGroupInfo
+
+    handleSearchChange = (e) => {
+        e.preventDefault()
+        this.setState({search: e.target.value})
+    }
+
+    handleSearch = (e) => {
+        //need to fix for searc hing current groups
+        e.preventDefault()
+    }
 
     loadGroups = (groupids) => {
         // load groups from data.groups
@@ -33,7 +44,7 @@ class Dashboard extends Component {
 
         Promise.all(promises).then((values)=>{
             console.log(values)
-            this.setState({groups: values})     
+            this.setState({groups: values})    
             this.setState({resolved: true})
         })
     }
@@ -98,8 +109,8 @@ class Dashboard extends Component {
                             </Dropdown>
                         </InputGroup>
 
-                        <FormControl type="text" placeholder="Search your groups" className="m-1" />
-                        <Button variant="success" type="submit" className="m-1">Search</Button>
+                        <FormControl type="text" placeholder="Search your groups" className="m-1" onChange={this.handleSearchChange}/>
+                        <Button variant="success" type="submit" className="m-1" onClick={this.handleSearch}>Search</Button>
                         <Button className="m-1" variant="primary">View Invites</Button>
                     </Form>
                     
@@ -146,6 +157,7 @@ class Dashboard extends Component {
                 </Table>
 
                 <GroupModal
+                    uid={this.state.data._id}
                     data={this.state.modalData}
                     toggle={this.togglePopup}
                     show={this.state.popup}
