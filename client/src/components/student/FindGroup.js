@@ -1,38 +1,99 @@
 import React, { Component } from 'react'
 import '../components.css'
 import {Button, Form, InputGroup, FormControl, Dropdown, Table, Navbar} from 'react-bootstrap';
-import JoinPopUp from '../JoinPopUp';
+import axios from 'axios'
+import GroupModal from './GroupModal';
+
 
 class FindGroup extends Component {
     constructor(props){
         super(props);
-        this.state = {popup: false};
-        // Binding
-        this.handleJoin = this.handleJoin.bind(this);
+        this.state = {
+            popup: false,
+            data: this.props.data,
+            groupid: '',
+            search: '',
+            results: [],
+            modalData: [],
+        }
+
     }
 
-    componentDidMount() {
+    handleSearchChange = (e) => {
+        e.preventDefault()
+        this.setState({search: e.target.value})
     }
 
-    handleJoin(e){
-        e.preventDefault();
-        this.setState({popup: !this.state.popup});
+    handleSearch = (e) => {
+        e.preventDefault()
+        axios.post('/groups/s/name', {
+            name: this.state.search
+        }).then((res) => {
+            this.setState({results: res.data})
+        }, (err) => {
+            console.log("err",err)
+        })
+    }
+    
+    //get group data for modal
+    getGroupInfo = (groupid) => {
+        axios.get('/group/'+groupid)
+        .then((res) => {
+            this.setState({modalData: res.data})
+            console.log(this.state.modalData)
+        }, (err) => {
+            console.log(err)
+        })
+    }
+
+    handleSearchResults = (result, index) => {
+        return(
+            <tr key={index}>
+                <td colSpan="2">{result.name}</td>
+                <td>{result.description}</td>
+                <td><Button variant="warning" value={result._id} onClick={this.handleJoinPopup}>View</Button></td>
+            </tr>
+        )
+    }
+
+    //actions are:
+    // page load, search done, view button's value set to group id.
+    // view button clicked -> popup modal shown ->  getGroupInfo 
+    // axios req data -> store modalData -> modal takes over
+    // takes data from props -> displays
+    // waits for axios userlist -> pass to UserList
+    // modal checks if user in group  -> sets button join/leave
+    // if button clicked -> handleJoinGroup
+    
+    handleJoinPopup = (e) => {
+        e.preventDefault()
+        this.setState({groupid: e.target.value})
+        this.togglePopup()
+    }
+
+    //if the popup is being set to visible, load the group's data
+    togglePopup = () => {
+        this.setState({popup: !this.state.popup}, () => {    
+            // needs to be in a callback, setState is async    
+            if(this.state.popup){
+                this.getGroupInfo(this.state.groupid)
+            } else {
+                // forget the data, workaround for hiding data lasting between group viewings
+                this.setState({modalData: []})
+            }
+        })
     }
 
     render() {
         return (
             <div>
-                {/*<Header history={this.props.history}/>*/}
-
-                {/* Join PopUp - Fires when user clicks on "Join" */}
-                {this.state.popup ? <JoinPopUp text="Testing popup" closePopup={this.handleJoin}/> : null}
 
                 {/* Search Bar */}
                 <Navbar className="bg-light justify-content-center">
-                    <Form inline className="m-2">
-                        <InputGroup>
+                    <Form inline>
+                        <InputGroup className="m-1">
                             <Dropdown>
-                                <Dropdown.Toggle id="dropdown-basic" variant="light">
+                                <Dropdown.Toggle id="dropdown-basic" variant="primary">
                                     Filters
                                 </Dropdown.Toggle>
 
@@ -43,16 +104,16 @@ class FindGroup extends Component {
                                 </Dropdown.Menu>
                             </Dropdown>
                         </InputGroup>
+                    
+                        <FormControl type="text" placeholder="Search suggested" className="m-1" onChange={this.handleSearchChange} />
+                        <Button variant="success" type="submit" className="m-1" onClick={this.handleSearch}>Search</Button>
+                        <Button className="m-1" variant="danger">Reset</Button>
+                    
                     </Form>
-                    <Form inline className="m-2">
-                        <FormControl type="text" placeholder="Search" className=" mr-sm-2" />
-                        <Button variant="success" type="submit">Search</Button>
-                    </Form>
-                    <Button className="m-2" variant="danger">Reset</Button>
                 </Navbar>
 
                 {/* Groups Table */}
-                <div className="col-8 mx-auto mt-4 mb-5">
+                <div className="col-sm-8 mx-auto mt-4 mb-5"> 
                     <h4 className="d-flex justify-content-center">Suggested Groups</h4>
                     <Table className="mx-auto mt-3" striped bordered hover>
                         <thead>
@@ -63,49 +124,19 @@ class FindGroup extends Component {
                         </tr>
                         </thead>
                         <tbody>
-                        <tr>
-                            <td colSpan="2">T127 Study Group</td>
-                            <td>Course Group</td>
-                            <td><Button onClick={this.handleJoin} variant="success">Join</Button></td>
-                        </tr>
-                        <tr>
-                            <td colSpan="2">COMP 1101 Assignment 1</td>
-                            <td>Assignment</td>
-                            <td><Button variant="success">Join</Button></td>
-                        </tr>
-                        <tr>
-                            <td colSpan="2">COMP 1101 Assignment 1</td>
-                            <td>Assignment</td>
-                            <td><Button variant="success">Join</Button></td>
-                        </tr>
-                        <tr>
-                            <td colSpan="2">T127 Study Group</td>
-                            <td>Course Group</td>
-                            <td><Button variant="success">Join</Button></td>
-                        </tr>
-                        <tr>
-                            <td colSpan="2">COMP 1101 Assignment 1</td>
-                            <td>Assignment</td>
-                            <td><Button variant="success">Join</Button></td>
-                        </tr>
-                        <tr>
-                            <td colSpan="2">COMP 1101 Assignment 1</td>
-                            <td>Assignment</td>
-                            <td><Button variant="success">Join</Button></td>
-                        </tr>
-                        <tr>
-                            <td colSpan="2">COMP 2201 Assignment 2</td>
-                            <td>Assignment</td>
-                            <td><Button variant="success">Join</Button></td>
-                        </tr>
-                        <tr>
-                            <td colSpan="2">COMP 2201 Assignment 1</td>
-                            <td>Assignment</td>
-                            <td><Button variant="success">Join</Button></td>
-                        </tr>
+                            {this.state.results.map(this.handleSearchResults)}
                         </tbody>
                     </Table>
                 </div>
+
+                {/* Modal */}
+                <GroupModal 
+                    uid={this.state.data._id}
+                    data={this.state.modalData}
+                    toggle={this.togglePopup}
+                    show={this.state.popup}
+                    />
+
             </div>
         );
     }

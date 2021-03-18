@@ -11,40 +11,36 @@ class AutoGroup extends Component {
             groupPreference1: 'None',
             groupPreference2: 'None',
         };
-
-        this.handleGroupTypeSelect = this.handleGroupTypeSelect.bind(this);
-        this.handleClassSelect = this.handleClassSelect.bind(this);
-        this.handleGroupPreference1Select = this.handleGroupPreference1Select.bind(this);
-        this.handleGroupPreference2Select = this.handleGroupPreference2Select.bind(this);
     }
 
-    componentDidMount() {
-    }
-
-    handleGroupTypeSelect(e){
+    handleGroupTypeSelect = (e) => {
         this.setState({groupType: e});
     }
 
-    handleClassSelect(e){
+    handleClassSelect = (e) => {
         this.setState({groupClass: e});
     }
 
-    handleGroupPreference1Select(e){
+    handleGroupPreference1Select = (e) => {
         this.setState({groupPreference1: e});
     }
 
-    handleGroupPreference2Select(e){
+    handleGroupPreference2Select = (e) => {
         this.setState({groupPreference2: e});
+    }
+
+    handleSendJoinRequestTapped = () => {
+        console.log("--JoinRequestTapped")
     }
 
     render() {
         return (
-            <div className="col-6 mx-auto mt-4">
-                {/*<Header history={this.props.history}/>*/}
+            <div className="col-sm-8 mx-auto mt-4">
                 <Form>
-                <div style={{ height: "300px" }} className="m-5">
-                    <h1>Auto</h1>
-                                            {/* Group Type */}
+                    <div style={{ height: "300px" }} className="m-5">
+                        <h1>Auto</h1>
+                        
+                        {/* Group Type */}
                         <h4 className="mt-3">Group Type</h4>
                         <InputGroup className="col-9 m-auto">
                             <Dropdown onSelect={this.handleGroupTypeSelect}>
@@ -105,15 +101,13 @@ class AutoGroup extends Component {
                             </Dropdown>
                         </InputGroup>
 
-                          {/* Submit  */}
-                          <Button onClick={this.handleSendJoinRequestTapped} variant="success" type="submit" className="col-8 mx-auto btn-block mt-4">
+                            {/* Submit  */}
+                            <Button onClick={this.handleSendJoinRequestTapped} variant="success" className="col-8 mx-auto btn-block mt-4">
                             Send Join Request
                         </Button>
                         
-
-                </div>
+                    </div>
                 </Form>
-
             </div>
         );
     }

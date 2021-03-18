@@ -9,7 +9,7 @@ import CreateGroup from "./components/student/CreateGroup";
 import FindGroup from "./components/student/FindGroup";
 import AutoGroup from "./components/student/AutoGroup";
 import HelpStudent from "./components/student/HelpStudent";
-import StudentProfile from "./components/student/StudentProfile";
+import StudentProfile from "./components/student/StudentProfile2"; //Switched to version2 for now 
 import AppHeader from './components/AppHeader';
 import Footer from "./components/Footer";
 import StudentDataConnector from './services/StudentDataConnector'
@@ -52,10 +52,10 @@ class App extends Component {
 
                             <Route path="/dashboard"><Dashboard data={this.state.userdata}/></Route>
                             <Route path="/create"><CreateGroup user={this.state.userdata}/></Route>
-                            <Route path="/find" component={FindGroup} />
+                            <Route path="/find"><FindGroup data={this.state.userdata} /></Route>
                             <Route path="/auto" component={AutoGroup} />
                             <Route path="/help" component={HelpStudent} />
-                            <Route path="/profile" component={StudentProfile} />
+                            <Route path="/profile"><StudentProfile data={this.state.userdata}/></Route>
                             <Route path="/" exact component={Dashboard} />
                             <Route path="/*" component={FourOhFour} />
                         </Switch>
