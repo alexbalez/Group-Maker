@@ -17,8 +17,8 @@ class Dashboard extends Component {
             groupid: "",
             search: '',
         }
-        //console.log(this.state.data)
-        //this.loadGroups(this.state.data.groups)
+        console.log(this.state.data)
+        this.loadGroups(this.state.data.groups)
     }
 
     //a lot of these functions are near copies of FindGroups.js for loading 
