@@ -17,9 +17,10 @@ class ProfileEditCollegeModal extends Component {
     }
 
     saveData = () => {
-        this.props.save({
+        // this.props.save({
             
-        })
+        // })
+        console.log(this.props.data)
     }
 
     render() {
@@ -39,7 +40,7 @@ class ProfileEditCollegeModal extends Component {
                     <button className="btn btn-primary" onClick={this.props.toggle}>
                         Cancel
                             </button>
-                    <button className="btn btn-warning" onClick={this.props.saveChanges}>
+                    <button className="btn btn-warning" onClick={this.saveData}>
                         Save Changes
                             </button>
                 </Modal.Footer>

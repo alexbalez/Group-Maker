@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Modal } from 'react-bootstrap';
 import '../components.css';
+import StudentDataConnector from '../../services/StudentDataConnector';
 
 class ProfileEditAboutMeModal extends Component {
     constructor(props){
@@ -102,7 +103,13 @@ class ProfileEditAboutMeModal extends Component {
         })
     }
 
+    getInterests = () => {
+        StudentDataConnector.getInterests()
+    }
+
     render() {
+
+        this.getInterests()
         return (
             <Modal show={this.props.show} onHide={this.props.toggle}>
                 <Modal.Header closeButton>

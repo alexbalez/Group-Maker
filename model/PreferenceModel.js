@@ -7,6 +7,17 @@ const PreferenceSchema = new mongoose.Schema({
         trim: true,
         lowercase: true
     },
+    category: {
+        type: String,
+        required: true,
+        trim: true,
+        lowercase: true
+    },
+    type: {
+        type: String,
+        enum: ['skill', 'interest'],
+        default: 'interest'
+    },
     weight: {
         type: Number,
         required: true,

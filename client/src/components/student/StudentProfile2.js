@@ -14,11 +14,11 @@ class StudendProfile2 extends Component {
             data: this.props.data,
 
             //the below should be dynamically loaded from db
-            // ============ user personal info ===================     
-            firstname: "joe",
-            lastname: "user",
-            phone: "123-456-7894",
-            about: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+            // ============ user personal info ===================
+            firstname: this.props.data.firstname,
+            lastname: this.props.data.lastname,
+            phone: this.props.data.phone,
+            about: this.props.data.aboutme,
             interests: [
                 { category: "gaming", interest: "fps games" },
                 { category: "gaming", interest: "board games" },
@@ -42,11 +42,11 @@ class StudendProfile2 extends Component {
             semester: 2,
             courses: [
                 { code: "COMP 1231", title: "Introduction to Javascript" },
-                { code: "MATH 1162", title: "College Math" },
+                { code: "MATH 1162", title: "College Math" }, 
             ]
             
         }
-        
+
     }
 
     // ================about me ================
@@ -56,6 +56,7 @@ class StudendProfile2 extends Component {
     }
     saveEditAboutMe = (data) => {
         console.log("--saveEditAboutMe ", data)
+        // TODO: send update to db here
         this.setState({ 
             firstname: data.firstname,
             lastname: data.lastname,
@@ -78,6 +79,7 @@ class StudendProfile2 extends Component {
     }
 
     render() {
+        
         return (
             <div>
                 <div className="col-sm-8 mx-auto mt-4">
@@ -209,7 +211,6 @@ class StudendProfile2 extends Component {
                         data={this.state}
                         save={this.saveEditCollege}
                     />
-                    
 
                 </div>
             </div>
