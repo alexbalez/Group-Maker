@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import '../components.css'
 import axios from 'axios'
+import {Spinner} from 'react-bootstrap'
 
 class UserList extends Component{
 
@@ -39,7 +40,7 @@ class UserList extends Component{
 
     render(){
         return(
-            <ul>{this.state.list}</ul>
+            <ul>{this.state.list.length !==0 ? this.state.list : <Spinner animation="border" variant='primary'/>}</ul>
         )
     }
 }

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Modal } from 'react-bootstrap';
+import { Modal, Spinner } from 'react-bootstrap';
 import '../components.css';
 import UserList from './UserList';
 import axios from 'axios'
@@ -75,7 +75,7 @@ class GroupModal extends Component {
 
     render() {
         return (
-            <Modal show={this.props.show} onHide={this.props.toggle} onEntered={this.modalShown}>
+            <Modal show={this.props.show} onHide={this.props.toggle}>
                 <Modal.Header closeButton>
                     <Modal.Title>{this.props.data.name}</Modal.Title>
                 </Modal.Header>
@@ -92,13 +92,13 @@ class GroupModal extends Component {
                                 <p>Preferences: {this.props.data.preferences}</p>
                                 <p>In this group:</p>
                                 {/** need to check if users are loaded before listing */}
-                                { this.props.data.users ? <UserList users={this.props.data.users} /> : null}
+                                { this.props.data.users ? <UserList users={this.props.data.users} /> :null}
                                 <hr/>
                                 <p>{this.props.data.description}</p>
                                 <hr/>
                             </div>
                             <div class='col-auto'>
-                                {this.props.data._id ? <QRcode value={this.props.data._id} /> : null}
+                                {this.props.data._id ? <QRcode value={'https://joina.group/qr/'+this.props.data._id} /> : null}
                             </div>
                         </div> 
                     </div>
