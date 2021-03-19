@@ -9,11 +9,8 @@ class StudentDataConnector {
         
     }
 
-    getInterests = () => {
-        const result = Axios.get('/preferences')
-        result
-            .then((data) => console.log(data))
-            .catch(err => console.log(err))
+    getPreferenceByType = (type) => {
+        return Axios.get('/preferences/'+type)
     }
 }
 

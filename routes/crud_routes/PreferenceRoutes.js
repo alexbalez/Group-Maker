@@ -26,6 +26,19 @@ app.get('/preferences', async (req, res) => {
   }
 });
 
+// get interests or skills
+app.get('/preferences/:type', async (req, res) => {
+  const preference = await preferenceModel.find({type: req.params.type});
+  try {
+    res.append('Access-Control-Allow-Origin', ['*']);
+    res.send(preference);
+  }
+  catch (err) {
+    res.status(500).send(err);
+  }
+});
+
+
 app.get('/preference/:id', async(req,res) => {
     console.log(req.params.id)
     const preference = await preferenceModel.findById(req.params.id);

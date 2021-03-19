@@ -19,17 +19,18 @@ class ProfileEditAboutMeModal extends Component {
             interestCatOptions: ["gaming", "sports", "computer programming"],
             intCat: "",
             interest: "",
-            interestOptions: [
-                { category: "gaming", interest: "fps games" },
-                { category: "gaming", interest: "board games" },
-                { category: "gaming", interest: "rpg games"},
-                { category: "sports", interest: "hockey" },
-                { category: "sports", interest: "football" },
-                { category: "sports", interest: "soccer" },
-                { category: "computer programming", interest: "andoid development" },
-                { category: "computer programming", interest: "ios development" },
-                { category: "computer programming", interest: "restful api" },
-            ],
+            // interestOptions: [
+            //     { category: "gaming", interest: "fps games" },
+            //     { category: "gaming", interest: "board games" },
+            //     { category: "gaming", interest: "rpg games"},
+            //     { category: "sports", interest: "hockey" },
+            //     { category: "sports", interest: "football" },
+            //     { category: "sports", interest: "soccer" },
+            //     { category: "computer programming", interest: "andoid development" },
+            //     { category: "computer programming", interest: "ios development" },
+            //     { category: "computer programming", interest: "restful api" },
+            // ],
+            interestOptions: [],
 
             skillCatOptions: ["backend", "planning", "teamwork"],
             skillCat: "",
@@ -43,8 +44,9 @@ class ProfileEditAboutMeModal extends Component {
                 { category: "teamwork", skill: "friendly" },
             ]
 
-            
         }
+
+        this.populateInterests()
     }
 
     handleChange = (e) => {
@@ -103,13 +105,17 @@ class ProfileEditAboutMeModal extends Component {
         })
     }
 
-    getInterests = () => {
-        StudentDataConnector.getInterests()
+    populateInterests = () => {
+        StudentDataConnector.getPreferenceByType('interest')
+            .then(res => {
+                console.log('--pop interests', res.data)
+                this.setState({interestOptions: res.data})
+            })
+            .catch(err => console.log(err))
     }
 
     render() {
 
-        this.getInterests()
         return (
             <Modal show={this.props.show} onHide={this.props.toggle}>
                 <Modal.Header closeButton>
@@ -155,6 +161,8 @@ class ProfileEditAboutMeModal extends Component {
                                 this.state.interestCatOptions.map((item, index)=>(
                                     <option key={index} className="bg-white text-dark">{item}</option>
                                 ))
+
+                                
                             }
                         </select>
                         
@@ -166,10 +174,10 @@ class ProfileEditAboutMeModal extends Component {
                                 //return the interests whose category matches and who are not already in the list 
                                 this.state.interestOptions.filter(interest =>(
                                     interest.category === this.state.intCat &&
-                                    this.state.interests.find(item => item.interest === interest.interest) === undefined 
+                                    this.state.interests.find(item => item.description === interest.description) === undefined 
                                 )).map((interest, index) => (
                                     <option key={index} className="bg-white text-dark" 
-                                        value={interest.interest}>{interest.interest}</option>
+                                        value={interest.description}>{interest.description}</option>
                                 ))
                             }
                         </select>
