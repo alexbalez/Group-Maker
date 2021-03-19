@@ -15,50 +15,58 @@ class ProfileEditAboutMeModal extends Component {
             interests: this.props.data.interests,
             skills: this.props.data.skills,
 
-            // TODO: pull this from db interests collection and skills collection (add those schemas on the backend)
-            interestCatOptions: ["gaming", "sports", "computer programming"],
-            intCat: "",
-            interest: "",
-            // interestOptions: [
-            //     { category: "gaming", interest: "fps games" },
-            //     { category: "gaming", interest: "board games" },
-            //     { category: "gaming", interest: "rpg games"},
-            //     { category: "sports", interest: "hockey" },
-            //     { category: "sports", interest: "football" },
-            //     { category: "sports", interest: "soccer" },
-            //     { category: "computer programming", interest: "andoid development" },
-            //     { category: "computer programming", interest: "ios development" },
-            //     { category: "computer programming", interest: "restful api" },
-            // ],
+            intCat: "", // currently seclected interestCategory
+            interest: "", // currently selected interest
+            
+            //options populated by populate interests method
+            interestCatOptions: [], 
             interestOptions: [],
 
             skillCatOptions: ["backend", "planning", "teamwork"],
-            skillCat: "",
-            skill: "",
-            skillOptions: [
-                { category: "backend", skill: "database design" },
-                { category: "backend", skill: "express.js" },
-                { category: "backend", skill: "rest api" },
-                { category: "planning", skill: "uml diagram" },
-                { category: "teamwork", skill: "communication" },
-                { category: "teamwork", skill: "friendly" },
-            ]
+            skillCat: "", // curr selected skill category
+            skill: "", //currently selected skill
+            skillOptions: []
 
         }
 
-        this.populateInterests()
+        this.populateDropdowns()
+    }
+
+    populateDropdowns = () => {
+        StudentDataConnector.getPreferences()
+            .then(res => {
+                //console.log('--populate', res.data)
+                const interests = [], skills = [], intCats = [], skillCats = []
+                res.data.forEach(element => {
+                    if(element.type === "interest"){
+                        interests.push(element)
+                        if(intCats.indexOf(element.category) === -1) intCats.push(element.category)
+                    }
+                    else{
+                        skills.push(element)
+                        if(skillCats.indexOf(element.category) === -1) skillCats.push(element.category)
+                    }
+                });
+
+                let temp = {
+                    interestCatOptions: intCats,
+                    interestOptions: interests,
+                    skillCatOptions: skillCats,
+                    skillOptions: skills 
+                }
+                this.setState(temp)
+
+            })
+            .catch(err => console.log(err))
     }
 
     handleChange = (e) => {
         this.setState({ [e.target.name]: e.target.value })
-        // console.log("--handleChange: ", e.target.name, e.target.value)
     }
-
     addInterest = () => {
         //get the value from both category and subcategory
         //make the object and add to the array (this.state.interests)
         //console.log('--add interest')
-
         if (this.state.intCat !== "" && this.state.interest !== "") {
             let temp = this.state.interests
             temp.push({ category: this.state.intCat, interest: this.state.interest })
@@ -75,7 +83,6 @@ class ProfileEditAboutMeModal extends Component {
         temp.splice(index, 1)
         this.setState({interests: temp})
     }
-
     addSkill = () => {
         if (this.state.skillCat !== "" && this.state.skill !== "") {
             let temp = this.state.skills
@@ -93,7 +100,6 @@ class ProfileEditAboutMeModal extends Component {
         temp.splice(index, 1)
         this.setState({ skills: temp })
     }
-
     saveData = () => {
         this.props.save({
             firstname: this.state.firstname,
@@ -105,17 +111,7 @@ class ProfileEditAboutMeModal extends Component {
         })
     }
 
-    populateInterests = () => {
-        StudentDataConnector.getPreferenceByType('interest')
-            .then(res => {
-                console.log('--pop interests', res.data)
-                this.setState({interestOptions: res.data})
-            })
-            .catch(err => console.log(err))
-    }
-
     render() {
-
         return (
             <Modal show={this.props.show} onHide={this.props.toggle}>
                 <Modal.Header closeButton>
@@ -161,8 +157,6 @@ class ProfileEditAboutMeModal extends Component {
                                 this.state.interestCatOptions.map((item, index)=>(
                                     <option key={index} className="bg-white text-dark">{item}</option>
                                 ))
-
-                                
                             }
                         </select>
                         
@@ -231,10 +225,10 @@ class ProfileEditAboutMeModal extends Component {
                                 //return the interests whose category matches and who are not already in the list 
                                 this.state.skillOptions.filter(skill => (
                                     skill.category === this.state.skillCat &&
-                                    this.state.skills.find(item => item.skill === skill.skill) === undefined
+                                    this.state.skills.find(item => item.description === skill.description) === undefined
                                 )).map((skill, index) => (
                                     <option key={index} className="bg-white text-dark"
-                                        value={skill.skill}>{skill.skill}</option>
+                                        value={skill.description}>{skill.description}</option>
                                 ))
                             }
                         </select>

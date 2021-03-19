@@ -9,8 +9,8 @@ class StudentDataConnector {
         
     }
 
-    getPreferenceByType = (type) => {
-        return Axios.get('/preferences/'+type)
+    getPreferences = () => {
+        return Axios.get('/preferences')
     }
 }
 
