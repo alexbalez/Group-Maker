@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Modal } from 'react-bootstrap';
 import '../components.css';
-import StudentDataConnector from '../../services/StudentDataConnector';
+//import StudentDataConnector from '../../services/StudentDataConnector';
 
 class ProfileEditAboutMeModal extends Component {
     constructor(props){
@@ -11,7 +11,7 @@ class ProfileEditAboutMeModal extends Component {
             lastname: this.props.data.lastname,
             phone: this.props.data.phone,
             about: this.props.data.about,
-            
+
             interests: this.props.data.interests,
             skills: this.props.data.skills,
 
@@ -19,45 +19,41 @@ class ProfileEditAboutMeModal extends Component {
             interest: "", // currently selected interest
             
             //options populated by populate interests method
-            interestCatOptions: [], 
+            interestCatOptions: [],
             interestOptions: [],
 
-            skillCatOptions: ["backend", "planning", "teamwork"],
             skillCat: "", // curr selected skill category
             skill: "", //currently selected skill
+            skillCatOptions: [],
             skillOptions: []
 
         }
 
-        this.populateDropdowns()
     }
 
+
     populateDropdowns = () => {
-        StudentDataConnector.getPreferences()
-            .then(res => {
-                //console.log('--populate', res.data)
-                const interests = [], skills = [], intCats = [], skillCats = []
-                res.data.forEach(element => {
-                    if(element.type === "interest"){
-                        interests.push(element)
-                        if(intCats.indexOf(element.category) === -1) intCats.push(element.category)
-                    }
-                    else{
-                        skills.push(element)
-                        if(skillCats.indexOf(element.category) === -1) skillCats.push(element.category)
-                    }
-                });
 
-                let temp = {
-                    interestCatOptions: intCats,
-                    interestOptions: interests,
-                    skillCatOptions: skillCats,
-                    skillOptions: skills 
-                }
-                this.setState(temp)
+        const interests = [], skills = [], intCats = [], skillCats = []
+        this.props.data.preferences.forEach(element => {
+            if(element.type === "interest"){
+                interests.push(element)
+                if(intCats.indexOf(element.category) === -1) intCats.push(element.category)
+            }
+            else{
+                skills.push(element)
+                if(skillCats.indexOf(element.category) === -1) skillCats.push(element.category)
+            }
+        });
 
-            })
-            .catch(err => console.log(err))
+        let temp = {
+            interestCatOptions: intCats,
+            interestOptions: interests,
+            skillCatOptions: skillCats, 
+            skillOptions: skills 
+        }
+        this.setState(temp)
+
     }
 
     handleChange = (e) => {
@@ -66,12 +62,11 @@ class ProfileEditAboutMeModal extends Component {
     addInterest = () => {
         //get the value from both category and subcategory
         //make the object and add to the array (this.state.interests)
-        //console.log('--add interest')
+ 
         if (this.state.intCat !== "" && this.state.interest !== "") {
             let temp = this.state.interests
-            temp.push({ category: this.state.intCat, interest: this.state.interest })
-            this.setState(temp)
-            this.setState({interest: ""})
+            temp.push({ category: this.state.intCat, description: this.state.interest })
+            this.setState({interests: temp, interest: ""})
         }
         else {
             alert("Please select a category and an interest")
@@ -86,9 +81,8 @@ class ProfileEditAboutMeModal extends Component {
     addSkill = () => {
         if (this.state.skillCat !== "" && this.state.skill !== "") {
             let temp = this.state.skills
-            temp.push({ category: this.state.skillCat, skill: this.state.skill })
-            this.setState(temp)
-            this.setState({ skill: "" })
+            temp.push({ category: this.state.skillCat, description: this.state.skill })
+            this.setState({skills: temp, skill: ""})
         }
         else {
             alert("Please select a category and a skill")
@@ -187,7 +181,7 @@ class ProfileEditAboutMeModal extends Component {
                                 this.state.interests.map((interest, index) => {
                                     return (
                                         <div key={index} className="item-pill">
-                                            {interest.interest}
+                                            {interest.description}
                                             <button className="btn btn-secondary ml-2 btn-sm" data-index={index} 
                                                 onClick={this.deleteInterest}>X</button>
                                         </div>
@@ -245,7 +239,7 @@ class ProfileEditAboutMeModal extends Component {
                                 this.state.skills.map((skill, index) => {
                                     return (
                                         <div key={index} className="item-pill">
-                                            {skill.skill}
+                                            {skill.description}
                                             <button className="btn btn-secondary ml-2 btn-sm" data-index={index} 
                                                 onClick={this.deleteSkill}>X</button>
                                         </div>
