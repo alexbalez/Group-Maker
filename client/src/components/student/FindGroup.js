@@ -15,8 +15,14 @@ class FindGroup extends Component {
             search: '',
             results: [],
             modalData: [],
+            loaded: false,
         }
-
+        
+        if(props.id){
+            console.log(props.id)
+            //hack
+            setTimeout(()=>{this.togglePopup(props.id)}, 500)
+        }
     }
 
     handleSearchChange = (e) => {
@@ -72,11 +78,17 @@ class FindGroup extends Component {
     }
 
     //if the popup is being set to visible, load the group's data
-    togglePopup = () => {
+    togglePopup = (urlid) => {
         this.setState({popup: !this.state.popup}, () => {    
             // needs to be in a callback, setState is async    
             if(this.state.popup){
-                this.getGroupInfo(this.state.groupid)
+                //if qr, load from url
+                console.log(this.props.id)
+                if(urlid){
+                    this.getGroupInfo(urlid)
+                } else {
+                    this.getGroupInfo(this.state.groupid)
+                }
             } else {
                 // forget the data, workaround for hiding data lasting between group viewings
                 this.setState({modalData: []})
@@ -136,7 +148,7 @@ class FindGroup extends Component {
                     toggle={this.togglePopup}
                     show={this.state.popup}
                     />
-
+                {this.state.loaded ? this.setState({loaded: true}) && this.togglePopup: null}
             </div>
         );
     }

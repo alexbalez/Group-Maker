@@ -15,6 +15,7 @@ import Footer from "./components/Footer";
 import StudentDataConnector from './services/StudentDataConnector'
 import AppNavHolder from "./components/AppNavHolder";
 import FourOhFour from "./components/404"
+import QRGroupModal from "./components/student/QRGroupModal"
 
 class App extends Component {
     constructor(props){
@@ -52,7 +53,8 @@ class App extends Component {
 
                             <Route path="/dashboard"><Dashboard data={this.state.userdata}/></Route>
                             <Route path="/create"><CreateGroup user={this.state.userdata}/></Route>
-                            <Route path="/find"><FindGroup data={this.state.userdata} /></Route>
+                            <Route exact path="/find"><FindGroup data={this.state.userdata} /></Route>
+                            <Route exact path="/find/:id" render={(props) => <FindGroup id={props.match.params.id} data={this.state.userdata} />} />
                             <Route path="/auto" component={AutoGroup} />
                             <Route path="/help" component={HelpStudent} />
                             <Route path="/profile"><StudentProfile data={this.state.userdata}/></Route>
