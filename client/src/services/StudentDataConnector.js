@@ -8,6 +8,10 @@ class StudentDataConnector {
     updateStudent = () =>{
         
     }
+
+    getPreferences = () => {
+        return Axios.get('/preferences')
+    }
 }
 
 export default new StudentDataConnector()

@@ -55,7 +55,11 @@ class CreateAccount extends Component{
         const user = {
             username: this.state.username,
             email: this.state.email,
-            password: this.state.password
+            password: this.state.password,
+            firstname: "",
+            lastname: "",
+            phone: "",
+            aboutme: ""
         };
 
         console.log(user);
