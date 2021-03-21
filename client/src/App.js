@@ -15,7 +15,6 @@ import Footer from "./components/Footer";
 import StudentDataConnector from './services/StudentDataConnector'
 import AppNavHolder from "./components/AppNavHolder";
 import FourOhFour from "./components/404"
-import QRGroupModal from "./components/student/QRGroupModal"
 
 class App extends Component {
     constructor(props){
