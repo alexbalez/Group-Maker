@@ -5,8 +5,8 @@ class StudentDataConnector {
         return Axios.get('/dashboard')
     }
 
-    updateStudent = () =>{
-        
+    updateStudent = (userId, user) =>{
+        return Axios.patch(`/user/${userId}`, user)
     }
 
     getPreferences = () => {

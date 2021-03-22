@@ -22,22 +22,9 @@ class StudendProfile extends Component {
             lastname: this.props.data.lastname,
             phone: this.props.data.phone,
             about: this.props.data.aboutme,
-            preferences: [],
-            interests: [
-                { category: "gaming", description: "fps games" },
-                { category: "gaming", description: "board games" },
-                { category: "sports", description: "hockey" },
-                { category: "sports", description: "soccer" },
-                { category: "computer programming", description: "andoid development" },
-            ],
-            skills: [
-                { category: "backend", description: "database design" },
-                { category: "backend", description: "express.js" },
-                { category: "backend", description: "rest api" },
-                { category: "planning", description: "uml diagram" },
-                { category: "teamwork", description: "communication" },
-                { category: "teamwork", description: "friendly" },
-            ],
+            preferences: [], // list of preference IDs that represents skills and interests belonging to user
+            interests: [],
+            skills: [],
 
             //=========== user college info ===========================
             campus: "casa loma",
@@ -59,11 +46,29 @@ class StudendProfile extends Component {
         //get all the preferences from the db
         StudentDataConnector.getPreferences()
             .then(res =>{
-                //console.log('--populating preferences')
-                this.setState({preferences: res.data})
+                //console.log('--populating preferences', this.state.data.preferences, res.data)
+                
+                const intList = [], skillList = [] 
+                this.state.data.preferences.forEach(prefId => {
+                    for (let item of res.data){
+                        if(item._id === prefId){
+                            let prototype = {
+                                _id: item._id,
+                                type: item.type,
+                                category: item.category,
+                                description: item.description
+                            }
+                            if(item.type === "interest") intList.push(prototype)
+                            else skillList.push(prototype)
+                            break
+                        }
+                    }
+                });
+
+                this.setState({preferences: res.data, interests: intList, skills: skillList})
                 
                 //refresh the child component once the preferneces data has loaded
-                this.editAboutMe.current.populateDropdowns() 
+                this.editAboutMe.current.populateInterestsAndSkills()
             })
             .catch(err => console.log(err))
     }
@@ -73,7 +78,7 @@ class StudendProfile extends Component {
         this.setState({ flags: {showEditAboutMe: !this.state.flags.showEditAboutMe} })
         console.log("--toggle edit About me")
     }
-    saveEditAboutMe = (data) => {
+    saveEditAboutMe = (data, intsSkills) => {
         console.log("--saveEditAboutMe ", data)
         // TODO: send update to db here
         this.setState({ 
@@ -81,9 +86,15 @@ class StudendProfile extends Component {
             lastname: data.lastname,
             phone: data.phone,
             about: data.about,
-            interests: data.interests,
-            skills: data.skills
+            interests: intsSkills.interests,
+            skills: intsSkills.skills
         })
+        StudentDataConnector.updateStudent(this.props.data._id, data)
+            .then(res => {
+                console.log(res)
+            })
+            .catch(err => console.log(err))
+
         this.toggleEditAboutMe()
     }
 

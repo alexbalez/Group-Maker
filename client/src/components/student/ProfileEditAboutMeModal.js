@@ -12,8 +12,8 @@ class ProfileEditAboutMeModal extends Component {
             phone: this.props.data.phone,
             about: this.props.data.about,
 
-            interests: this.props.data.interests,
-            skills: this.props.data.skills,
+            interests: [],
+            skills: [],
 
             intCat: "", // currently seclected interestCategory
             interest: "", // currently selected interest
@@ -32,7 +32,7 @@ class ProfileEditAboutMeModal extends Component {
     }
 
 
-    populateDropdowns = () => {
+    populateInterestsAndSkills = () => {
 
         const interests = [], skills = [], intCats = [], skillCats = []
         this.props.data.preferences.forEach(element => {
@@ -50,10 +50,13 @@ class ProfileEditAboutMeModal extends Component {
             interestCatOptions: intCats,
             interestOptions: interests,
             skillCatOptions: skillCats, 
-            skillOptions: skills 
+            skillOptions: skills,
+            //refresh
+            interests: this.props.data.interests,
+            skills: this.props.data.skills,
         }
-        this.setState(temp)
 
+        this.setState(temp)
     }
 
     handleChange = (e) => {
@@ -62,7 +65,6 @@ class ProfileEditAboutMeModal extends Component {
     addInterest = () => {
         //get the value from both category and subcategory
         //make the object and add to the array (this.state.interests)
- 
         if (this.state.intCat !== "" && this.state.interest !== "") {
             let temp = this.state.interests
             temp.push({ category: this.state.intCat, description: this.state.interest })
@@ -95,14 +97,22 @@ class ProfileEditAboutMeModal extends Component {
         this.setState({ skills: temp })
     }
     saveData = () => {
-        this.props.save({
-            firstname: this.state.firstname,
-            lastname: this.state.lastname,
-            phone: this.state.phone,
-            about: this.state.about,
-            interests: this.state.interests,
-            skills: this.state.skills
-        })
+        const prefsList = this.state.interests.map(interest => interest._id)
+        this.state.skills.forEach(skill => prefsList.push(skill._id))
+        console.log(prefsList)
+        this.props.save(
+            {
+                firstname: this.state.firstname,
+                lastname: this.state.lastname,
+                phone: this.state.phone,
+                about: this.state.about,
+                preferences: prefsList
+            },
+            {
+                interests: this.state.interests,
+                skills: this.state.skills,
+            }
+        )
     }
 
     render() {
@@ -165,7 +175,7 @@ class ProfileEditAboutMeModal extends Component {
                                     this.state.interests.find(item => item.description === interest.description) === undefined 
                                 )).map((interest, index) => (
                                     <option key={index} className="bg-white text-dark" 
-                                        value={interest.description}>{interest.description}</option>
+                                        value={interest._id}>{interest.description}</option>
                                 ))
                             }
                         </select>
