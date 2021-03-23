@@ -58,16 +58,13 @@ class Login extends Component{
             <div>
                 <div className="container mt-5">
                     <div className='row'>
-                        <div className="col">
+                        <div className="col-md">
                             <h2>Find groups that fit your needs.</h2>
-                            <br/>
-                            <p>Enter your skills and be automatically matched with a group that's looking for someone like you, or start a group and watch it fill with quality people.</p>
-                            <br/>
-                            <p>Set your preferred toolsets and find people who match your workflow.</p>
-                            <br/>
-                            <p>Quickly start communicating with your teams by matching the chat services you use.</p>
+                            <p className="p-2">Enter your skills and be automatically matched with a group that's looking for someone like you, or start a group and watch it fill with quality people.</p>
+                            <p className="p-2">Set your preferred toolsets and find people who match your workflow.</p>
+                            <p className="p-2">Quickly start communicating with your teams by matching the chat services you use.</p>
                         </div>
-                        <div className="col">
+                        <div className="col-md">
                             <div className="card">
                                 <h3 className="text-center mt-3">Login</h3>
                                 <div className="card-body">
