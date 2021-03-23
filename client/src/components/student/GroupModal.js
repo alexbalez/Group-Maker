@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Modal, Spinner } from 'react-bootstrap';
+import { Modal } from 'react-bootstrap';
 import '../components.css';
 import UserList from './UserList';
 import axios from 'axios'
@@ -98,7 +98,7 @@ class GroupModal extends Component {
                                 <hr/>
                             </div>
                             <div className='col-auto'>
-                                {this.props.data._id ? <QRcode value={'https://joina.group/qr/'+this.props.data._id} /> : null}
+                                {this.props.data._id ? <QRcode value={'https://joina.group/find/'+this.props.data._id} /> : null}
                             </div>
                         </div> 
                     </div>
