@@ -7,14 +7,12 @@ import StudentDataConnector from '../../services/StudentDataConnector'
 class StudendProfile extends Component {
     constructor(props) {
         super(props)
-        // reference to the child component so you we can call specific function from that component
-        this.editAboutMe = React.createRef(); 
+
         this.state = {
             flags: {
                 showEditCollege: false,
                 showEditAboutMe: false
             },
-            data: this.props.data,
 
             //the below should be dynamically loaded from db
             // ============ user personal info ===================
@@ -22,7 +20,7 @@ class StudendProfile extends Component {
             lastname: this.props.data.lastname,
             phone: this.props.data.phone,
             about: this.props.data.aboutme,
-            preferences: [], // list of preference IDs that represents skills and interests belonging to user
+            allPreferences: [], //list of all preference options from DB
             interests: [],
             skills: [],
 
@@ -39,17 +37,16 @@ class StudendProfile extends Component {
         }
 
         this.populatePreferences()
+        console.log(this.props.data)
     }
 
     populatePreferences = () =>{
-        // console.log(this.props.data)
         //get all the preferences from the db
         StudentDataConnector.getPreferences()
             .then(res =>{
-                //console.log('--populating preferences', this.state.data.preferences, res.data)
-                
+                //seperate preferences by type
                 const intList = [], skillList = [] 
-                this.state.data.preferences.forEach(prefId => {
+                this.props.data.preferences.forEach(prefId => {
                     for (let item of res.data){
                         if(item._id === prefId){
                             let prototype = {
@@ -58,17 +55,16 @@ class StudendProfile extends Component {
                                 category: item.category,
                                 description: item.description
                             }
-                            if(item.type === "interest") intList.push(prototype)
-                            else skillList.push(prototype)
+                            if(item.type === "interest") 
+                                intList.push(prototype)
+                            else 
+                                skillList.push(prototype)
                             break
                         }
                     }
-                });
-
-                this.setState({preferences: res.data, interests: intList, skills: skillList})
-                
-                //refresh the child component once the preferneces data has loaded
-                this.editAboutMe.current.populateInterestsAndSkills()
+                })
+                this.setState({allPreferences: res.data, interests: intList, skills: skillList})
+                this.editAboutMe.populateInterestsAndSkills()
             })
             .catch(err => console.log(err))
     }
@@ -76,22 +72,19 @@ class StudendProfile extends Component {
     // ================about me ================
     toggleEditAboutMe = () => {
         this.setState({ flags: {showEditAboutMe: !this.state.flags.showEditAboutMe} })
-        console.log("--toggle edit About me")
     }
     saveEditAboutMe = (data, intsSkills) => {
-        console.log("--saveEditAboutMe ", data)
-        // TODO: send update to db here
-        this.setState({ 
-            firstname: data.firstname,
-            lastname: data.lastname,
-            phone: data.phone,
-            about: data.about,
-            interests: intsSkills.interests,
-            skills: intsSkills.skills
-        })
         StudentDataConnector.updateStudent(this.props.data._id, data)
             .then(res => {
                 console.log(res)
+                this.setState({
+                    firstname: data.firstname,
+                    lastname: data.lastname,
+                    phone: data.phone,
+                    about: data.aboutme,
+                    interests: intsSkills.interests,
+                    skills: intsSkills.skills
+                })
             })
             .catch(err => console.log(err))
 
@@ -109,11 +102,10 @@ class StudendProfile extends Component {
     }
 
     render() {
-        //console.log('--rendering profile', this.state.preferences)
         return (
             <div>
                 <div className="col-sm-8 mx-auto mt-4">
-                    <h1 className="text-center text-capitalize">{this.state.data.username}</h1>
+                    <h1 className="text-center text-capitalize">{this.props.data.username}</h1>
 
                     {/* =============== Personal information group ================== */}
                     <div className="border border-primary p-3 ">
@@ -182,7 +174,8 @@ class StudendProfile extends Component {
                         toggle={this.toggleEditAboutMe}
                         data={this.state}
                         save={this.saveEditAboutMe}
-                        ref={this.editAboutMe}
+                        //ref allows calling methods from the parent that belong to the child
+                        ref={ref => (this.editAboutMe = ref)}
                     />
 
 

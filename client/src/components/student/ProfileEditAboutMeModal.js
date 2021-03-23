@@ -12,18 +12,21 @@ class ProfileEditAboutMeModal extends Component {
             phone: this.props.data.phone,
             about: this.props.data.about,
 
+            //List of currently selected skills and interests
             interests: [],
             skills: [],
 
             intCat: "", // currently seclected interestCategory
-            interest: "", // currently selected interest
+            interestId: "", // currently selected interest
             
-            //options populated by populate interests method
+            //options populated by populateInterestsAndSkills
             interestCatOptions: [],
             interestOptions: [],
 
             skillCat: "", // curr selected skill category
-            skill: "", //currently selected skill
+            skillId: "", //currently selected skill
+            
+            //options populated by populateInterestsAndSkills
             skillCatOptions: [],
             skillOptions: []
 
@@ -31,11 +34,10 @@ class ProfileEditAboutMeModal extends Component {
 
     }
 
-
     populateInterestsAndSkills = () => {
 
         const interests = [], skills = [], intCats = [], skillCats = []
-        this.props.data.preferences.forEach(element => {
+        this.props.data.allPreferences.forEach(element => {
             if(element.type === "interest"){
                 interests.push(element)
                 if(intCats.indexOf(element.category) === -1) intCats.push(element.category)
@@ -51,9 +53,8 @@ class ProfileEditAboutMeModal extends Component {
             interestOptions: interests,
             skillCatOptions: skillCats, 
             skillOptions: skills,
-            //refresh
-            interests: this.props.data.interests,
-            skills: this.props.data.skills,
+            interests: [...this.props.data.interests],
+            skills: [...this.props.data.skills],
         }
 
         this.setState(temp)
@@ -62,13 +63,12 @@ class ProfileEditAboutMeModal extends Component {
     handleChange = (e) => {
         this.setState({ [e.target.name]: e.target.value })
     }
-    addInterest = () => {
-        //get the value from both category and subcategory
-        //make the object and add to the array (this.state.interests)
-        if (this.state.intCat !== "" && this.state.interest !== "") {
-            let temp = this.state.interests
-            temp.push({ category: this.state.intCat, description: this.state.interest })
-            this.setState({interests: temp, interest: ""})
+    addInterest = () => { 
+        if (this.state.intCat !== "" && this.state.interestId !== "") {
+            // find the preference object based on selected id
+            let prototype = this.state.interestOptions.find(element =>  element._id === this.state.interestId)
+            this.state.interests.push(prototype)
+            this.setState({interestId: ""})
         }
         else {
             alert("Please select a category and an interest")
@@ -76,15 +76,16 @@ class ProfileEditAboutMeModal extends Component {
     }
     deleteInterest = (e) => {
         const index = e.target.getAttribute("data-index")
-        let  temp = this.state.interests
+        let temp = this.state.interests
         temp.splice(index, 1)
         this.setState({interests: temp})
     }
     addSkill = () => {
         if (this.state.skillCat !== "" && this.state.skill !== "") {
             let temp = this.state.skills
-            temp.push({ category: this.state.skillCat, description: this.state.skill })
-            this.setState({skills: temp, skill: ""})
+            let prototype = this.state.skillOptions.find(element => element._id === this.state.skillId)
+            temp.push(prototype)
+            this.setState({skills: temp, skillId: ""})
         }
         else {
             alert("Please select a category and a skill")
@@ -97,20 +98,22 @@ class ProfileEditAboutMeModal extends Component {
         this.setState({ skills: temp })
     }
     saveData = () => {
+        //copy interests and skills into just an array of ids for sending to the db
         const prefsList = this.state.interests.map(interest => interest._id)
         this.state.skills.forEach(skill => prefsList.push(skill._id))
-        console.log(prefsList)
         this.props.save(
+            //for sending to db
             {
                 firstname: this.state.firstname,
                 lastname: this.state.lastname,
                 phone: this.state.phone,
-                about: this.state.about,
+                aboutme: this.state.about,
                 preferences: prefsList
             },
+            //just for updating profile state
             {
-                interests: this.state.interests,
-                skills: this.state.skills,
+                interests: [...this.state.interests],
+                skills: [...this.state.skills],
             }
         )
     }
@@ -166,7 +169,7 @@ class ProfileEditAboutMeModal extends Component {
                         
                         {/* interest dropdown */}
                         <select className="btn btn-success dropdown-toggle ml-1" style={{ maxWidth: 200 }}
-                            name="interest" value={this.state.interest} onChange={this.handleChange}>
+                            name="interestId" value={this.state.interestId} onChange={this.handleChange}>
                             <option className="bg-white text-dark" value="">-</option>
                             {
                                 //return the interests whose category matches and who are not already in the list 
@@ -186,6 +189,7 @@ class ProfileEditAboutMeModal extends Component {
 
                     {/* interests display container */}
                     <div className="form-inline border-grey-round p-2">
+                        
                         {
                             this.state.interests.length > 0?
                                 this.state.interests.map((interest, index) => {
@@ -223,7 +227,7 @@ class ProfileEditAboutMeModal extends Component {
 
                         {/* skill dropdown */}
                         <select className="btn btn-success dropdown-toggle ml-1" style={{ maxWidth: 200 }}
-                            name="skill" value={this.state.skill} onChange={this.handleChange}>
+                            name="skillId" value={this.state.skill} onChange={this.handleChange}>
                             <option className="bg-white text-dark" value="">-</option>
                             {
                                 //return the interests whose category matches and who are not already in the list 
@@ -232,7 +236,7 @@ class ProfileEditAboutMeModal extends Component {
                                     this.state.skills.find(item => item.description === skill.description) === undefined
                                 )).map((skill, index) => (
                                     <option key={index} className="bg-white text-dark"
-                                        value={skill.description}>{skill.description}</option>
+                                        value={skill._id}>{skill.description}</option>
                                 ))
                             }
                         </select>
