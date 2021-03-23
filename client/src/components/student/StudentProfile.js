@@ -26,7 +26,6 @@ class StudendProfile extends Component {
 
             //=========== user college info ===========================
             campus: "casa loma",
-            school: "school of design and technology",
             program: {code: "T127", title: "computer programmer analyst"},
             semester: 2,
             courses: [
@@ -190,11 +189,6 @@ class StudendProfile extends Component {
                         <div className="mb-2 form-inline">
                             <span className="inline-label p-2">Campus</span>
                             <span className="inline-content text-capitalize p-2">{this.state.campus}</span>
-                        </div>
-                    
-                        <div className="mb-2 form-inline">
-                            <span className="inline-label p-2">School</span>
-                            <span className="inline-content text-capitalize p-2">{this.state.school}</span>
                         </div>
                     
                         <div className="mb-2 form-inline">

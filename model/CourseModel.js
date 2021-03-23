@@ -23,6 +23,9 @@ const CourseSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "campuses"
     },
+    semester: {
+        type: Number,
+    },
     projects: [
         {
             type: mongoose.Schema.Types.ObjectId,

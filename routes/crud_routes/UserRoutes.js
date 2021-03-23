@@ -81,6 +81,8 @@ app.patch('/user/:id', requireAuth, async (req, res) => {
       { new: true, useFindAndModify:false}
     )
 
+    //TODO: make sure user id is added to all of the preferences
+
     res.send(updatedStudent)
     res.end()
   } 
