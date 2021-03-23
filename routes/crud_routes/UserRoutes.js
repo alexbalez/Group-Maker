@@ -22,8 +22,6 @@ app.get('/dashboard', requireAuth, async (req, res) => {
 
 });
 
-
-
 // Create
 //This function is handled in authRoute.js through the /signup route
 
@@ -70,17 +68,27 @@ app.get('/user/:id', async(req,res) => {
 
 // Update (use patch instead of put so you only have to send the data you want to change)
 //todo: add requireAuth here
-app.patch('/user/:id', async (req, res) => {
-    try {
-      await userModel.findByIdAndUpdate(req.params.id, req.body)
-      await userModel.save()
-      res.send({result:"edit success"})
-      res.end()
-    } catch (err) {
-      console.log(err)
-      res.status(500).send(err)
-    }
-  })
+app.patch('/user/:id', requireAuth, async (req, res) => {
+  
+  //only allow a user to update their own information
+  if (!req.params.id === req.userid){
+    res.status(401).json({ error: "Not authorized" });
+  }
+    
+  try {
+    const updatedStudent = await userModel.findByIdAndUpdate(
+      req.params.id, req.body, 
+      { new: true, useFindAndModify:false}
+    )
+
+    res.send(updatedStudent)
+    res.end()
+  } 
+  catch (err) {
+    console.log(err)
+    res.status(500).send(err)
+  }
+})
 
 //Delete
 // localhost:8081/user/5d1f6c3e4b0b88fb1d257237

@@ -9,7 +9,7 @@ import CreateGroup from "./components/student/CreateGroup";
 import FindGroup from "./components/student/FindGroup";
 import AutoGroup from "./components/student/AutoGroup";
 import HelpStudent from "./components/student/HelpStudent";
-import StudentProfile from "./components/student/StudentProfile2"; //Switched to version2 for now 
+import StudentProfile from "./components/student/StudentProfile"; //Switched to version2 for now 
 import AppHeader from './components/AppHeader';
 import Footer from "./components/Footer";
 import StudentDataConnector from './services/StudentDataConnector'
@@ -42,7 +42,7 @@ class App extends Component {
         //protected routes
         
         if (this.state.loggedIn){
-            console.log(this.state.userdata.email)
+            //console.log(this.state.userdata.email)
             return (
                 <BrowserRouter>
                     <AppHeader />

@@ -1,203 +1,252 @@
-import React, { Component } from 'react'
-import '../components.css'
-//import { Modal } from 'react-bootstrap';
-//import StudentDataConnector from '../../services/StudentDataConnector'
-import EditTextModal from '../EditTextModal'
-import TextInputRow from '../TextInputRow'
+import React, { Component } from 'react';
+import '../components.css';
+import ProfileEditCollegeModal from './ProfileEditCollegeModal'
+import ProfileEditAboutMeModal from './ProfileEditAboutMeModal'
+import StudentDataConnector from '../../services/StudentDataConnector'
 
-class StudentProfile extends Component {
-    constructor(props){
-        super(props);
+class StudendProfile extends Component {
+    constructor(props) {
+        super(props)
+        // reference to the child component so you we can call specific function from that component
+        this.editAboutMe = React.createRef(); 
         this.state = {
+            flags: {
+                showEditCollege: false,
+                showEditAboutMe: false
+            },
             data: this.props.data,
-            aboutMe: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-            showEditAboutMe: false,
-            showEditPhone: false,
-            showEditFirstname: false,
-            showEditLastname: false,
+
+            //the below should be dynamically loaded from db
+            // ============ user personal info ===================
+            firstname: this.props.data.firstname,
+            lastname: this.props.data.lastname,
+            phone: this.props.data.phone,
+            about: this.props.data.aboutme,
+            preferences: [], // list of preference IDs that represents skills and interests belonging to user
+            interests: [],
+            skills: [],
+
+            //=========== user college info ===========================
+            campus: "casa loma",
+            school: "school of design and technology",
+            program: {code: "T127", title: "computer programmer analyst"},
+            semester: 2,
+            courses: [
+                { code: "COMP 1231", title: "Introduction to Javascript" },
+                { code: "MATH 1162", title: "College Math" }, 
+            ]
+            
         }
-        
-        this.handleChange = this.handleChange.bind(this)
-        this.toggleEditAboutMe = this.toggleEditAboutMe.bind(this)
-        this.updateAboutMe = this.updateAboutMe.bind(this)
 
-        this.toggleShowEditPhone = this.toggleShowEditPhone.bind(this)
-        this.saveEditPhone = this.saveEditPhone.bind(this)
-
-        this.toggleShowEditFirstname = this.toggleShowEditFirstname.bind(this)
-        this.saveEditFirstname = this.saveEditFirstname.bind(this)
-
-        this.toggleShowEditLastname = this.toggleShowEditLastname.bind(this)
-        this.saveEditLastname = this.saveEditLastname.bind(this)
+        this.populatePreferences()
     }
 
-    handleChange(e){
-        //const newData = { [e.target.name]: e.target.value }
-        //this.setState({ newUserData: newData })
-        this.setState({ [e.target.name]: e.target.value })
-        console.log(e.target.name, e.target.value)
+    populatePreferences = () =>{
+        // console.log(this.props.data)
+        //get all the preferences from the db
+        StudentDataConnector.getPreferences()
+            .then(res =>{
+                //console.log('--populating preferences', this.state.data.preferences, res.data)
+                
+                const intList = [], skillList = [] 
+                this.state.data.preferences.forEach(prefId => {
+                    for (let item of res.data){
+                        if(item._id === prefId){
+                            let prototype = {
+                                _id: item._id,
+                                type: item.type,
+                                category: item.category,
+                                description: item.description
+                            }
+                            if(item.type === "interest") intList.push(prototype)
+                            else skillList.push(prototype)
+                            break
+                        }
+                    }
+                });
+
+                this.setState({preferences: res.data, interests: intList, skills: skillList})
+                
+                //refresh the child component once the preferneces data has loaded
+                this.editAboutMe.current.populateInterestsAndSkills()
+            })
+            .catch(err => console.log(err))
     }
 
-    //About me
-    toggleEditAboutMe(){
-        //console.log('--toggle:', this.state.showEditAboutMe)
-        this.setState({showEditAboutMe: !this.state.showEditAboutMe})
+    // ================about me ================
+    toggleEditAboutMe = () => {
+        this.setState({ flags: {showEditAboutMe: !this.state.flags.showEditAboutMe} })
+        console.log("--toggle edit About me")
     }
-    updateAboutMe(){
-        if(this.state.aboutMeUpdate){
-            this.setState({aboutMe: this.state.aboutMeUpdate, aboutMeUpdate: null})
-        }
+    saveEditAboutMe = (data, intsSkills) => {
+        console.log("--saveEditAboutMe ", data)
+        // TODO: send update to db here
+        this.setState({ 
+            firstname: data.firstname,
+            lastname: data.lastname,
+            phone: data.phone,
+            about: data.about,
+            interests: intsSkills.interests,
+            skills: intsSkills.skills
+        })
+        StudentDataConnector.updateStudent(this.props.data._id, data)
+            .then(res => {
+                console.log(res)
+            })
+            .catch(err => console.log(err))
+
         this.toggleEditAboutMe()
     }
 
-    //Phone number
-    toggleShowEditPhone(){
-        this.setState( {showEditPhone: !this.state.showEditPhone} )
+    // ========college==============
+    toggleEditCollege = () => {
+        this.setState({ flags: { showEditCollege: !this.state.flags.showEditCollege } })
+        console.log("--toggleEditCollege")
     }
-    saveEditPhone(value){
-        // TODO: transform the string here and do some validation to make sure it's a phone number
-        this.setState({phone: value})
-        this.toggleShowEditPhone()
-    }
-
-    //First name
-    toggleShowEditFirstname(){
-        this.setState({showEditFirstname: !this.state.showEditFirstname})
-    }
-    saveEditFirstname(value){
-        this.setState({firstname: value})
-        this.toggleShowEditFirstname()
-    }
-
-
-    //Last name
-    toggleShowEditLastname() {
-        this.setState({ showEditLastname: !this.state.showEditLastname })
-    }
-    saveEditLastname(value) {
-        this.setState({ lastname: value })
-        this.toggleShowEditFirstname()
-    }
-
-
-
-    submit = (e)=>{
-        e.preventDefault()
-        console.log('submit')
-
+    saveEditCollege = (data) => {
+        console.log("--saveEditCollege", data)
+        this.toggleEditCollege()
     }
 
     render() {
+        //console.log('--rendering profile', this.state.preferences)
         return (
             <div>
-                <div className="col-8 mx-auto mt-4">
-              
+                <div className="col-sm-8 mx-auto mt-4">
                     <h1 className="text-center text-capitalize">{this.state.data.username}</h1>
-                    
-                    {/* College Level Affiliations */}
-                    
-                    <div className="form-group">
-                        <div className="row">
-                            <h4>Affiliation</h4>
-                            <div>
-                                <button className="btn btn-warning btn-sm ml-3">Edit</button>
-                            </div>
+
+                    {/* =============== Personal information group ================== */}
+                    <div className="border border-primary p-3 ">
+                        <div className="form-inline mb-2">
+                            <h4>Basic Information</h4>
+                            <button className="btn btn-warning ml-auto" onClick={this.toggleEditAboutMe}>Edit</button>
                         </div>
 
-                        <select className="btn btn-light dropdown-toggle w-100 mt-1" name="campus" onChange={this.handleChange}>
-                            {/* TODO: pull these options from db */}
-                            <option className="bg-white text-dark" value>Select Campus</option>
-                            <option className="bg-white text-dark" value="Casa Loma">Casa Loma</option>
-                            <option className="bg-white text-dark" value="St James">St James</option>
-                            <option className="bg-white text-dark" value="Waterfront">Waterfront</option>
-                        </select>
-                        <select className="btn btn-light dropdown-toggle w-100 mt-1" name="school" onChange={this.handleChange}>
-                            <option className="bg-white text-dark" value>Select School</option>
-                            <option className="bg-white text-dark" value="Design and Tech">Design and Tech</option>
-                            <option className="bg-white text-dark" value="Construction engineering">Construction Engineering</option>
-                            <option className="bg-white text-dark" value="Culinary">Culinary</option>
-                        </select>
-                    </div>
+                        {/* Names and contact */}
+                        <div className="mb-2 form-inline">
+                            <span className="inline-label p-2">First Name</span>
+                            <span className="inline-content p-2 text-capitalize">{this.state.firstname}</span>
+                        </div>
 
-                    {/* List of courses available based on selected levels above */}
-                    <div className="form-group">
-                        <div className="row"><h4>Course List</h4></div>
-                        <p>Need to figure out how we want to do this element</p>
-                    </div>
-                    
-                    {/* About Me */}
-                    <div className="form-group">
-                        <div className="row">
+                        <div className="mb-2 form-inline">
+                            <span className="inline-label p-2">Last Name</span>
+                            <span className="inline-content p-2 text-capitalize">{this.state.lastname}</span>
+                        </div>
+
+                        <div className="mb-2 form-inline">
+                            <span className="inline-label p-2">Phone</span>
+                            <span className="inline-content p-2">{this.state.phone}</span>
+                        </div>
+
+                        {/* bio */}
+                        <div className="form-inline mt-3 mb-2">
                             <h4>About Me</h4>
-                            <div>
-                                <button className="btn btn-warning btn-sm ml-3" onClick={this.toggleEditAboutMe}>Edit</button>
-                            </div>
+                        </div>
+                        <div className="border-grey-round p-2">{this.state.about}</div>
+
+
+                        {/* Interests and skills */}
+                        <div className="form-inline mt-3 mb-2">
+                            <h4>Interests</h4>
+                        </div>
+                        <div className="form-inline border-grey-round p-2">
+                            {
+                                this.state.interests.length > 0?
+                                    this.state.interests.map((interest, index) =>{
+                                        return <div key={index} className="item-pill">{interest.description}</div>
+                                    })
+                                    :
+                                    <div className="text text-secondary text-center">You have no interests</div>
+                            }
+                        </div>
+
+                        <div className="form-inline mt-3 mb-2">
+                            <h4>Skills</h4>
+                        </div>
+                        <div className="form-inline border-grey-round p-2">
+                            {
+                                this.state.skills.length > 0 ?
+                                    this.state.skills.map((skill, index) => {
+                                        return <div key={index} className="item-pill">{skill.description}</div>
+                                    })
+                                    :
+                                    <div className="text text-secondary text-center">You have no skills</div>
+                            }
+                        </div>
+                    </div>
+
+                    {/* =========== Edit Personal Information modal ================== */}
+                    <ProfileEditAboutMeModal
+                        title="Edit Your Personal Information"
+                        show={this.state.flags.showEditAboutMe}
+                        toggle={this.toggleEditAboutMe}
+                        data={this.state}
+                        save={this.saveEditAboutMe}
+                        ref={this.editAboutMe}
+                    />
+
+
+                    {/* ================== College Information group =========================== */}
+                    <div className="border border-primary p-3 mt-4">
+                        <div className="form-inline mb-3">
+                            <h4>College Information</h4>
+                            <button className="btn btn-warning ml-auto" onClick={this.toggleEditCollege}>Edit</button>
+                        </div>
+
+                        {/* Affiliations */}
+                        <div className="mb-2 form-inline">
+                            <span className="inline-label p-2">Campus</span>
+                            <span className="inline-content text-capitalize p-2">{this.state.campus}</span>
                         </div>
                     
-                        <div className="">
-                            {this.state.aboutMe}
+                        <div className="mb-2 form-inline">
+                            <span className="inline-label p-2">School</span>
+                            <span className="inline-content text-capitalize p-2">{this.state.school}</span>
+                        </div>
+                    
+                        <div className="mb-2 form-inline">
+                            <span className="inline-label p-2">Program</span>
+                            <span className="inline-content text-capitalize p-2">{this.state.program.code}</span>
+                        </div>
+                        
+                        <div className="mb-2 form-inline">
+                            <span className="inline-label p-2">Semester</span>
+                            <span className="inline-content p-2">{this.state.semester}</span>
                         </div>
 
-                        <EditTextModal
-                            title="Edit About Me"
-                            text={this.state.aboutMe}
-                            show={this.state.showEditAboutMe}
-                            name="aboutMeUpdate"
-                            toggleShow={this.toggleEditAboutMe}
-                            handleChange={this.handleChange}
-                            saveChanges={this.updateAboutMe}
-                        />
+                        {/* Class list  */}
+                        <div className="form-inline mt-3 mb-3">
+                            <h4>Current Courses</h4>
+                        </div>
+
+                        <ul className="list-group">
+                            {/* <li className="list-group-item text-capitalize">Cras justo odio</li> */}
+                            {
+                                this.state.courses.map((course, index)=>(
+                                    <li key={index} className="list-group-item text-capitalize">
+                                        {course.code} - {course.title}
+                                    </li>
+                                ))
+                            }
+                            
+                        </ul>
+
                     </div>
 
-                    {/* Phone */}
+                    {/* =================== Edit college info modal ========================== */}
 
-                    <div className="form-group">
-                        <TextInputRow
-                            title="Phone"
-                            // TODO: Replace this with value pulled from db
-                            value={'420-698-0085'}
-                            isOpenForEdit={this.state.showEditPhone}
-                            toggleForEdit={this.toggleShowEditPhone}
-                            save={this.saveEditPhone}
-                        />
-                    </div>
+                    <ProfileEditCollegeModal
+                        title="Edit Your College Information"
+                        show={this.state.flags.showEditCollege}
+                        toggle={this.toggleEditCollege}
+                        data={this.state}
+                        save={this.saveEditCollege}
+                    />
 
-                    {/* <div className="form-group">
-                        <TextInputRow
-                            title="First Name"
-                            value={this.state.data.firstname}
-                            isOpenForEdit={this.state.showEditFirstname}
-                            toggleForEdit={this.toggleShowEditFirstname}
-                            save={this.saveEditFirstname}
-                        />
-                    </div>
-
-                    <div className="form-group">
-                        <TextInputRow
-                            title="Last Name"
-                            value={this.state.data.lastname}
-                            isOpenForEdit={this.state.showEditLastname}
-                            toggleForEdit={this.toggleShowEditLastname}
-                            save={this.saveEditLastname}
-                        />
-                    </div> */}
-
-
-                    <div className="row"><h4>Interests</h4></div>
-                    <div className="row"><h4>Skills</h4></div>
-                
-                    {/*<p><strong>ID:</strong> {this.state.data._id}</p>*/}
-                    {/* <p><strong>Username:</strong> {this.state.data.username}</p>
-                    <p><strong>Email:</strong> {this.state.data.email}</p>
-                    <h1>My Data</h1>
-                    <p><strong>Colleges:</strong> {this.state.data.colleges}</p>
-                    <p><strong>Campuses:</strong> {this.state.data.campuses}</p> */}
                 </div>
             </div>
         );
     }
-
-
 }
 
-export default StudentProfile;
+export default StudendProfile;
