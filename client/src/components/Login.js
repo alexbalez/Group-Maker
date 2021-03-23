@@ -57,40 +57,52 @@ class Login extends Component{
         return (
             <div>
                 <div className="container mt-5">
-                    <div className="card col-md-6 offset-md-3 offset-md-3">
-                        <h3 className="text-center mt-3">Login</h3>
-                        <div className="card-body">
-                            <form>
-                                <div className="form-group has-validation">
-                                    <label>Email</label>
-                                    <input placeholder="Email" name="email" className={"form-control"+this.state.error} type="email"
-                                         onChange={this.handleChange} />
+                    <div className='row'>
+                        <div className="col">
+                            <h2>Find groups that fit your needs.</h2>
+                            <br/>
+                            <p>Enter your skills and be automatically matched with a group that's looking for someone like you, or start a group and watch it fill with quality people.</p>
+                            <br/>
+                            <p>Set your preferred toolsets and find people who match your workflow.</p>
+                            <br/>
+                            <p>Quickly start communicating with your teams by matching the chat services you use.</p>
+                        </div>
+                        <div className="col">
+                            <div className="card">
+                                <h3 className="text-center mt-3">Login</h3>
+                                <div className="card-body">
+                                    <form>
+                                        <div className="form-group has-validation">
+                                            <label>Email</label>
+                                            <input placeholder="Email" name="email" className={"form-control"+this.state.error} type="email"
+                                                onChange={this.handleChange} />
 
-                                         <div className="invalid-feedback">
-                                             Email or password incorrect.
-                                         </div>
+                                                <div className="invalid-feedback">
+                                                    Email or password incorrect.
+                                                </div>
+                                        </div>
+
+                                        <div className="form-group has-validation">
+                                            <label>Password</label>
+                                            <input placeholder="Password" name="password" type="password" className={"form-control"+this.state.error}
+                                                onChange={this.handleChange} />
+
+                                                <div className="invalid-feedback">
+                                                    Email or password incorrect.
+                                                </div>
+                                        </div>
+
+                                        <div className="form-group text-center">
+                                            <span className="mr-3">Don't have an account?</span>
+                                            <Link to="/signup" >Sign Up</Link>
+                                        </div>
+
+                                        <div className="form-group text-center">
+                                            <button className="btn btn-success btn-block" onClick={this.submit}>Login</button>
+                                        </div>
+                                    </form>
                                 </div>
-
-                                <div className="form-group has-validation">
-                                    <label>Password</label>
-                                    <input placeholder="Password" name="password" type="password" className={"form-control"+this.state.error}
-                                         onChange={this.handleChange} />
-
-                                         <div className="invalid-feedback">
-                                             Email or password incorrect.
-                                         </div>
-                                </div>
-
-                                <div className="form-group">
-                                    <span className="mr-3">Don't have an account?</span>
-                                    {/* <button className="btn btn-link" onClick={this.signup}>Sign Up</button> */}
-                                    <Link to="/signup" className="btn btn-link">Sign Up</Link>
-                                </div>
-
-                                <div className="form-group text-center">
-                                    <button className="btn btn-success btn-block" onClick={this.submit}>Login</button>
-                                </div>
-                            </form>
+                            </div>
                         </div>
                     </div>
                 </div>
