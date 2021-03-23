@@ -81,7 +81,7 @@ class ProfileEditAboutMeModal extends Component {
         this.setState({interests: temp})
     }
     addSkill = () => {
-        if (this.state.skillCat !== "" && this.state.skill !== "") {
+        if (this.state.skillCat !== "" && this.state.skillId !== "") {
             let temp = this.state.skills
             let prototype = this.state.skillOptions.find(element => element._id === this.state.skillId)
             temp.push(prototype)
