@@ -1,8 +1,5 @@
 import React, { Component } from 'react';
-import { 
-    Modal,
-    //Spinner 
-} from 'react-bootstrap';
+import { Modal } from 'react-bootstrap';
 import '../components.css';
 import UserList from './UserList';
 import axios from 'axios'
@@ -83,9 +80,9 @@ class GroupModal extends Component {
                     <Modal.Title>{this.props.data.name}</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <div class='container'>
-                        <div class='row'>
-                            <div class='col-auto mr-auto'>
+                    <div className='container'>
+                        <div className='row'>
+                            <div className='col-auto mr-auto'>
 
                                 <p>College: {this.props.data.college}</p>
                                 <p>Campus: {this.props.data.campus}</p>
@@ -100,8 +97,8 @@ class GroupModal extends Component {
                                 <p>{this.props.data.description}</p>
                                 <hr/>
                             </div>
-                            <div class='col-auto'>
-                                {this.props.data._id ? <QRcode value={'https://joina.group/qr/'+this.props.data._id} /> : null}
+                            <div className='col-auto'>
+                                {this.props.data._id ? <QRcode value={'https://joina.group/find/'+this.props.data._id} /> : null}
                             </div>
                         </div> 
                     </div>
