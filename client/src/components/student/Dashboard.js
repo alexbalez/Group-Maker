@@ -16,9 +16,8 @@ class Dashboard extends Component {
             modalData: [],
             groupid: "",
             search: '',
+            loaded: false
         }
-        console.log(this.state.data)
-        this.loadGroups(this.state.data.groups)
     }
 
     //a lot of these functions are near copies of FindGroups.js for loading 
@@ -88,6 +87,13 @@ class Dashboard extends Component {
         this.togglePopup()
     }
 
+    componentDidMount(){
+        if(!this.state.loaded){
+            this.setState({loaded: true})
+            this.loadGroups(this.state.data.groups)
+        }
+    }
+
     render() {
         return (
             <div>
@@ -152,17 +158,19 @@ class Dashboard extends Component {
                     </tr>
                     </thead>
                     <tbody>
-                        {this.state.groups.map(this.handleGroups)}
+                        {this.state.loaded ? this.state.groups.map(this.handleGroups): null}
                     </tbody>
                 </Table>
 
+                {this.state.loaded ?
                 <GroupModal
                     uid={this.state.data._id}
                     data={this.state.modalData}
                     toggle={this.togglePopup}
                     show={this.state.popup}
                     handleJoinGroup={this.state.handleGroupPopup}
-                />
+                />: null}
+                
                 {/* Archived */}
                 <Container className="col-8 mt-3">
                     <Button variant="warning">Archived Groups</Button>
