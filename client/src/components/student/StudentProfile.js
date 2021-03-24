@@ -25,7 +25,7 @@ class StudendProfile extends Component {
             skills: [],
 
             //=========== user college info ===========================
-            campus: "casa loma",
+            campus: this.props.data.campuses[0],
             program: {code: "T127", title: "computer programmer analyst"},
             semester: 2,
             courses: [
@@ -37,6 +37,7 @@ class StudendProfile extends Component {
 
         this.populatePreferences()
         console.log(this.props.data)
+        this.populateCollegeInfo()
     }
 
     populatePreferences = () =>{
@@ -64,6 +65,14 @@ class StudendProfile extends Component {
                 })
                 this.setState({allPreferences: res.data, interests: intList, skills: skillList})
                 this.editAboutMe.populateInterestsAndSkills()
+            })
+            .catch(err => console.log(err))
+    }
+
+    populateCollegeInfo(){
+        StudentDataConnector.getAdditionalData(this.props.data.colleges[0])
+            .then(res => {
+                console.log(res.data)
             })
             .catch(err => console.log(err))
     }

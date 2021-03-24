@@ -12,6 +12,10 @@ class StudentDataConnector {
     getPreferences = () => {
         return Axios.get('/preferences')
     }
+
+    getAdditionalData = (collegeId) => {
+        return Axios.get(`/additional-data/${collegeId}`)
+    }
 }
 
 export default new StudentDataConnector()
