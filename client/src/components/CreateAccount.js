@@ -61,7 +61,10 @@ class CreateAccount extends Component{
             firstname: "",
             lastname: "",
             phone: "",
-            aboutme: ""
+            aboutme: "",
+            //adding default college just for now
+            //todo: add this on signup form and implement email verification
+            colleges: ["605a463f5a73bd38103aa29b"]
         };
 
         console.log(user);
