@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import '../components.css'
 import {Button, Navbar, Form, InputGroup, FormControl, Dropdown, Table, Container} from 'react-bootstrap'
-//import StudentDataConnector from '../../services/StudentDataConnector'
+import StudentDataConnector from '../../services/StudentDataConnector'
 import axios from 'axios'
 import GroupModal from './GroupModal'
 
@@ -18,7 +18,9 @@ class Dashboard extends Component {
             search: '',
             loaded: false
         }
+        
     }
+
 
     //a lot of these functions are near copies of FindGroups.js for loading 
     // a bit redendant loading of data in getGroupInfo
@@ -88,9 +90,23 @@ class Dashboard extends Component {
     }
 
     componentDidMount(){
-        if(!this.state.loaded){
-            this.setState({loaded: true})
+        //wrong
+        //props are being passed by /App, and they don't exist when you open a new tab?
+        if(this.state.data){
+            console.log(this.state.data.groups)
             this.loadGroups(this.state.data.groups)
+        }
+
+        if(!this.state.loaded){
+            StudentDataConnector.getDashboard()
+            .then(result => {
+                this.setState({ data: result.data, loggedIn: true })
+                this.setState({loaded: true})
+                console.log(this.state.data.groups)
+            })
+            .catch(err => {
+                this.setState({ loggedIn: false }) //user is not logged in
+            })
         }
     }
 
