@@ -1,6 +1,12 @@
 const express = require('express');
 const userModel = require('../../model/UserModel');
-const roleModel = require('../../model/RoleModel')
+const roleModel = require('../../model/RoleModel');
+
+const campusModel = require('../../model/CampusModel');
+const programModel = require('../../model/ProgramModel');
+const collegeModel = require('../../model/CollegeModel');
+
+
 const app = express();
 
 
@@ -15,6 +21,36 @@ app.get('/dashboard', requireAuth, async (req, res) => {
   try {
     console.log(user)
     res.json(user);
+  }
+  catch (err) {
+    res.status(500).send(err);
+  }
+
+});
+
+//created this route in order to get info for filling out student profile in one request to the server
+app.get('/additional-data/:collegeId', requireAuth, async (req, res) => {
+  
+  const _college = await collegeModel.findById(req.params.collegeId)
+
+  const _campuses = await campusModel.find(
+    { '_id': { $in: _college.campuses } }, 
+    {address: 1, name:1, programs:1}
+  )
+  
+  let campus_progIds = []
+  for (c of _campuses){
+    campus_progIds = campus_progIds.concat(c.programs)
+  }
+  
+  const _programs = await programModel.find(
+    {'_id': { $in: campus_progIds } }, 
+    {code:1, courses:1, name:1}
+  )
+
+  try {
+    //console.log(_college)
+    res.json({campuses: _campuses, programs: _programs});
   }
   catch (err) {
     res.status(500).send(err);
@@ -82,6 +118,8 @@ app.patch('/user/:id', requireAuth, async (req, res) => {
     )
 
     //TODO: make sure user id is added to all of the preferences
+    //
+
 
     res.send(updatedStudent)
     res.end()
