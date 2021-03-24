@@ -37,7 +37,7 @@ class StudendProfile extends Component {
 
         this.populatePreferences()
         console.log(this.props.data)
-        this.populateCollegeInfo()
+        //this.populateCollegeInfo()
     }
 
     populatePreferences = () =>{
