@@ -130,7 +130,7 @@ app.patch('/user/:id', requireAuth, async (req, res) => {
       { $addToSet: { users: req.params.id }}
     )
 
-    //remove user ids from prefs
+    //remove user ids from prefs if any were removed in the update
     const prefRemoveStatus = await preferenceModel.updateMany(
       { '_id': { $in: removed_prefs } },
       { $pull: { users: req.params.id } }
