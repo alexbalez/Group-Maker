@@ -37,7 +37,7 @@ class StudendProfile extends Component {
 
         this.populatePreferences()
         console.log(this.props.data)
-        //this.populateCollegeInfo()
+        this.populateCollegeInfo()
     }
 
     populatePreferences = () =>{
@@ -70,11 +70,22 @@ class StudendProfile extends Component {
     }
 
     populateCollegeInfo(){
-        StudentDataConnector.getAdditionalData(this.props.data.colleges[0])
-            .then(res => {
-                console.log(res.data)
-            })
-            .catch(err => console.log(err))
+
+        let temp = this.props.data
+
+        if (temp.campuses[0] === undefined){
+            console.log('we need to load a list campuses to choose from')
+            //send the college ID
+        }
+        else if (temp.programs[0] === undefined){
+            console.log('we need to load the campus name, and list of programs to choose from')
+            //send the college ID and campus ID
+        }
+        else{
+            console.log('we need to load a the campus name, program name, and a list of courses to choose from')
+            //send the college, campus, and program IDs
+        }
+        
     }
 
     // ================about me ================
@@ -101,8 +112,18 @@ class StudendProfile extends Component {
 
     // ========college==============
     toggleEditCollege = () => {
+        
+        //load extra data only when showing the component
+        if(this.state.flags.showEditCollege === false){
+            console.log('-- show edit college')
+            StudentDataConnector.getAdditionalData(this.props.data.colleges[0])
+            .then(res => {
+                console.log(res.data)
+            })
+            .catch(err => console.log(err))
+        }
+
         this.setState({ flags: { showEditCollege: !this.state.flags.showEditCollege } })
-        console.log("--toggleEditCollege")
     }
     saveEditCollege = (data) => {
         console.log("--saveEditCollege", data)
@@ -237,6 +258,7 @@ class StudendProfile extends Component {
                         toggle={this.toggleEditCollege}
                         data={this.state}
                         save={this.saveEditCollege}
+                        ref={ref => (this.editCollege = ref)}
                     />
 
                 </div>

@@ -5,6 +5,7 @@ const roleModel = require('../../model/RoleModel');
 const campusModel = require('../../model/CampusModel');
 const programModel = require('../../model/ProgramModel');
 const collegeModel = require('../../model/CollegeModel');
+const preferenceModel = require('../../model/PreferenceModel');
 
 
 const app = express();
@@ -103,7 +104,7 @@ app.get('/user/:id', async(req,res) => {
 });
 
 // Update (use patch instead of put so you only have to send the data you want to change)
-//todo: add requireAuth here
+
 app.patch('/user/:id', requireAuth, async (req, res) => {
   
   //only allow a user to update their own information
@@ -112,16 +113,31 @@ app.patch('/user/:id', requireAuth, async (req, res) => {
   }
     
   try {
-    const updatedStudent = await userModel.findByIdAndUpdate(
+
+    //get the list of preference IDs from user before update
+    const orig_user = await userModel.findOne({_id: req.params.id}, {_id:0, preferences: 1})
+    
+    const updated_user = await userModel.findByIdAndUpdate(
       req.params.id, req.body, 
       { new: true, useFindAndModify:false}
     )
 
-    //TODO: make sure user id is added to all of the preferences
-    //
+    let removed_prefs = orig_user.preferences.filter(i => !updated_user.preferences.includes(i));
 
+    //add user id to all appropriate preferences if it's not there already
+    const prefAddStatus = await preferenceModel.updateMany(
+      { '_id': { $in: updated_user.preferences }},
+      { $addToSet: { users: req.params.id }}
+    )
 
-    res.send(updatedStudent)
+    //remove user ids from prefs
+    const prefRemoveStatus = await preferenceModel.updateMany(
+      { '_id': { $in: removed_prefs } },
+      { $pull: { users: req.params.id } }
+    )
+
+    //res.json({student_res: updated_user, pref_res: prefAddStatus, pref_remove_res: prefRemoveStatus})
+    res.json(updated_user)
     res.end()
   } 
   catch (err) {
