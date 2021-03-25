@@ -103,7 +103,13 @@ app.get('/user/:id', async(req,res) => {
     }
 });
 
-app.patch('/user/:id', async (req, res) => {
+app.patch('/user/:id', requireAuth, async (req, res) => {
+  
+  // //only allow a user to update their own information
+  // if (!req.params.id === req.userid) {
+  //   res.status(401).json({ error: "Not authorized" });
+  // }
+  
   try {
     await  userModel.findByIdAndUpdate(req.params.id, req.body)
     await userModel.save()
@@ -115,7 +121,7 @@ app.patch('/user/:id', async (req, res) => {
   }
 })
 
-
+//update the student's firstname, lastname, phone, aboutme, and preferences
 app.patch('/update-user-student-about-me/:id', requireAuth, async (req, res) => {
   
   //only allow a user to update their own information
