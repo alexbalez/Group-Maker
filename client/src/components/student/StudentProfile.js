@@ -93,7 +93,7 @@ class StudendProfile extends Component {
         this.setState({ flags: {showEditAboutMe: !this.state.flags.showEditAboutMe} })
     }
     saveEditAboutMe = (data, intsSkills) => {
-        StudentDataConnector.updateStudent(this.props.data._id, data)
+        StudentDataConnector.updateStudentAbout(this.props.data._id, data)
             .then(res => {
                 console.log(res)
                 this.setState({
