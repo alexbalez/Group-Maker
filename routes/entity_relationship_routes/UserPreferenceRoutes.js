@@ -15,7 +15,7 @@ app.post('/userpreferenceadd/:userId/:preferenceId', async (req, res)  => {
 
   try {
 
-    console.log('hello')
+    console.log('Adding user to preference and vice versa')
 
     const user = await userModel.findByIdAndUpdate(
       { _id: tempUserId},
@@ -30,7 +30,6 @@ app.post('/userpreferenceadd/:userId/:preferenceId', async (req, res)  => {
 
     await preference.save()
     await user.save()
-    // res.append('Access-Control-Allow-Origin', ['*']);
     res.end()
   }
   catch (err) {

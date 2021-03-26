@@ -48,7 +48,7 @@ class Navigation extends Component {
                     </Nav>
                     
                     <Nav className="ml-auto">
-                        <NavDropdown className="bg-dark mr-3" title={this.state.data.username} id="nav-dropdown">
+                        <NavDropdown className="bg-dark mr-3 text-capitalize" title={this.state.data.username} id="nav-dropdown">
                             <NavDropdown.Item onClick={ this.goToProfile }>My Profile</NavDropdown.Item>
                             <NavDropdown.Item onClick={ this.logout }>Logout</NavDropdown.Item> 
                         </NavDropdown>

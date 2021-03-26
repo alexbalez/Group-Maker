@@ -29,12 +29,6 @@ class CreateAccount extends Component{
     submit = (event) =>{
         event.preventDefault();
 
-        //don't submit form if passwords are blank
-        if(this.state.password === "") {
-            alert("Password cannot be blank")
-            return
-        }
-
         //validate email and password
         if (!/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(this.state.email)){
             this.setState({emailerror: ' is-invalid'})
@@ -43,7 +37,15 @@ class CreateAccount extends Component{
         } else {
             this.setState({emailerror: ' is-valid'})
         }
-
+        //don't submit form if passwords are blank
+        if(this.state.password.length < 6) {
+            this.setState({pwerror: " is-invalid"})
+            this.setState({message: 'Password must be at least 6 characters long.'})
+            return
+        } else {
+            this.setState({pwerror: ' is-valid'})
+        }
+        
         if (this.state.password !== this.state.confirm){
             this.setState({pwerror: " is-invalid"})
             this.setState({message: "Passwords do not match."})
@@ -55,7 +57,14 @@ class CreateAccount extends Component{
         const user = {
             username: this.state.username,
             email: this.state.email,
-            password: this.state.password
+            password: this.state.password,
+            firstname: "",
+            lastname: "",
+            phone: "",
+            aboutme: "",
+            //adding default college just for now
+            //todo: add this on signup form and implement email verification
+            colleges: ["605a463f5a73bd38103aa29b"]
         };
 
         console.log(user);

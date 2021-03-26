@@ -75,14 +75,14 @@ class GroupModal extends Component {
 
     render() {
         return (
-            <Modal show={this.props.show} onHide={this.props.toggle} onEntered={this.modalShown}>
+            <Modal show={this.props.show} onHide={this.props.toggle}>
                 <Modal.Header closeButton>
                     <Modal.Title>{this.props.data.name}</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <div class='container'>
-                        <div class='row'>
-                            <div class='col-auto mr-auto'>
+                    <div className='container'>
+                        <div className='row'>
+                            <div className='col-auto mr-auto'>
 
                                 <p>College: {this.props.data.college}</p>
                                 <p>Campus: {this.props.data.campus}</p>
@@ -92,13 +92,13 @@ class GroupModal extends Component {
                                 <p>Preferences: {this.props.data.preferences}</p>
                                 <p>In this group:</p>
                                 {/** need to check if users are loaded before listing */}
-                                { this.props.data.users ? <UserList users={this.props.data.users} /> : null}
+                                { this.props.data.users ? <UserList users={this.props.data.users} /> :null}
                                 <hr/>
                                 <p>{this.props.data.description}</p>
                                 <hr/>
                             </div>
-                            <div class='col-auto'>
-                                {this.props.data._id ? <QRcode value={this.props.data._id} /> : null}
+                            <div className='col-auto'>
+                                {this.props.data._id ? <QRcode value={'https://joina.group/find/'+this.props.data._id} /> : null}
                             </div>
                         </div> 
                     </div>

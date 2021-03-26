@@ -9,7 +9,7 @@ import CreateGroup from "./components/student/CreateGroup";
 import FindGroup from "./components/student/FindGroup";
 import AutoGroup from "./components/student/AutoGroup";
 import HelpStudent from "./components/student/HelpStudent";
-import StudentProfile from "./components/student/StudentProfile2"; //Switched to version2 for now 
+import StudentProfile from "./components/student/StudentProfile"; //Switched to version2 for now 
 import AppHeader from './components/AppHeader';
 import Footer from "./components/Footer";
 import StudentDataConnector from './services/StudentDataConnector'
@@ -42,7 +42,7 @@ class App extends Component {
         //protected routes
         
         if (this.state.loggedIn){
-            console.log(this.state.userdata.email)
+            //console.log(this.state.userdata.email)
             return (
                 <BrowserRouter>
                     <AppHeader />
@@ -52,7 +52,8 @@ class App extends Component {
 
                             <Route path="/dashboard"><Dashboard data={this.state.userdata}/></Route>
                             <Route path="/create"><CreateGroup user={this.state.userdata}/></Route>
-                            <Route path="/find"><FindGroup data={this.state.userdata} /></Route>
+                            <Route exact path="/find"><FindGroup data={this.state.userdata} /></Route>
+                            <Route exact path="/find/:id" render={(props) => <FindGroup id={props.match.params.id} data={this.state.userdata} />} />
                             <Route path="/auto" component={AutoGroup} />
                             <Route path="/help" component={HelpStudent} />
                             <Route path="/profile"><StudentProfile data={this.state.userdata}/></Route>

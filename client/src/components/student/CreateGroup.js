@@ -145,7 +145,7 @@ class CreateGroup extends Component {
                         {/* Description */}
                         <h4 className="mt-5">Description</h4>
                         <Form.Group controlId="" className="col-9 m-auto">
-                            <Form.Control ref={this.formDescription} as="textarea" rows={3}/>
+                            <Form.Control ref={this.formDescription} as="textarea" rows={3} placeholder="Add a description to make your group easier to find."/>
                         </Form.Group>
 
                         {/* Submit or Clear */}

@@ -15,8 +15,14 @@ class FindGroup extends Component {
             search: '',
             results: [],
             modalData: [],
+            loaded: false,
         }
 
+        if(props.id){
+            console.log(props.id)
+            //hack
+            setTimeout(()=>{this.togglePopup(props.id)}, 500)
+        }
     }
 
     handleSearchChange = (e) => {
@@ -25,7 +31,7 @@ class FindGroup extends Component {
     }
 
     handleSearch = (e) => {
-        e.preventDefault()
+        if(e){ e.preventDefault(); }
         axios.post('/groups/s/name', {
             name: this.state.search
         }).then((res) => {
@@ -34,7 +40,7 @@ class FindGroup extends Component {
             console.log("err",err)
         })
     }
-    
+
     //get group data for modal
     getGroupInfo = (groupid) => {
         axios.get('/group/'+groupid)
@@ -58,13 +64,13 @@ class FindGroup extends Component {
 
     //actions are:
     // page load, search done, view button's value set to group id.
-    // view button clicked -> popup modal shown ->  getGroupInfo 
+    // view button clicked -> popup modal shown ->  getGroupInfo
     // axios req data -> store modalData -> modal takes over
     // takes data from props -> displays
     // waits for axios userlist -> pass to UserList
     // modal checks if user in group  -> sets button join/leave
     // if button clicked -> handleJoinGroup
-    
+
     handleJoinPopup = (e) => {
         e.preventDefault()
         this.setState({groupid: e.target.value})
@@ -72,16 +78,26 @@ class FindGroup extends Component {
     }
 
     //if the popup is being set to visible, load the group's data
-    togglePopup = () => {
-        this.setState({popup: !this.state.popup}, () => {    
-            // needs to be in a callback, setState is async    
+    togglePopup = (urlid) => {
+        this.setState({popup: !this.state.popup}, () => {
+            // needs to be in a callback, setState is async
             if(this.state.popup){
-                this.getGroupInfo(this.state.groupid)
+                //if qr, load from url
+                console.log(this.props.id)
+                if(urlid){
+                    this.getGroupInfo(urlid)
+                } else {
+                    this.getGroupInfo(this.state.groupid)
+                }
             } else {
                 // forget the data, workaround for hiding data lasting between group viewings
                 this.setState({modalData: []})
             }
         })
+    };
+
+    componentDidMount(){
+        this.handleSearch();
     }
 
     render() {
@@ -104,16 +120,16 @@ class FindGroup extends Component {
                                 </Dropdown.Menu>
                             </Dropdown>
                         </InputGroup>
-                    
+
                         <FormControl type="text" placeholder="Search suggested" className="m-1" onChange={this.handleSearchChange} />
                         <Button variant="success" type="submit" className="m-1" onClick={this.handleSearch}>Search</Button>
                         <Button className="m-1" variant="danger">Reset</Button>
-                    
+
                     </Form>
                 </Navbar>
 
                 {/* Groups Table */}
-                <div className="col-sm-8 mx-auto mt-4 mb-5"> 
+                <div className="col-sm-8 mx-auto mt-4 mb-5">
                     <h4 className="d-flex justify-content-center">Suggested Groups</h4>
                     <Table className="mx-auto mt-3" striped bordered hover>
                         <thead>
@@ -130,13 +146,13 @@ class FindGroup extends Component {
                 </div>
 
                 {/* Modal */}
-                <GroupModal 
+                <GroupModal
                     uid={this.state.data._id}
                     data={this.state.modalData}
                     toggle={this.togglePopup}
                     show={this.state.popup}
                     />
-
+                {this.state.loaded ? this.setState({loaded: true}) && this.togglePopup: null}
             </div>
         );
     }

@@ -1,6 +1,13 @@
 const express = require('express');
 const userModel = require('../../model/UserModel');
-const roleModel = require('../../model/RoleModel')
+const roleModel = require('../../model/RoleModel');
+
+const campusModel = require('../../model/CampusModel');
+const programModel = require('../../model/ProgramModel');
+const collegeModel = require('../../model/CollegeModel');
+const preferenceModel = require('../../model/PreferenceModel');
+
+
 const app = express();
 
 
@@ -22,7 +29,35 @@ app.get('/dashboard', requireAuth, async (req, res) => {
 
 });
 
+//created this route in order to get info for filling out student profile in one request to the server
+app.get('/additional-data/:collegeId', requireAuth, async (req, res) => {
+  
+  const _college = await collegeModel.findById(req.params.collegeId)
 
+  const _campuses = await campusModel.find(
+    { '_id': { $in: _college.campuses } }, 
+    {address: 1, name:1, programs:1}
+  )
+  
+  let campus_progIds = []
+  for (c of _campuses){
+    campus_progIds = campus_progIds.concat(c.programs)
+  }
+  
+  const _programs = await programModel.find(
+    {'_id': { $in: campus_progIds } }, 
+    {code:1, courses:1, name:1}
+  )
+
+  try {
+    //console.log(_college)
+    res.json({campuses: _campuses, programs: _programs});
+  }
+  catch (err) {
+    res.status(500).send(err);
+  }
+
+});
 
 // Create
 //This function is handled in authRoute.js through the /signup route
@@ -68,19 +103,66 @@ app.get('/user/:id', async(req,res) => {
     }
 });
 
-// Update (use patch instead of put so you only have to send the data you want to change)
-//todo: add requireAuth here
-app.patch('/user/:id', async (req, res) => {
-    try {
-      await userModel.findByIdAndUpdate(req.params.id, req.body)
-      await userModel.save()
-      res.send({result:"edit success"})
-      res.end()
-    } catch (err) {
-      console.log(err)
-      res.status(500).send(err)
-    }
-  })
+app.patch('/user/:id', requireAuth, async (req, res) => {
+  
+  // //only allow a user to update their own information
+  // if (!req.params.id === req.userid) {
+  //   res.status(401).json({ error: "Not authorized" });
+  // }
+  
+  try {
+    await  userModel.findByIdAndUpdate(req.params.id, req.body)
+    await userModel.save()
+    res.send({ result: "edit success" })
+    res.end()
+  } catch (err) {
+    console.log(err)
+    res.status(500).send(err)
+  }
+})
+
+//update the student's firstname, lastname, phone, aboutme, and preferences
+app.patch('/update-user-student-about-me/:id', requireAuth, async (req, res) => {
+  
+  //only allow a user to update their own information
+  if (!req.params.id === req.userid){
+    res.status(401).json({ error: "Not authorized" });
+  }
+    
+  try {
+
+    //get the list of preference IDs from user before update
+    const orig_user = await userModel.findOne({_id: req.params.id}, {_id:0, preferences: 1})
+    
+    const updated_user = await userModel.findByIdAndUpdate(
+      req.params.id, req.body, 
+      { new: true, useFindAndModify:false}
+    )
+
+    let removed_prefs = orig_user.preferences.filter(i => !updated_user.preferences.includes(i));
+
+    //add user id to all appropriate preferences if it's not there already
+    const prefAddStatus = await preferenceModel.updateMany(
+      { '_id': { $in: updated_user.preferences }},
+      { $addToSet: { users: req.params.id }}
+    )
+
+    //remove user ids from prefs if any were removed in the update
+    const prefRemoveStatus = await preferenceModel.updateMany(
+      { '_id': { $in: removed_prefs } },
+      { $pull: { users: req.params.id } }
+    )
+
+    //res.json({student_res: updated_user, pref_res: prefAddStatus, pref_remove_res: prefRemoveStatus})
+    res.json(updated_user)
+    res.end()
+  } 
+  catch (err) {
+    console.log(err)
+    res.status(500).send(err)
+  }
+})
+
 
 //Delete
 // localhost:8081/user/5d1f6c3e4b0b88fb1d257237

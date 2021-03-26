@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import '../components.css'
 import {Button, Navbar, Form, InputGroup, FormControl, Dropdown, Table, Container} from 'react-bootstrap'
-//import StudentDataConnector from '../../services/StudentDataConnector'
+import StudentDataConnector from '../../services/StudentDataConnector'
 import axios from 'axios'
 import GroupModal from './GroupModal'
 
@@ -16,10 +16,11 @@ class Dashboard extends Component {
             modalData: [],
             groupid: "",
             search: '',
+            loaded: false
         }
-        console.log(this.state.data)
-        this.loadGroups(this.state.data.groups)
+        
     }
+
 
     //a lot of these functions are near copies of FindGroups.js for loading 
     // a bit redendant loading of data in getGroupInfo
@@ -88,6 +89,27 @@ class Dashboard extends Component {
         this.togglePopup()
     }
 
+    componentDidMount(){
+        //wrong
+        //props are being passed by /App, and they don't exist when you open a new tab?
+        if(this.state.data){
+            console.log(this.state.data.groups)
+            this.loadGroups(this.state.data.groups)
+        }
+
+        if(!this.state.loaded){
+            StudentDataConnector.getDashboard()
+            .then(result => {
+                this.setState({ data: result.data, loggedIn: true })
+                this.setState({loaded: true})
+                console.log(this.state.data.groups)
+            })
+            .catch(err => {
+                this.setState({ loggedIn: false }) //user is not logged in
+            })
+        }
+    }
+
     render() {
         return (
             <div>
@@ -152,17 +174,19 @@ class Dashboard extends Component {
                     </tr>
                     </thead>
                     <tbody>
-                        {this.state.groups.map(this.handleGroups)}
+                        {this.state.loaded ? this.state.groups.map(this.handleGroups): null}
                     </tbody>
                 </Table>
 
+                {this.state.loaded ?
                 <GroupModal
                     uid={this.state.data._id}
                     data={this.state.modalData}
                     toggle={this.togglePopup}
                     show={this.state.popup}
                     handleJoinGroup={this.state.handleGroupPopup}
-                />
+                />: null}
+                
                 {/* Archived */}
                 <Container className="col-8 mt-3">
                     <Button variant="warning">Archived Groups</Button>

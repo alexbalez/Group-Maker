@@ -26,6 +26,7 @@ app.get('/preferences', async (req, res) => {
   }
 });
 
+
 app.get('/preference/:id', async(req,res) => {
     console.log(req.params.id)
     const preference = await preferenceModel.findById(req.params.id);
