@@ -95,7 +95,7 @@ http.get('*', function(req, res) {
     res.redirect('https://' + req.headers.host + req.url);
 })
 
-http.listen(3030)
+http.listen(3001)
 // Server
 const server = app.listen(port, () => console.log(`Server running on port ${port}`));
 
