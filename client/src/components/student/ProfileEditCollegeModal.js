@@ -4,7 +4,7 @@ import '../components.css';
 
 class ProfileEditCollegeModal extends Component {
     constructor(props){
-        super(props)
+        super(props);
         this.state = {
 
         }
@@ -14,14 +14,14 @@ class ProfileEditCollegeModal extends Component {
     handleChange = (e) => {
         this.setState({ [e.target.name]: e.target.value })
         // console.log("--handleChange: ", e.target.name, e.target.value)
-    }
+    };
 
     saveData = () => {
         // this.props.save({
-            
+
         // })
         console.log(this.props.data)
-    }
+    };
 
     render() {
         return (
