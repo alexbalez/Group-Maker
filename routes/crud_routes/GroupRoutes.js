@@ -4,14 +4,15 @@ const app = express();
 
 // Create
 app.post('/group', async (req, res) => {
-  const group = new groupModel(req.body);
+  const newGroup = new groupModel(req.body);
   try {
-    await group.save();
+    const group = await newGroup.save();
+    console.log("Group Created: " + group._id);
     res.send(group);
   }
   catch (err) {
       console.log(err);
-    res.status(500).send(err);
+      // res.status(500).send(err);
   }
 });
 
