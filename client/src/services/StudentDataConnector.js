@@ -21,6 +21,14 @@ class StudentDataConnector {
         return Axios.get(`/college-campuses/${collegeId}`)
     };
 
+    getProgramsFromCampus = (campusId) =>{
+        return Axios.get(`/campus-programs/${campusId}`)
+    };
+
+    getCoursesFromProgram = (programId) => {
+        return Axios.get(`/course-programs/${programId}`)
+    };
+
 
 }
 

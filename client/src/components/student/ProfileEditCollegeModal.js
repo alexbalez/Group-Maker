@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Modal } from 'react-bootstrap';
 import '../components.css';
+import StudentDataConnector from '../../services/StudentDataConnector';
 
 class ProfileEditCollegeModal extends Component {
     constructor(props){
@@ -18,12 +19,37 @@ class ProfileEditCollegeModal extends Component {
 
     }
 
-    handleChange = (e) => {
-        this.setState({ [e.target.name]: e.target.value })
-        // console.log("--handleChange: ", e.target.name, e.target.value)
+    setCampus = (e) => {
+        //populate program dropdown from list of programs that belong to a campus
+        //add currently selected campus to state
+        StudentDataConnector.getProgramsFromCampus(e.target.value)
+            .then((res)=> {
+                this.setState({ campus: e.target.value, programList: res.data.programs});
+            })
+            .catch(err => console.log(err));
+        
     };
 
-    removeCourse = () =>{
+    setProgram = (e) => {
+       // retrieve list of courses that belong to the selected program
+       // add these to state along eith the selected program
+        
+        // StudentDataConnector.getCoursesFromProgram(e.target.value)
+        //     .then((res)=>{
+
+        //         console.log(res.data)
+        //         this.setState({ program: e.target.value, courseList: [] })
+        //     })
+        //     .catch(err => console.log(err));
+    };
+
+    setSemester = (e) => {
+        console.log()
+        
+        this.setState({ semester: e.target.value })
+    }
+
+    removeCourse = () => {
         console.log('remove course clicked')
     };
 
@@ -34,7 +60,6 @@ class ProfileEditCollegeModal extends Component {
     };
 
     render() {
-        console.log(this.state.campusList)
         return (
             <Modal show={this.props.show} onHide={this.props.toggle}>
                 <Modal.Header closeButton>
@@ -46,7 +71,8 @@ class ProfileEditCollegeModal extends Component {
                     <div className="mb-2 form-inline">
                         <span className="inline-label p-2">Campus</span>
                         <select className="inline-content btn text-capitalize p-2 dropdown-toggle"
-                            name="campus" value={this.state.campus} onChange={this.handleChange}>
+                            name="campus" value={this.state.campus} onChange={this.setCampus}>
+                            
                             <option className="bg-white text-dark" value="">Select a Campus</option>
                             {
                                 this.state.campusList.map((item, index) => (
@@ -61,12 +87,13 @@ class ProfileEditCollegeModal extends Component {
                     <div className="mb-2 form-inline">
                         <span className="inline-label p-2">Program</span>
                         <select className="inline-content btn text-capitalize p-2 dropdown-toggle"
-                            name="program" value={this.state.program} onChange={this.handleChange}>
+                            name="program" value={this.state.program} onChange={this.setProgram}>
                             <option className="bg-white text-dark" value="">Select a Program</option>
                             {
-                                // this.state.interestCatOptions.map((item, index) => (
-                                //     <option key={index} className="bg-white text-dark">{item}</option>
-                                // ))
+                                this.state.programList.map((item, index) => (
+                                    <option key={index} value={item._id}
+                                        className="bg-white text-dark">{item.name}</option>
+                                ))
                             }
                         </select>
                     </div>
@@ -75,7 +102,7 @@ class ProfileEditCollegeModal extends Component {
                     <div className="mb-2 form-inline">
                         <span className="inline-label p-2">Semester</span>
                         <select className="inline-content btn text-capitalize p-2 dropdown-toggle"
-                            name="semester" value={this.state.semester} onChange={this.handleChange}>
+                            name="semester" value={this.state.semester} onChange={this.setSemester}>
                             <option className="bg-white text-dark" value="">Select a Semester</option>
                             {
                                 // this.state.interestCatOptions.map((item, index) => (

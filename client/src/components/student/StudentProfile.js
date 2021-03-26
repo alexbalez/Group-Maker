@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import '../components.css';
-import ProfileEditCollegeModal from './ProfileEditCollegeModal'
-import ProfileEditAboutMeModal from './ProfileEditAboutMeModal'
-import StudentDataConnector from '../../services/StudentDataConnector'
+import ProfileEditCollegeModal from './ProfileEditCollegeModal';
+import ProfileEditAboutMeModal from './ProfileEditAboutMeModal';
+import StudentDataConnector from '../../services/StudentDataConnector';
 
 class StudendProfile extends Component {
     constructor(props) {
@@ -46,6 +46,8 @@ class StudendProfile extends Component {
         //console.log(this.props.data);
     }
 
+    // ================about me ================
+
     populatePreferences = () =>{
         //get all the preferences from the db
         StudentDataConnector.getPreferences()
@@ -74,9 +76,7 @@ class StudendProfile extends Component {
             })
             .catch(err => console.log(err));
     };
-
-
-    // ================about me ================
+    
     toggleEditAboutMe = () => {
         this.setState({ flags: {showEditAboutMe: !this.state.flags.showEditAboutMe} });
     };
@@ -101,14 +101,12 @@ class StudendProfile extends Component {
     // ========college==============
 
     populateCollegeInfo() {
-
+        console.log('--populate college info')
         let temp = this.props.data;
 
         if (temp.campuses[0] === undefined || this.state.campus === "") {
             console.log('we need to load a list campuses to choose from');
             //send the college ID
-            //getCampusesFromCollege
-
             //lookup the college, get its campus ids, then get all those campuses
             StudentDataConnector.getCampusesFromCollege(this.props.data.colleges[0])
                 .then((res)=>{
