@@ -1,5 +1,10 @@
 const express = require('express');
+
 const collegeModel = require('../../model/CollegeModel');
+const campusModel = require('../../model/CampusModel');
+
+const { requireAuth } = require('../../auth/authMiddleware');
+
 const app = express();
 
 // Create
@@ -37,6 +42,35 @@ app.get('/college/:id', async(req,res) => {
         res.status(500).send(err);
     }
 });
+
+
+
+// Get college info from its ID, and get a list of campus objects that belong to it
+app.get('/college-campuses/:collegeId', requireAuth, async (req, res) => {
+  
+  try {
+
+    const college = await collegeModel.findById(req.params.collegeId, {name:1, campuses: 1});
+    console.log(college.campuses)
+
+    const campuses = await campusModel.find(
+      { '_id': { $in: college.campuses } },
+      { address: 1, name: 1 }
+    )
+
+    res.json({college, campuses});
+
+    //get a list of all this college's campuses
+
+  }
+  catch (err) {
+    console.log(err)
+    res.status(500).send(err);
+  }
+});
+
+
+
 
 // Update (use patch instead of put so you only have to send the data you want to change)
 app.patch('/college/:id', async (req, res) => {

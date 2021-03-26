@@ -25,19 +25,25 @@ class StudendProfile extends Component {
             skills: [],
 
             //=========== user college info ===========================
-            campus: this.props.data.campuses[0],
-            program: {code: "T127", title: "computer programmer analyst"},
-            semester: 2,
-            courses: [
-                { code: "COMP 1231", title: "Introduction to Javascript" },
-                { code: "MATH 1162", title: "College Math" },
-            ]
+            campus: 'Not selected',
+            program: 'Not selected',
+            semester: 'Not selected',
+            courses: [{code: "No courses", title:"Please select a program"}],
+
+            courseList: [],
+            campusList: [],
+            programList: []
+            // program: {code: "T127", title: "computer programmer analyst"},
+            // semester: 2,
+            // courses: [
+            //     { code: "COMP 1231", title: "Introduction to Javascript" },
+            //     { code: "MATH 1162", title: "College Math" },
+            // ]
 
         };
 
         this.populatePreferences();
-        console.log(this.props.data);
-        this.populateCollegeInfo();
+        //console.log(this.props.data);
     }
 
     populatePreferences = () =>{
@@ -69,24 +75,6 @@ class StudendProfile extends Component {
             .catch(err => console.log(err));
     };
 
-    populateCollegeInfo(){
-
-        let temp = this.props.data;
-
-        if (temp.campuses[0] === undefined){
-            console.log('we need to load a list campuses to choose from');
-            //send the college ID
-        }
-        else if (temp.programs[0] === undefined){
-            console.log('we need to load the campus name, and list of programs to choose from');
-            //send the college ID and campus ID
-        }
-        else{
-            console.log('we need to load a the campus name, program name, and a list of courses to choose from');
-            //send the college, campus, and program IDs
-        }
-
-    }
 
     // ================about me ================
     toggleEditAboutMe = () => {
@@ -111,20 +99,50 @@ class StudendProfile extends Component {
     };
 
     // ========college==============
+
+    populateCollegeInfo() {
+
+        let temp = this.props.data;
+
+        if (temp.campuses[0] === undefined || this.state.campus === "") {
+            console.log('we need to load a list campuses to choose from');
+            //send the college ID
+            //getCampusesFromCollege
+
+            //lookup the college, get its campus ids, then get all those campuses
+            StudentDataConnector.getCampusesFromCollege(this.props.data.colleges[0])
+                .then((res)=>{
+                    console.log(res.data)
+                    this.editCollege.setState({campusList: res.data.campuses})
+                })
+                .catch(err => console.log(err))
+
+
+        }
+        else if (temp.programs[0] === undefined || this.state.program === "") {
+            console.log('we need to load the campus name, and list of programs to choose from');
+            //send the college ID and campus ID
+        }
+        else {
+            console.log('we need to load a the campus name, program name, and a list of courses to choose from');
+            //send the college, campus, and program IDs
+        }
+
+    }
+
     toggleEditCollege = () => {
 
         //load extra data only when showing the component
         if(this.state.flags.showEditCollege === false){
             console.log('-- show edit college');
-            StudentDataConnector.getAdditionalData(this.props.data.colleges[0])
-            .then(res => {
-                console.log(res.data)
-            })
-            .catch(err => console.log(err))
+            this.populateCollegeInfo();
+            
+
         }
 
         this.setState({ flags: { showEditCollege: !this.state.flags.showEditCollege } });
     };
+
     saveEditCollege = (data) => {
         console.log("--saveEditCollege", data);
         this.toggleEditCollege();
@@ -223,7 +241,7 @@ class StudendProfile extends Component {
 
                         <div className="mb-2 form-inline">
                             <span className="inline-label p-2">Program</span>
-                            <span className="inline-content text-capitalize p-2">{this.state.program.code}</span>
+                            <span className="inline-content text-capitalize p-2">{this.state.program}</span>
                         </div>
 
                         <div className="mb-2 form-inline">

@@ -13,9 +13,15 @@ class StudentDataConnector {
         return Axios.get('/preferences')
     };
 
-    getAdditionalData = (collegeId) => {
-        return Axios.get(`/additional-data/${collegeId}`)
-    }
+    // getAdditionalData = (collegeId) => {
+    //     return Axios.get(`/additional-data/${collegeId}`)
+    // }
+
+    getCampusesFromCollege = (collegeId) =>{
+        return Axios.get(`/college-campuses/${collegeId}`)
+    };
+
+
 }
 
 export default new StudentDataConnector();

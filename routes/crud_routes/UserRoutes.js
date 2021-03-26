@@ -7,12 +7,10 @@ const programModel = require('../../model/ProgramModel');
 const collegeModel = require('../../model/CollegeModel');
 const preferenceModel = require('../../model/PreferenceModel');
 
+const { requireAuth } = require('../../auth/authMiddleware');
 
 const app = express();
 
-
-
-const { requireAuth } = require('../../auth/authMiddleware');
 
 // this uses the requreAuth middleware to check that there is a valid token on the client
 // the requireAuth middleware also attaches the userid from the token to the req object
@@ -119,7 +117,7 @@ app.patch('/user/:id', requireAuth, async (req, res) => {
     console.log(err)
     res.status(500).send(err)
   }
-})
+});
 
 //update the student's firstname, lastname, phone, aboutme, and preferences
 app.patch('/update-user-student-about-me/:id', requireAuth, async (req, res) => {
@@ -161,7 +159,7 @@ app.patch('/update-user-student-about-me/:id', requireAuth, async (req, res) => 
     console.log(err)
     res.status(500).send(err)
   }
-})
+});
 
 
 //Delete
