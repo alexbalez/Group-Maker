@@ -1,18 +1,6 @@
 pipeline {
-  agent {
-    docker {
-      args '-p 3000:3000'
-      image 'node:15.8.0-alpine'
-    }
-
-  }
+  agent any
   stages {
-    stage('Kill') {
-      steps {
-        echo 'sh jenkins/scripts/kill.sh &'
-      }
-    }
-
     stage('Build') {
       steps {
         sh 'npm install'
@@ -23,6 +11,13 @@ pipeline {
     stage('Deliver') {
       steps {
         sh 'sh jenkins/scripts/deliver.sh'
+        input(message: 'Kill the server?', ok: 'Yes')
+      }
+    }
+
+    stage('Kill') {
+      steps {
+        sh 'sh scripts/jenkins/kill.sh'
       }
     }
 

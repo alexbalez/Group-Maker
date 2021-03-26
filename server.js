@@ -89,16 +89,13 @@ mongoose.connect(DB_URL, { useNewUrlParser: true, useUnifiedTopology: true, useC
         process.exit();
     });
 
+const http = express()
     
-app.use (function (req, res, next) {
-    if (req.secure) {
-        next();
-    } else {
-        // redirect to https
-        res.redirect('https://' + req.headers.host + req.url);
-    }
-});
+http.get('*', function(req, res) {  
+    res.redirect('https://' + req.headers.host + req.url);
+})
 
+http.listen(3333)
 // Server
 const server = app.listen(port, () => console.log(`Server running on port ${port}`));
 

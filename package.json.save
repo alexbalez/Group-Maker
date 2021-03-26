@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "client-install": "cd client && npm install",
-    "start": "nodemon server.js",
+    "start": "HTTPS=true /etc/letsencrypt/live/joina.group/joina.group.crtnode server.js",
     "server": "nodemon server.js",
     "client": "npm start --prefix client",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
@@ -25,10 +25,8 @@
     "cookie-parser": "^1.4.5",
     "cors": "^2.8.5",
     "express": "^4.16.2",
-    "https": "^1.0.0",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.11.15",
-    "mongoose-unique-validator": "^2.0.3",
     "react-bootstrap": "^1.4.3",
     "validator": "^13.5.2"
   }
