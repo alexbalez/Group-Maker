@@ -31,8 +31,8 @@ class ProfileEditCollegeModal extends Component {
     };
 
     setProgram = (e) => {
-       // retrieve list of courses that belong to the selected program
-       // add these to state along eith the selected program
+        // retrieve list of courses that belong to the selected program
+        // add these to state along eith the selected program
         const programId = e.target.value;
         StudentDataConnector.getCoursesFromProgram(programId)
             .then((res)=>{
@@ -53,6 +53,10 @@ class ProfileEditCollegeModal extends Component {
         console.log('remove course clicked', index)
     };
 
+    resetCourses = () => {
+        console.log('Reload the courses that might have been removed');
+    };
+
     saveData = () => {
         this.props.save({
             test: 'save activated'
@@ -68,12 +72,12 @@ class ProfileEditCollegeModal extends Component {
                 <Modal.Body>
 
                     {/* ========= Campus dropdown ================ */}
-                    <div className="mb-2 form-inline">
-                        <span className="inline-label p-2">Campus</span>
-                        <select className="inline-content btn text-capitalize p-2 dropdown-toggle"
+                    <div className="mb-2 form-inline w-100">
+                        <span className="inline-label p-2" style={{width: '25%'}}>Campus</span>
+                        <select className="inline-content btn text-capitalize p-2 dropdown-toggle" style={{width:'75%'}}
                             name="campus" value={this.state.campus} onChange={this.setCampus}>
 
-                            <option className="bg-white text-dark" value="">Select a Campus</option>
+                            <option className="bg-white text-dark w-75" value="">Select a Campus</option>
                             {
                                 this.state.campusList.map((item, index) => (
                                     <option key={index} value={item._id}
@@ -85,8 +89,8 @@ class ProfileEditCollegeModal extends Component {
 
                     {/* ========= Program dropdown ================ */}
                     <div className="mb-2 form-inline">
-                        <span className="inline-label p-2">Program</span>
-                        <select className="inline-content btn text-capitalize p-2 dropdown-toggle"
+                        <span className="inline-label p-2" style={{ width: '25%' }}>Program</span>
+                        <select className="inline-content btn text-capitalize p-2 dropdown-toggle" style={{ width: '75%' }}
                             name="program" value={this.state.program} onChange={this.setProgram}>
                             <option className="bg-white text-dark" value="">Select a Program</option>
                             {
@@ -100,8 +104,8 @@ class ProfileEditCollegeModal extends Component {
 
                     {/* ========= Semester dropdown ================ */}
                     <div className="mb-2 form-inline">
-                        <span className="inline-label p-2">Semester</span>
-                        <select className="inline-content btn text-capitalize p-2 dropdown-toggle"
+                        <span className="inline-label p-2" style={{ width: '25%' }}>Semester</span>
+                        <select className="inline-content btn text-capitalize p-2 dropdown-toggle" style={{ width: '75%' }}
                             name="semester" value={this.state.semester} onChange={this.setSemester}>
                             <option className="bg-white text-dark" value="">Select a Semester</option>
                             {
@@ -133,6 +137,10 @@ class ProfileEditCollegeModal extends Component {
 
                 </Modal.Body>
                 <Modal.Footer>
+                    <button className="btn btn-secondary" onClick={this.resetCourses}>
+                        Reset Courses
+                            </button>
+
                     <button className="btn btn-primary" onClick={this.props.toggle}>
                         Cancel
                             </button>
