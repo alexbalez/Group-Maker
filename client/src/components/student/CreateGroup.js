@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import '../components.css'
 import {Button, Form, InputGroup, Dropdown} from 'react-bootstrap';
 import http from '../../services/HTTPHelper';
+import axios from "axios";
 
 class CreateGroup extends Component {
     constructor(props){
@@ -25,24 +26,24 @@ class CreateGroup extends Component {
     // TODO Refactor all these handles into one
     handleGroupTypeSelect = (e) => {
         this.setState({groupType: e});
-    }
+    };
 
     handleClassSelect = (e) => {
         this.setState({groupClass: e});
-    }
+    };
 
     handleGroupPreference1Select = (e) => {
         this.setState({groupPreference1: e});
-    }
+    };
 
     handleGroupPreference2Select = (e) => {
         this.setState({groupPreference2: e});
-    }
+    };
 
     // Create Group Button
     handleCreateGroupTapped = (e) => {
         e.preventDefault();
-        let POST = http.createPOST({
+        axios.post('/group', {
             name: this.formGroupName.current.value,
             description: this.formDescription.current.value,
             college: "GBC",
@@ -52,21 +53,21 @@ class CreateGroup extends Component {
             project: "none",
             users: [this.props.user._id],
             preferences: [this.state.groupPreference1, this.state.groupPreference2]
-        });
+        }).then((group)=>{
+            axios.post('/usergroupadd/'+this.props.user._id+'/'+group.data._id)
+                .then(() => {
+                    alert('Group Created: ' + group.data._id);
+                }, (err) => {
+                    console.log(err)
+                });
+        }).catch((err) => { alert(err); });
 
-        fetch('/group', POST)
-            .then(res => {
-                // alert(res);
-                console.log(res)
-            })
-            .catch(err => alert(err) );
-
-    }
+    };
 
     // Clear Button
     handleClearTapped = () => {
         window.location.reload()
-    }
+    };
 
     render() {
         return (
