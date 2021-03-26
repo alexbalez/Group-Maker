@@ -43,7 +43,7 @@ app.get('/campus/:id', async(req,res) => {
 });
 
 
-// Get campus info from its ID, and get a list of course objects that belong to it
+// Get campus info from its ID, and get a list of program objects that belong to it
 app.get('/campus-programs/:campusId', requireAuth, async (req, res) => {
 
   try {

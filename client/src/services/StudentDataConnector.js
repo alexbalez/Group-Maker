@@ -26,7 +26,7 @@ class StudentDataConnector {
     };
 
     getCoursesFromProgram = (programId) => {
-        return Axios.get(`/course-programs/${programId}`)
+        return Axios.get(`/program-courses/${programId}`)
     };
 
 

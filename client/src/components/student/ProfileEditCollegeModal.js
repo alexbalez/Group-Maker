@@ -8,7 +8,7 @@ class ProfileEditCollegeModal extends Component {
         super(props);
         this.state = {
             
-            campus: '',
+            campus: 'asd',
             program: '',
             semester: '',
             
@@ -22,25 +22,24 @@ class ProfileEditCollegeModal extends Component {
     setCampus = (e) => {
         //populate program dropdown from list of programs that belong to a campus
         //add currently selected campus to state
-        StudentDataConnector.getProgramsFromCampus(e.target.value)
-            .then((res)=> {
-                this.setState({ campus: e.target.value, programList: res.data.programs});
+        const campusId = e.target.value;
+        StudentDataConnector.getProgramsFromCampus(campusId)
+            .then((res) => {
+                this.setState({ campus: campusId, programList: res.data.programs });
             })
             .catch(err => console.log(err));
-        
     };
 
     setProgram = (e) => {
        // retrieve list of courses that belong to the selected program
        // add these to state along eith the selected program
-        
-        // StudentDataConnector.getCoursesFromProgram(e.target.value)
-        //     .then((res)=>{
-
-        //         console.log(res.data)
-        //         this.setState({ program: e.target.value, courseList: [] })
-        //     })
-        //     .catch(err => console.log(err));
+        const programId = e.target.value;
+        StudentDataConnector.getCoursesFromProgram(programId)
+            .then((res)=>{
+                //console.log('--set program', res.data)
+                this.setState({ program: programId, courseList: res.data.courses })
+            })
+            .catch(err => console.log(err));
     };
 
     setSemester = (e) => {
@@ -49,8 +48,9 @@ class ProfileEditCollegeModal extends Component {
         this.setState({ semester: e.target.value })
     }
 
-    removeCourse = () => {
-        console.log('remove course clicked')
+    removeCourse = (e) => {
+        const index = e.target.getAttribute("data-index");
+        console.log('remove course clicked', index)
     };
 
     saveData = () => {
@@ -72,7 +72,7 @@ class ProfileEditCollegeModal extends Component {
                         <span className="inline-label p-2">Campus</span>
                         <select className="inline-content btn text-capitalize p-2 dropdown-toggle"
                             name="campus" value={this.state.campus} onChange={this.setCampus}>
-                            
+
                             <option className="bg-white text-dark" value="">Select a Campus</option>
                             {
                                 this.state.campusList.map((item, index) => (
@@ -114,18 +114,17 @@ class ProfileEditCollegeModal extends Component {
 
                     {/* ========= Course List ================= */}
                     <ul className="list-group">
-                        <div className="list-group-item text-capitalize p-2">
-                            <span className="align-middle">ras justo odio</span>
-                            <button className="btn btn-secondary float-right" 
-                                onClick={this.removeCourse} title="Remove Course">X</button>
-                        </div>
-
                         {
-                            // this.state.courses.map((course, index) => (
-                            //     <li key={index} className="list-group-item text-capitalize">
-                            //         {course.code} - {course.title}
-                            //     </li>
-                            // ))
+                            this.state.courseList.map((course, index) => (
+                                
+                                <li key={index} className="list-group-item text-capitalize">
+                                    
+                                    <span className="align-middle">{course.code} - {course.name}</span>
+                                    
+                                    <button className="btn btn-secondary float-right" data-index={index}
+                                        onClick={this.removeCourse} title="Remove Course">X</button>
+                                </li>
+                            ))
                         }
 
                     </ul>
