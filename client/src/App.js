@@ -17,6 +17,7 @@ import AppNavHolder from "./components/AppNavHolder";
 import FourOhFour from "./components/404"
 
 import AdminDashboard from './components/admin/AdminDashboard';
+import AdminParamsSearch from './components/admin/AdminParamsSearch';
 
 class App extends Component {
     constructor(props){
@@ -77,6 +78,7 @@ class App extends Component {
                     <Switch>
                         {/*This to be moved after Admin Auth*/} 
                         <Route path="/admin-dashboard" component={AdminDashboard}></Route>
+                        <Route path="/admin-params-search" component={AdminParamsSearch}></Route>
 
                         <Route path='/signup' component={CreateAccount} />
                         <Route path="/*" component={Login}/>
