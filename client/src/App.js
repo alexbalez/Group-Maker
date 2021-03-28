@@ -16,6 +16,8 @@ import StudentDataConnector from './services/StudentDataConnector'
 import AppNavHolder from "./components/AppNavHolder";
 import FourOhFour from "./components/404"
 
+import AdminDashboard from './components/admin/AdminDashboard';
+
 class App extends Component {
     constructor(props){
         super(props)
@@ -59,6 +61,8 @@ class App extends Component {
                             <Route path="/profile"><StudentProfile data={this.state.userdata}/></Route>
                             <Route path="/" exact component={Dashboard} />
                             <Route path="/*" component={FourOhFour} />
+
+                            {/* <Route path="/admin-dashboard" component={AdminDashboard}></Route> */}
                         </Switch>
                     </div>
                     <Footer/>
@@ -71,8 +75,13 @@ class App extends Component {
                 <BrowserRouter>
                     <AppHeader/>
                     <Switch>
+                        {/*This to be moved after Admin Auth*/} 
+                        <Route path="/admin-dashboard" component={AdminDashboard}></Route>
+
                         <Route path='/signup' component={CreateAccount} />
                         <Route path="/*" component={Login}/>
+
+                       
                     </Switch>
                     <Footer />
                 </BrowserRouter>
