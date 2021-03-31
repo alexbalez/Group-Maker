@@ -34,10 +34,10 @@ class AdminParamsSearch extends Component {
                         <td><FormControl type="text" placeholder="Project Code..." className="m-1" onChange={this.handleProjectSearchChange}/></td>
                     </tr>
                     <tr>
-                        <td><Link path="admin-campusus">All Campuses</Link></td>
-                        <td><Link path="admin-programs">All Programs</Link></td>
-                        <td><Link path="admin-courses">All Courses</Link></td>
-                        <td><Link path="admin-projects">AllProjects</Link></td>
+                        <td><Link to="/admin-campuses">All Campuses</Link></td>
+                        <td><Link to="/admin-programs">All Programs</Link></td>
+                        <td><Link to="/admin-courses">All Courses</Link></td>
+                        <td><Link to="/admin-projects">AllProjects</Link></td>
                     </tr>
                 </table>
             </div>
