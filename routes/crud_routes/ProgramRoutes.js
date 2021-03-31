@@ -52,7 +52,7 @@ app.get('/program-courses/:programId', requireAuth, async (req, res) => {
 
     const courses = await courseModel.find(
       { '_id': { $in: program.courses } },
-      { code: 1, name: 1 }
+      { code: 1, name: 1, semester:1 }
     )
 
     res.json({ program, courses });

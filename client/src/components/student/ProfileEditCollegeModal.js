@@ -8,10 +8,11 @@ class ProfileEditCollegeModal extends Component {
         super(props);
         this.state = {
             
-            campus: 'asd',
+            campus: '',
             program: '',
-            semester: '',
+            semester: this.props.data.semester,
             
+            semesterOptions: [1,2,3,4,5,6,7,8,9],
             courseList: [],
             campusList: [],
             programList: [],
@@ -25,6 +26,7 @@ class ProfileEditCollegeModal extends Component {
         const campusId = e.target.value;
         StudentDataConnector.getProgramsFromCampus(campusId)
             .then((res) => {
+                console.log('set campus', res.data);
                 this.setState({ campus: campusId, programList: res.data.programs });
             })
             .catch(err => console.log(err));
@@ -36,16 +38,16 @@ class ProfileEditCollegeModal extends Component {
         const programId = e.target.value;
         StudentDataConnector.getCoursesFromProgram(programId)
             .then((res)=>{
-                //console.log('--set program', res.data)
-                this.setState({ program: programId, courseList: res.data.courses })
+                console.log('--set program', res.data)
+                this.setState({ program: programId, courseList: res.data.courses });
             })
             .catch(err => console.log(err));
     };
 
     setSemester = (e) => {
-        console.log()
         
-        this.setState({ semester: e.target.value })
+        
+        this.setState({ semester: e.target.value });
     }
 
     removeCourse = (e) => {
@@ -64,6 +66,7 @@ class ProfileEditCollegeModal extends Component {
     };
 
     render() {
+        console.log(this.state.courseList)
         return (
             <Modal show={this.props.show} onHide={this.props.toggle}>
                 <Modal.Header closeButton>
@@ -109,9 +112,9 @@ class ProfileEditCollegeModal extends Component {
                             name="semester" value={this.state.semester} onChange={this.setSemester}>
                             <option className="bg-white text-dark" value="">Select a Semester</option>
                             {
-                                // this.state.interestCatOptions.map((item, index) => (
-                                //     <option key={index} className="bg-white text-dark">{item}</option>
-                                // ))
+                                this.state.semesterOptions.map((item, index) => (
+                                    <option key={index} className="bg-white text-dark">{item}</option>
+                                ))
                             }
                         </select>
                     </div>
@@ -123,7 +126,7 @@ class ProfileEditCollegeModal extends Component {
                                 
                                 <li key={index} className="list-group-item text-capitalize">
                                     
-                                    <span className="align-middle">{course.code} - {course.name}</span>
+                                    <span className="align-middle">{course.semester} - {course.name}</span>
                                     
                                     <button className="btn btn-secondary float-right" data-index={index}
                                         onClick={this.removeCourse} title="Remove Course">X</button>

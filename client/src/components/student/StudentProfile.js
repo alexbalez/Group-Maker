@@ -27,7 +27,7 @@ class StudendProfile extends Component {
             //=========== user college info ===========================
             campus: 'Not selected',
             program: 'Not selected',
-            semester: 'Not selected',
+            semester: this.props.data.semester,
             courses: [{code: "No courses", title:"Please select a program"}],
 
             courseList: [],
@@ -147,6 +147,7 @@ class StudendProfile extends Component {
     };
 
     render() {
+        //console.log(this.props.data)
         return (
             <div>
                 <div className="col-sm-8 mx-auto mt-4">

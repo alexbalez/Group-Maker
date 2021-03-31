@@ -35,6 +35,9 @@ const UserSchema = new mongoose.Schema({
   aboutme: {
     type: String
   },
+  semester: {
+    type: Number
+  },
   password: {
     type: String,
     required: true,
