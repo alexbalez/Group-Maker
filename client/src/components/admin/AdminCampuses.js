@@ -11,9 +11,10 @@ class AdminCampuses extends Component {
           campuses: []
         }
         this.handleUpdateCampus = this.handleUpdateCampus.bind(this);
+        this.addCampus = this.addCampus.bind(this);
     }
 
-componentDidMount(){
+    componentDidMount(){
         fetch('/campuses')
         .then(res => res.json())
         .then(campuses => this.setState({campuses}, () =>{
@@ -24,10 +25,6 @@ componentDidMount(){
     handleUpdateCampus(event){
         const campus = JSON.parse(event.target.value)
 
-        console.log(campus._id);
-        console.log(campus.name);
-        console.log(campus.address);
-
         this.props.history.push({
             pathname: "/admin-update-campus",
             state: {
@@ -36,9 +33,9 @@ componentDidMount(){
                 campusAddress: campus.address
             }
         })
-        // console.log(campus.value._id);
-        // console.log(campus.target.value.name);
-        // console.log(campus.target.value.address);
+    }
+
+    addCampus(event){
 
     }
    
@@ -71,7 +68,7 @@ componentDidMount(){
                         </tbody>
                     </Table>
 
-                <Link to='/admin-add-campus' variant="success">Add Campus</Link>
+                <Link className="btn btn-success btn-block" to="/admin-add-campus">Add Campus</Link>
 
 
             </div>

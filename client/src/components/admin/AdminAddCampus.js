@@ -1,15 +1,13 @@
 import React, { Component } from 'react'
 import '../components.css'
 import { Link } from "react-router-dom";
-import {Button, Form, InputGroup, FormControl, Dropdown, Table, Container} from 'react-bootstrap'
+import {Button, Navbar, Form, InputGroup, FormControl, Dropdown, Table, Container} from 'react-bootstrap'
 import axios from 'axios';
 
-class AdminUpdateCampus extends Component {
+class AdminAddCampus extends Component {
     constructor(props){
         super(props)
-        const campusId = (this.props.location.state.campusId)
         this.state = {
-          campusId: campusId,
           campusName: '',
           campusAddress: ''
         }
@@ -19,12 +17,6 @@ class AdminUpdateCampus extends Component {
     }
 
     componentDidMount(){
-            this.setState({
-                campusId : this.props.location.state.campusId,
-                campusName: this.props.location.state.campusName,
-                campusAddress: this.props.location.state.campusAddress
-            });
-            console.log(this.state.campusId)
         
     }
 
@@ -37,10 +29,10 @@ class AdminUpdateCampus extends Component {
     handleSubmit(event){
         console.log(JSON.stringify(this.state))
         const { campusName, campusAddress } = this.state;
-        let tempId = JSON.stringify(this.state.campusId);
-        tempId = tempId.replaceAll("\"", "")
+        // let tempId = JSON.stringify(this.state.campusId);
+        // tempId = tempId.replaceAll("\"", "")
 
-        axios.patch('/campus/' + tempId, {"name": JSON.stringify(campusName).replaceAll("\"", ""), "address": JSON.stringify(campusAddress).replaceAll("\"", "")})
+        axios.post('/campus/', {"name": JSON.stringify(campusName).replaceAll("\"", ""), "address": JSON.stringify(campusAddress).replaceAll("\"", "")})
 
         .then(function(response) {
             console.log(response);
@@ -53,9 +45,8 @@ class AdminUpdateCampus extends Component {
     render() {
         return(
             <div>
-                <h1 className="d-flex justify-content-center">Update Campus</h1>
-                <h3>Campus ID: {this.state.campusId}</h3>
-                <Form onSubmit={this.handleSubmit}>
+                <h1 className="d-flex justify-content-center">Add New Campus</h1>
+                <form onSubmit={this.handleSubmit}>
                     <label for="campusName">Campus Name</label>
                     <input 
                         type="text" 
@@ -63,7 +54,7 @@ class AdminUpdateCampus extends Component {
                         id="campusName" 
                         value={this.state.campusName} 
                         onChange={this.handleInputChange} 
-                        placeholder={this.state.campusName} 
+                        placeholder="Campus Name..."
                         required>
                     </input>
                     <label for="campus_address" >Campus Address</label>
@@ -73,11 +64,11 @@ class AdminUpdateCampus extends Component {
                         id="campusAddress" 
                         value={this.state.campusAddress} 
                         onChange={this.handleInputChange} 
-                        placeholder={this.state.campusAddress} 
+                        placeholder="Campus Address..."
                         required>
                     </input>
-                    <Button type="submit" variant="success">Update</Button>
-                </Form>
+                    <Button type="submit" variant="success">Add</Button>
+                </form>
             </div>
            
         )
@@ -85,4 +76,4 @@ class AdminUpdateCampus extends Component {
 }
 
 
-export default AdminUpdateCampus;
+export default AdminAddCampus;
