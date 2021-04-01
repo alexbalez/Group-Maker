@@ -4,14 +4,13 @@ import { Link, withRouter } from "react-router-dom";
 import {Button, Navbar, Form, InputGroup, FormControl, Dropdown, Table, TableRow, Container} from 'react-bootstrap'
 import axios from 'axios';
 
-class AdminCampuses extends Component {
+class AdminAllCampuses extends Component {
     constructor(props){
         super(props)
         this.state = {
           campuses: []
         }
         this.handleUpdateCampus = this.handleUpdateCampus.bind(this);
-        this.addCampus = this.addCampus.bind(this);
     }
 
     componentDidMount(){
@@ -35,10 +34,6 @@ class AdminCampuses extends Component {
         })
     }
 
-    addCampus(event){
-
-    }
-   
     render() {
         return(
             <div>
@@ -79,4 +74,4 @@ class AdminCampuses extends Component {
 }
 
 
-export default AdminCampuses;
+export default AdminAllCampuses;
