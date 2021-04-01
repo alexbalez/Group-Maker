@@ -63,11 +63,7 @@ class Dashboard extends Component {
         <td colSpan="2">{result.data.name}</td>
         <td>{result.data.description}</td>
         <td>
-          <Button
-            variant="warning"
-            value={result.data._id}
-            onClick={this.handleGroupPopup}
-          >
+          <Button variant="warning" value={result.data._id} onClick={this.handleGroupPopup}>
             View
           </Button>
         </td>
@@ -143,12 +139,8 @@ class Dashboard extends Component {
 
                 <Dropdown.Menu>
                   <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
-                  <Dropdown.Item href="#/action-2">
-                    Another action
-                  </Dropdown.Item>
-                  <Dropdown.Item href="#/action-3">
-                    Something else
-                  </Dropdown.Item>
+                  <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
+                  <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
                 </Dropdown.Menu>
               </Dropdown>
             </InputGroup>
@@ -159,12 +151,7 @@ class Dashboard extends Component {
               className="m-1"
               onChange={this.handleSearchChange}
             />
-            <Button
-              variant="success"
-              type="submit"
-              className="m-1"
-              onClick={this.handleSearch}
-            >
+            <Button variant="success" type="submit" className="m-1" onClick={this.handleSearch}>
               Search
             </Button>
             <Button className="m-1" variant="primary">
@@ -183,9 +170,15 @@ class Dashboard extends Component {
             </tr>
           </thead>
           <tbody>
-            {this.state.loaded
-              ? this.state.groups.map(this.handleGroups)
-              : null}
+            {this.state.groups.length !== 0 ? (
+              this.state.groups.map(this.handleGroups)
+            ) : (
+              <tr>
+                <td colSpan="4" className="text-center">
+                  You're not in any groups. Try out the <a href="./find">Find page!</a>
+                </td>
+              </tr>
+            )}
           </tbody>
         </Table>
 
