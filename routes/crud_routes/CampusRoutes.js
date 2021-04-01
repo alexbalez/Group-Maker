@@ -63,5 +63,41 @@ app.delete('/campus/:id', async (req, res) => {
     }
   })
 
+
+app.patch('/campus-add-program/:campusId/:programId', async (req, res) => {
+  const tempCampusId = req.params.campusId;
+  const tempProgramId = req.params.programId;
+  try {
+    const campus = await campusModel.findByIdAndUpdate(
+      { _id: tempCampusId },
+      { $addToSet: {programs: tempProgramId }},
+      { new: true, useFindAndModify: false}
+    )
+
+    if(!campus) res.status(404).send("No Campus found!")
+    await campus.save();
+    res.end();
+  } catch (err) {
+    res.status(500).send(err)
+  }
+})
+
+app.patch('/campus-remove-program/:campusId/:programId', async (req, res) => {
+  const tempCampusId = req.params.campusId;
+  const tempProgramId = req.params.programId;
+  try {
+    const campus = await campusModel.findByIdAndUpdate(
+      { _id: tempCampusId },
+      { $pull: { programs: tempProgramId }},
+      { new: true, useFindAndModify: false}
+    )
+
+    await campus.save();
+    res.end();
+  } catch {
+    res.status(500).send(err);
+  }
+})
+
 module.exports = app
 

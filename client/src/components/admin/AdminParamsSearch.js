@@ -9,11 +9,20 @@ class AdminParamsSearch extends Component {
         this.state = {
           
         }
-        
+        this.handleAllPrograms = this.handleAllPrograms.bind(this)   ;
     }
 
     componentDidMount(){
 
+    }
+
+    handleAllPrograms(){
+        this.props.history.push({
+            pathname: "/admin-programs",
+            state: {
+                campusId: "All"
+            }
+        })
     }
 
     render() {
@@ -35,7 +44,7 @@ class AdminParamsSearch extends Component {
                     </tr>
                     <tr>
                         <td><Link className="btn btn-success btn-block" to="/admin-campuses">All Campuses</Link></td>
-                        <td><Link className="btn btn-success btn-block" to="/admin-programs">All Programs</Link></td>
+                        <td><Button className="btn btn-success btn-block" onClick={this.handleAllPrograms}>All Programs</Button></td>
                         <td><Link className="btn btn-success btn-block" to="/admin-courses">All Courses</Link></td>
                         <td><Link className="btn btn-success btn-block" to="/admin-projects">AllProjects</Link></td>
                     </tr>

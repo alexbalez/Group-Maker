@@ -1,4 +1,5 @@
 const express = require('express');
+const { Types, ObjectId } = require('mongoose');
 const programModel = require('../../model/ProgramModel');
 const app = express();
 
@@ -16,7 +17,7 @@ app.post('/program', async (req, res) => {
 
 // Retrieve
 app.get('/programs', async (req, res) => {
-  const program= await programModel.find({});
+  const program = await programModel.find({});
   try {
     res.append('Access-Control-Allow-Origin', ['*']);
     res.send(program);
@@ -26,7 +27,7 @@ app.get('/programs', async (req, res) => {
   }
 });
 
-app.get('/program/:id', async(req,res) => {
+app.get('/program/:id', async(req, res) => {
     console.log(req.params.id)
     const program = await programModel.findById(req.params.id);
     try {
@@ -37,6 +38,23 @@ app.get('/program/:id', async(req,res) => {
         res.status(500).send(err);
     }
 });
+
+//Retrieve multiple with array of IDs
+app.get('/programs-by-id/:program_ids', async (req, res) => {
+  var programIds = req.params.program_ids;
+  programIds = JSON.parse(programIds)
+
+  var programObjectIds = programIds.map((programId) => { return Types.ObjectId(programId) })
+  console.log(programObjectIds)
+  let programs = await programModel.find({ _id: { $in: programObjectIds } })
+  try {
+    console.log(programs)
+    res.append('Access-Control-Allow-Origin', ['*'])
+    res.send(programs);
+  } catch (err) {
+    res.status(500).send(err);
+  } 
+})
 
 // Update (use patch instead of put so you only have to send the data you want to change)
 app.patch('/program/:id', async (req, res) => {

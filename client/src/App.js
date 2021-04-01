@@ -18,10 +18,10 @@ import FourOhFour from "./components/404"
 
 import AdminDashboard from './components/admin/AdminDashboard';
 import AdminParamsSearch from './components/admin/AdminParamsSearch';
-import AdminAllCampuses from "./components/admin/Campuses/AdminAllCampuses";
-import AdminUpdateCampus from "./components/admin/Campuses/AdminUpdateCampus";
-import AdminAddCampus from "./components/admin/Campuses/AdminAddCampus";
-import AdminAllPrograms from "./components/admin/Programs/AdminAllPrograms";
+import AdminAllCampuses from "./components/admin/campuses/AdminAllCampuses";
+import AdminUpdateCampus from "./components/admin/campuses/AdminUpdateCampus";
+import AdminAddCampus from "./components/admin/campuses/AdminAddCampus";
+import AdminPrograms from "./components/admin/programs/AdminPrograms";
 
 class App extends Component {
     constructor(props){
@@ -86,7 +86,7 @@ class App extends Component {
                         <Route path="/admin-campuses" component={AdminAllCampuses}></Route>
                         <Route path="/admin-update-campus" component={AdminUpdateCampus}></Route>
                         <Route path="/admin-add-campus" component={AdminAddCampus}></Route>
-                        <Route path="/admin-programs" component={AdminAllPrograms}></Route>
+                        <Route path="/admin-programs" component={AdminPrograms}></Route>
 
                         <Route path='/signup' component={CreateAccount} />
                         <Route path="/*" component={Login}/>

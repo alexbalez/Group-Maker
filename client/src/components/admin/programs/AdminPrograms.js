@@ -4,22 +4,45 @@ import { Link, withRouter } from "react-router-dom";
 import {Button, Navbar, Form, InputGroup, FormControl, Dropdown, Table, Container} from 'react-bootstrap'
 import axios from 'axios';
 
-class AdminAllPrograms extends Component {
+class AdminPrograms extends Component {
     constructor(props){
         super(props)
         this.state = {
+          campusProgramIds: [],
+          campusId: "",
+          campusName: "", 
+          campus: [],
           programs: [],
-          campus: []
+          title: "Programs"
         }
         this.handleUpdateProgram = this.handleUpdateProgram.bind(this);
     }
 
-    componentDidMount(){
-        fetch('/programs')
-        .then(res => res.json())
-        .then(programs => this.setState({programs}, () =>{
-            console.log('Programs fetched', this.state.programs)
-        }))
+    async componentDidMount(){
+        // Load All Programs if no Campus Selected
+        await this.setState({
+            campusId: this.props.location.state.campusId
+        })
+        if(this.state.campusId == "All"){
+            fetch('/programs')
+            .then(res => res.json())
+            .then(programs => this.setState({programs}, () => {
+                console.log('All Programs fetched', this.state.programs)
+            }))
+            this.setState({title: "All Programs"})
+        // Load Programs for specific Campus if selecting "View Programs" from AdminCampuses.js
+        } else {
+            await this.setState({
+                campusName: this.props.location.state.campusName,
+                campusProgramIds: this.props.location.state.campusProgramIds
+            })
+            fetch('/programs-by-id/' + JSON.stringify(this.state.campusProgramIds))
+            .then(res => res.json())
+            .then(programs => this.setState({programs}, () =>{
+                console.log(`Programs at  ${this.state.campusName}  fetched`, this.state.programs)
+            }))
+            this.setState({title: `Programs at ${this.state.campusName}`})
+        } 
     }
 
     handleUpdateProgram(event){
@@ -38,7 +61,7 @@ class AdminAllPrograms extends Component {
     render() {
         return(
             <div>
-                <h1 className="d-flex justify-content-center">All Programs</h1>
+                <h1 className="d-flex justify-content-center">{this.state.title}</h1>
                 <Link className="btn btn-primary btn-block" to="/admin-dashboard">Back to Dashboard</Link>
                 <Table className="table">
                     <thead>
@@ -71,5 +94,4 @@ class AdminAllPrograms extends Component {
     }
 }
 
-
-export default AdminAllPrograms;
+export default AdminPrograms;

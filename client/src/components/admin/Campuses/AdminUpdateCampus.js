@@ -7,9 +7,9 @@ import axios from 'axios';
 class AdminUpdateCampus extends Component {
     constructor(props){
         super(props)
-        const campusId = (this.props.location.state.campusId)
+        // const campusId = (this.props.location.state.campusId)
         this.state = {
-          campusId: campusId,
+          campusId: '',
           campusName: '',
           campusAddress: ''
         }

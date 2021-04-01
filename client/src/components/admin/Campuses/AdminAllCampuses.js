@@ -11,6 +11,7 @@ class AdminAllCampuses extends Component {
           campuses: []
         }
         this.handleUpdateCampus = this.handleUpdateCampus.bind(this);
+        this.handleViewPrograms = this.handleViewPrograms.bind(this);
     }
 
     componentDidMount(){
@@ -30,6 +31,18 @@ class AdminAllCampuses extends Component {
                 campusId: campus._id,
                 campusName: campus.name,
                 campusAddress: campus.address
+            }
+        })
+    }
+
+    handleViewPrograms(event){
+        const campus = JSON.parse(event.target.value);
+        this.props.history.push({
+            pathname: "/admin-programs",
+            state: {
+                campusId: campus._id,
+                campusName: campus.name,
+                campusProgramIds: campus.programs
             }
         })
     }
@@ -56,7 +69,7 @@ class AdminAllCampuses extends Component {
                                 <td>{campus._id}</td>
                                 <td>{campus.name}</td>
                                 <td>{campus.address}</td>
-                                <td><Button variant="success">View Programs</Button></td>
+                                <td><Button variant="success" value={JSON.stringify(campus)} onClick={this.handleViewPrograms}>View Programs</Button></td>
                                 <td><Button variant="warning" value={JSON.stringify(campus)} onClick={this.handleUpdateCampus}>Update Campus</Button></td>
                                 <td><Button variant="danger">Delete Campus</Button></td>
                             </tr>   
