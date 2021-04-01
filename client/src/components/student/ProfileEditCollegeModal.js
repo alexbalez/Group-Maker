@@ -16,6 +16,8 @@ class ProfileEditCollegeModal extends Component {
             courseList: [],
             campusList: [],
             programList: [],
+
+            changed: false
         }
 
     }
@@ -49,22 +51,41 @@ class ProfileEditCollegeModal extends Component {
     }
 
     removeCourse = (e) => {
-        const index = e.target.getAttribute("data-index");
-        console.log('remove course clicked', index)
+        const courseId = e.target.getAttribute("data-index");
+        const temp = this.state.courseList;
+        //clunky way to do it. set index = the one with matching id
+        let index; 
+        for (let i = 0; i < temp.length; i++){
+            if(temp[i]._id === courseId){
+                index = i;
+                break;
+            }
+        }
+        temp.splice(index, 1)
+        this.setState({courseList: temp, changed: true});
     };
 
     resetCourses = () => {
+        if(!this.state.changed) return;
+        
         console.log('Reload the courses that might have been removed');
+        const programId = this.state.program;
+        StudentDataConnector.getCoursesFromProgram(programId)
+            .then((res) => {
+                this.setState({ courseList: res.data.courses, changed: false });
+            })
+            .catch(err => console.log(err));
     };
 
     saveData = () => {
+        
         this.props.save({
             test: 'save activated'
         })
     };
 
     render() {
-        //console.log(typeof(this.props.data.semester))
+        console.log(this.state.courseList)
         return (
             <Modal show={this.props.show} onHide={this.props.toggle}>
                 <Modal.Header closeButton>
@@ -120,8 +141,9 @@ class ProfileEditCollegeModal extends Component {
                     {/* ========= Course List ================= */}
                     <ul className="list-group">
                         {
+                            
                             this.state.courseList
-                            .filter(course => {
+                            .filter((course) => {
                                 return course.semester === this.state.semester;
                             })
                             .map((course, index) => (
@@ -130,7 +152,7 @@ class ProfileEditCollegeModal extends Component {
                                     
                                     <span className="align-middle">{course.code} - {course.name}</span>
                                     
-                                    <button className="btn btn-secondary float-right" data-index={index}
+                                    <button className="btn btn-secondary float-right" data-index={course._id}
                                         onClick={this.removeCourse} title="Remove Course">X</button>
                                 </li>
                             ))
