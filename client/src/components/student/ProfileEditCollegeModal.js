@@ -8,8 +8,8 @@ class ProfileEditCollegeModal extends Component {
         super(props);
         this.state = {
             
-            campus: '',
-            program: '',
+            campus: this.props.data.campus,
+            program: this.props.data.program,
             semester: this.props.data.semester,
             
             semesterOptions: [1,2,3,4,5,6],
@@ -85,7 +85,7 @@ class ProfileEditCollegeModal extends Component {
     };
 
     render() {
-        console.log(this.state.courseList)
+        //console.log(this.state.courseList)
         return (
             <Modal show={this.props.show} onHide={this.props.toggle}>
                 <Modal.Header closeButton>
