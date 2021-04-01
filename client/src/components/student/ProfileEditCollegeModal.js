@@ -8,13 +8,16 @@ class ProfileEditCollegeModal extends Component {
         super(props);
         this.state = {
             
-            campus: 'asd',
-            program: '',
-            semester: '',
+            campus: this.props.data.campus,
+            program: this.props.data.program,
+            semester: this.props.data.semester,
             
+            semesterOptions: [1,2,3,4,5,6],
             courseList: [],
             campusList: [],
             programList: [],
+
+            changed: false
         }
 
     }
@@ -25,6 +28,7 @@ class ProfileEditCollegeModal extends Component {
         const campusId = e.target.value;
         StudentDataConnector.getProgramsFromCampus(campusId)
             .then((res) => {
+                console.log('set campus', res.data);
                 this.setState({ campus: campusId, programList: res.data.programs });
             })
             .catch(err => console.log(err));
@@ -36,34 +40,52 @@ class ProfileEditCollegeModal extends Component {
         const programId = e.target.value;
         StudentDataConnector.getCoursesFromProgram(programId)
             .then((res)=>{
-                //console.log('--set program', res.data)
-                this.setState({ program: programId, courseList: res.data.courses })
+                console.log('--set program', res.data)
+                this.setState({ program: programId, courseList: res.data.courses });
             })
             .catch(err => console.log(err));
     };
 
-    setSemester = (e) => {
-        console.log()
-        
-        this.setState({ semester: e.target.value })
+    setSemester = (e) => {        
+        this.setState({ semester: parseInt(e.target.value) });
     }
 
     removeCourse = (e) => {
-        const index = e.target.getAttribute("data-index");
-        console.log('remove course clicked', index)
+        const courseId = e.target.getAttribute("data-index");
+        const temp = this.state.courseList;
+        //clunky way to do it. set index = the one with matching id
+        let index; 
+        for (let i = 0; i < temp.length; i++){
+            if(temp[i]._id === courseId){
+                index = i;
+                break;
+            }
+        }
+        temp.splice(index, 1)
+        this.setState({courseList: temp, changed: true});
     };
 
     resetCourses = () => {
+        if(!this.state.changed) return;
+        
         console.log('Reload the courses that might have been removed');
+        const programId = this.state.program;
+        StudentDataConnector.getCoursesFromProgram(programId)
+            .then((res) => {
+                this.setState({ courseList: res.data.courses, changed: false });
+            })
+            .catch(err => console.log(err));
     };
 
     saveData = () => {
+        
         this.props.save({
             test: 'save activated'
         })
     };
 
     render() {
+        //console.log(this.state.courseList)
         return (
             <Modal show={this.props.show} onHide={this.props.toggle}>
                 <Modal.Header closeButton>
@@ -107,11 +129,11 @@ class ProfileEditCollegeModal extends Component {
                         <span className="inline-label p-2" style={{ width: '25%' }}>Semester</span>
                         <select className="inline-content btn text-capitalize p-2 dropdown-toggle" style={{ width: '75%' }}
                             name="semester" value={this.state.semester} onChange={this.setSemester}>
-                            <option className="bg-white text-dark" value="">Select a Semester</option>
+                            <option className="bg-white text-dark" value="0">Select a Semester</option>
                             {
-                                // this.state.interestCatOptions.map((item, index) => (
-                                //     <option key={index} className="bg-white text-dark">{item}</option>
-                                // ))
+                                this.state.semesterOptions.map((item, index) => (
+                                    <option key={index} className="bg-white text-dark">{item}</option>
+                                ))
                             }
                         </select>
                     </div>
@@ -119,13 +141,18 @@ class ProfileEditCollegeModal extends Component {
                     {/* ========= Course List ================= */}
                     <ul className="list-group">
                         {
-                            this.state.courseList.map((course, index) => (
+                            
+                            this.state.courseList
+                            .filter((course) => {
+                                return course.semester === this.state.semester;
+                            })
+                            .map((course, index) => (
                                 
                                 <li key={index} className="list-group-item text-capitalize">
                                     
                                     <span className="align-middle">{course.code} - {course.name}</span>
                                     
-                                    <button className="btn btn-secondary float-right" data-index={index}
+                                    <button className="btn btn-secondary float-right" data-index={course._id}
                                         onClick={this.removeCourse} title="Remove Course">X</button>
                                 </li>
                             ))

@@ -33,6 +33,7 @@ const groupProgramRouter = require('./routes/entity_relationship_routes/GroupPro
 const groupCourseRouter = require('./routes/entity_relationship_routes/GroupCourseRoutes.js');
 const groupProjectRouter = require('./routes/entity_relationship_routes/GroupProjectRoutes.js');
 
+const campusProgramCourseRouter = require('./routes/entity_relationship_routes/CampusProgramCourseRoutes.js');
 
 const app = express();
 const port = 5000;
@@ -73,6 +74,8 @@ app.use(groupCampusRouter);
 app.use(groupProgramRouter);
 app.use(groupCourseRouter);
 app.use(groupProjectRouter);
+
+app.use(campusProgramCourseRouter);
 
 // MongoDB Connection
 //const DB_URL = "mongodb+srv://thiago:mypassword@cluster0.siwfc.mongodb.net/group-maker?retryWrites=true&w=majority";

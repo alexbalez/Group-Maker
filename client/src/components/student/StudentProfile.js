@@ -25,24 +25,18 @@ class StudendProfile extends Component {
             skills: [],
 
             //=========== user college info ===========================
-            campus: 'Not selected',
-            program: 'Not selected',
-            semester: 'Not selected',
-            courses: [{code: "No courses", title:"Please select a program"}],
+            campus: this.props.data.campuses[0],
+            program: this.props.data.programs[0],
+            campusName: "",
+            programName: "",
 
-            courseList: [],
-            campusList: [],
-            programList: []
-            // program: {code: "T127", title: "computer programmer analyst"},
-            // semester: 2,
-            // courses: [
-            //     { code: "COMP 1231", title: "Introduction to Javascript" },
-            //     { code: "MATH 1162", title: "College Math" },
-            // ]
+            semester: this.props.data.semester,
+            courses: [],
 
         };
 
         this.populatePreferences();
+        this.populateCollegeInfo();
         //console.log(this.props.data);
     }
 
@@ -100,30 +94,72 @@ class StudendProfile extends Component {
 
     // ========college==============
 
+    //TODO: combine this function with populatePreferences so that only one call to server and setState is made
     populateCollegeInfo() {
-        console.log('--populate college info')
+        // console.log('--populate college info')
         let temp = this.props.data;
 
-        if (temp.campuses[0] === undefined || this.state.campus === "") {
+        //update these to still pull a list to select from even when one is selected
+
+        if (temp.campuses[0] === undefined) {
+            
             console.log('we need to load a list campuses to choose from');
             //send the college ID
             //lookup the college, get its campus ids, then get all those campuses
             StudentDataConnector.getCampusesFromCollege(this.props.data.colleges[0])
-                .then((res)=>{
-                    console.log(res.data)
-                    this.editCollege.setState({campusList: res.data.campuses})
-                })
-                .catch(err => console.log(err))
-
-
+            .then((res)=>{
+                //console.log(res.data)
+                this.editCollege.setState({campusList: res.data.campuses})
+            })
+            .catch(err => console.log(err));
         }
-        else if (temp.programs[0] === undefined || this.state.program === "") {
-            console.log('we need to load the campus name, and list of programs to choose from');
-            //send the college ID and campus ID
+        else if (temp.programs[0] === undefined) {
+            //send the campus ID
+            //need the campus, a list of campuses and list of programs
+            console.log('we need to load the campus name, a list of campuses, and list of programs to that belong to the selected campus');
+            const campusId = this.props.data.campuses[0];
+            
+            
+            StudentDataConnector.getCampusesAndPrograms(campusId)
+            .then((res)=>{
+                
+                this.setState({ campusName: res.data.campus.name, campus: campusId })
+                this.editCollege.setState({ 
+                    //campus: campusId, 
+                    programList: res.data.programs, 
+                    campusList: res.data.campuses 
+                })
+
+            }).catch(err => console.log(err));
+
         }
         else {
-            console.log('we need to load a the campus name, program name, and a list of courses to choose from');
-            //send the college, campus, and program IDs
+            console.log('we need to load a campus name, program name, a list of all campuses, a list of programs that belong to the selected campus, and a list of courses that belong to the selected program');
+            //send the campus, and program IDs
+            //need a list of campuses, programs, and courses
+            const campusId = this.props.data.campuses[0];
+            const programId = this.props.data.programs[0];
+            StudentDataConnector.getCampusesProgramsAndColleges(campusId, programId)
+            .then((res) =>{
+
+                this.setState({
+                    // campus: campusId,
+                    // program: programId,
+                    campusName: res.data.campus.name,
+                    programName: res.data.program.name
+                })
+
+                this.editCollege.setState({
+                    // campus: campusId,
+                    // program: programId,
+                    programList: res.data.programs,
+                    campusList: res.data.campuses,
+                    courseList: res.data.courses
+                })
+
+
+            }).catch(err => console.log(err));
+            
         }
 
     }
@@ -131,12 +167,9 @@ class StudendProfile extends Component {
     toggleEditCollege = () => {
 
         //load extra data only when showing the component
-        if(this.state.flags.showEditCollege === false){
-            console.log('-- show edit college');
-            this.populateCollegeInfo();
-            
-
-        }
+        // if(this.state.flags.showEditCollege === false){
+        //     console.log('-- show edit college');
+        // }
 
         this.setState({ flags: { showEditCollege: !this.state.flags.showEditCollege } });
     };
@@ -147,6 +180,7 @@ class StudendProfile extends Component {
     };
 
     render() {
+        //console.log(this.props.data)
         return (
             <div>
                 <div className="col-sm-8 mx-auto mt-4">
@@ -234,17 +268,23 @@ class StudendProfile extends Component {
                         {/* Affiliations */}
                         <div className="mb-2 form-inline">
                             <span className="inline-label p-2">Campus</span>
-                            <span className="inline-content text-capitalize p-2">{this.state.campus}</span>
+                            <span className="inline-content text-capitalize p-2">
+                                { this.state.campusName !== ""? this.state.campusName : "No campus selected" }
+                            </span>
                         </div>
 
                         <div className="mb-2 form-inline">
                             <span className="inline-label p-2">Program</span>
-                            <span className="inline-content text-capitalize p-2">{this.state.program}</span>
+                            <span className="inline-content text-capitalize p-2">
+                                { this.state.programName !== ""? this.state.programName : "No program selected" }
+                            </span>
                         </div>
 
                         <div className="mb-2 form-inline">
                             <span className="inline-label p-2">Semester</span>
-                            <span className="inline-content p-2">{this.state.semester}</span>
+                            <span className="inline-content p-2">
+                                { this.state.semester !== undefined? this.state.semester : "No semester selected"}
+                            </span>
                         </div>
 
                         {/* Class list  */}
@@ -255,11 +295,14 @@ class StudendProfile extends Component {
                         <ul className="list-group">
                             {/* <li className="list-group-item text-capitalize">Cras justo odio</li> */}
                             {
-                                this.state.courses.map((course, index)=>(
-                                    <li key={index} className="list-group-item text-capitalize">
-                                        {course.code} - {course.title}
-                                    </li>
-                                ))
+                                this.state.courses.length > 0 ?
+                                    this.state.courses.map((course, index)=>(
+                                        <li key={index} className="list-group-item text-capitalize">
+                                            {course.code} - {course.name}
+                                        </li>
+                                    ))
+                                :
+                                    <li className="list-group-item text-capitalize">No courses selected</li>
                             }
 
                         </ul>
