@@ -12,7 +12,7 @@ class ProfileEditCollegeModal extends Component {
             program: '',
             semester: this.props.data.semester,
             
-            semesterOptions: [1,2,3,4,5,6,7,8,9],
+            semesterOptions: [1,2,3,4,5,6],
             courseList: [],
             campusList: [],
             programList: [],
@@ -44,10 +44,8 @@ class ProfileEditCollegeModal extends Component {
             .catch(err => console.log(err));
     };
 
-    setSemester = (e) => {
-        
-        
-        this.setState({ semester: e.target.value });
+    setSemester = (e) => {        
+        this.setState({ semester: parseInt(e.target.value) });
     }
 
     removeCourse = (e) => {
@@ -66,7 +64,7 @@ class ProfileEditCollegeModal extends Component {
     };
 
     render() {
-        console.log(this.state.courseList)
+        //console.log(typeof(this.props.data.semester))
         return (
             <Modal show={this.props.show} onHide={this.props.toggle}>
                 <Modal.Header closeButton>
@@ -110,7 +108,7 @@ class ProfileEditCollegeModal extends Component {
                         <span className="inline-label p-2" style={{ width: '25%' }}>Semester</span>
                         <select className="inline-content btn text-capitalize p-2 dropdown-toggle" style={{ width: '75%' }}
                             name="semester" value={this.state.semester} onChange={this.setSemester}>
-                            <option className="bg-white text-dark" value="">Select a Semester</option>
+                            <option className="bg-white text-dark" value="0">Select a Semester</option>
                             {
                                 this.state.semesterOptions.map((item, index) => (
                                     <option key={index} className="bg-white text-dark">{item}</option>
@@ -122,11 +120,15 @@ class ProfileEditCollegeModal extends Component {
                     {/* ========= Course List ================= */}
                     <ul className="list-group">
                         {
-                            this.state.courseList.map((course, index) => (
+                            this.state.courseList
+                            .filter(course => {
+                                return course.semester === this.state.semester;
+                            })
+                            .map((course, index) => (
                                 
                                 <li key={index} className="list-group-item text-capitalize">
                                     
-                                    <span className="align-middle">{course.semester} - {course.name}</span>
+                                    <span className="align-middle">{course.code} - {course.name}</span>
                                     
                                     <button className="btn btn-secondary float-right" data-index={index}
                                         onClick={this.removeCourse} title="Remove Course">X</button>
