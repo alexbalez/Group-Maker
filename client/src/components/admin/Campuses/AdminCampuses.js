@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import '../components.css'
+import '../../components.css'
 import { Link, withRouter } from "react-router-dom";
 import {Button, Navbar, Form, InputGroup, FormControl, Dropdown, Table, TableRow, Container} from 'react-bootstrap'
 import axios from 'axios';
@@ -43,30 +43,31 @@ class AdminCampuses extends Component {
         return(
             <div>
                 <h1 className="d-flex justify-content-center">Campuses</h1>
-                    <Table className="table">
-                        <thead>
+                <Link className="btn btn-primary btn-block" to="/admin-dashboard">Back to Dashboard</Link>
+                <Table className="table">
+                    <thead>
+                        <tr>
+                            <th>Campus ID</th>
+                            <th>Campus Name</th>
+                            <th>Campus Address</th>
+                            <th>View</th>
+                            <th>Update</th>
+                            <th>Delete</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {this.state.campuses.map((campus) =>
                             <tr>
-                                <th>Campus ID</th>
-                                <th>Campus Name</th>
-                                <th>Campus Address</th>
-                                <th>View</th>
-                                <th>Update</th>
-                                <th>Delete</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {this.state.campuses.map((campus) =>
-                                <tr>
-                                    <td>{campus._id}</td>
-                                    <td>{campus.name}</td>
-                                    <td>{campus.address}</td>
-                                    <td><Button variant="success">View Programs</Button></td>
-                                    <td><Button variant="warning" value={JSON.stringify(campus)} onClick={this.handleUpdateCampus}>Update Campus</Button></td>
-                                    <td><Button variant="danger">Delete Campus</Button></td>
-                                </tr>   
-                            )}
-                        </tbody>
-                    </Table>
+                                <td>{campus._id}</td>
+                                <td>{campus.name}</td>
+                                <td>{campus.address}</td>
+                                <td><Button variant="success">View Programs</Button></td>
+                                <td><Button variant="warning" value={JSON.stringify(campus)} onClick={this.handleUpdateCampus}>Update Campus</Button></td>
+                                <td><Button variant="danger">Delete Campus</Button></td>
+                            </tr>   
+                        )}
+                    </tbody>
+                </Table>
 
                 <Link className="btn btn-success btn-block" to="/admin-add-campus">Add Campus</Link>
 

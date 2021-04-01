@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import '../components.css'
+import '../../components.css'
 import { Link } from "react-router-dom";
 import {Button, Navbar, Form, InputGroup, FormControl, Dropdown, Table, Container} from 'react-bootstrap'
 import axios from 'axios';

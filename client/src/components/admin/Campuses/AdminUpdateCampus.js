@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import '../components.css'
+import '../../components.css'
 import { Link } from "react-router-dom";
 import {Button, Form, InputGroup, FormControl, Dropdown, Table, Container} from 'react-bootstrap'
 import axios from 'axios';
@@ -55,6 +55,7 @@ class AdminUpdateCampus extends Component {
             <div>
                 <h1 className="d-flex justify-content-center">Update Campus</h1>
                 <h3>Campus ID: {this.state.campusId}</h3>
+                <Link></Link>
                 <Form onSubmit={this.handleSubmit}>
                     <label for="campusName">Campus Name</label>
                     <input 

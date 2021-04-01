@@ -18,9 +18,9 @@ import FourOhFour from "./components/404"
 
 import AdminDashboard from './components/admin/AdminDashboard';
 import AdminParamsSearch from './components/admin/AdminParamsSearch';
-import AdminCampuses from "./components/admin/AdminCampuses";
-import AdminUpdateCampus from "./components/admin/AdminUpdateCampus";
-import AdminAddCampus from "./components/admin/AdminAddCampus";
+import AdminCampuses from "./components/admin/Campuses/AdminCampuses";
+import AdminUpdateCampus from "./components/admin/Campuses/AdminUpdateCampus";
+import AdminAddCampus from "./components/admin/Campuses/AdminAddCampus";
 
 class App extends Component {
     constructor(props){

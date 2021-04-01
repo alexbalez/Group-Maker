@@ -22,10 +22,10 @@ class AdminParamsSearch extends Component {
                 <h1>Administrator Parameter Search</h1>
                 <table>
                     <tr>
-                        <td>Search Campus</td>
-                        <td>Search Program</td>
-                        <td>Search Course</td>
-                        <td>Search Project</td>
+                        <th>Search Campus</th>
+                        <th>Search Program</th>
+                        <th>Search Course</th>
+                        <th>Search Project</th>
                     </tr>
                     <tr>
                         <td><FormControl type="text" placeholder="Campus Code..." className="m-1" onChange={this.handleCampusSearchChange}/></td>
@@ -34,10 +34,10 @@ class AdminParamsSearch extends Component {
                         <td><FormControl type="text" placeholder="Project Code..." className="m-1" onChange={this.handleProjectSearchChange}/></td>
                     </tr>
                     <tr>
-                        <td><Link to="/admin-campuses">All Campuses</Link></td>
-                        <td><Link to="/admin-programs">All Programs</Link></td>
-                        <td><Link to="/admin-courses">All Courses</Link></td>
-                        <td><Link to="/admin-projects">AllProjects</Link></td>
+                        <td><Link className="btn btn-success btn-block" to="/admin-campuses">All Campuses</Link></td>
+                        <td><Link className="btn btn-success btn-block" to="/admin-programs">All Programs</Link></td>
+                        <td><Link className="btn btn-success btn-block" to="/admin-courses">All Courses</Link></td>
+                        <td><Link className="btn btn-success btn-block" to="/admin-projects">AllProjects</Link></td>
                     </tr>
                 </table>
             </div>
