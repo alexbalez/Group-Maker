@@ -20,7 +20,7 @@ app.get('/courses', async (req, res) => {
   try {
     res.append('Access-Control-Allow-Origin', ['*']);
     res.send(course);
-  } 
+  }
   catch (err) {
     res.status(500).send(err);
   }
@@ -34,6 +34,23 @@ app.get('/course/:id', async(req,res) => {
         res.send(course);
     }
     catch (err) {
+        res.status(500).send(err);
+    }
+});
+
+//Retrieve multiple with array of IDs
+app.get('/courses-from-ids/:ids', async (req, res) => {
+    var courseIDs = req.params.ids;
+    courseIDs = JSON.parse(courseIDs);
+    var courseObjectIDs = courseIDs.map((currentID) => { return Types.ObjectId(currentID) });
+    console.log(courseObjectIDs);
+    let courses = await courseModel.find({ _id: { $in: courseObjectIDs } });
+
+    try {
+        console.log(courses);
+        res.append('Access-Control-Allow-Origin', ['*']);
+        res.send(courses);
+    } catch (err) {
         res.status(500).send(err);
     }
 });

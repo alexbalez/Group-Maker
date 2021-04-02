@@ -8,14 +8,44 @@ class CreateGroup extends Component {
     constructor(props){
         super(props);
         this.state = {
-            groupType: 'Class Assignment',
-            groupClass: 'COMP 3333',
-            groupPreference1: 'None',
-            groupPreference2: 'None',
+            groupType: 'Course Assignment',
+            courses: [],
+            preferences: [],
+            selectedCourseCode: 'None',
+            selectedCourseID: '',
+            selectedPreference1ID: '',
+            selectedPreference1Name: 'None',
+            selectedPreference2ID: '',
+            selectedPreference2Name: 'None',
             formGroupName: '',
             formDescription: ''
         };
+    }
 
+    componentDidMount(){
+        fetch('/courses-from-ids/' + JSON.stringify(this.props.user.courses))
+            .then(res => res.json())
+            .then(courses => this.setState({courses}, () =>{
+                console.log("Loaded registered courses:");
+                console.log(this.state.courses);
+
+                // TODO - TESTING COURSE LOADING
+                // let mockCourses = [
+                //     {name: "Data Structures", code: "COMP 2146", _id: 1001},
+                //     {name: "Object Oriented Programming", code: "COMP 2078", _id: 1002},
+                //     {name: "Cybersecurity", code: "COMP 2201", _id: 1003},
+                //     {name: "Mobile Development", code: "COMP 2132", _id: 1004},
+                //     {name: "Web Development", code: "COMP 2058", _id: 1005},
+                //     ];
+                // this.setState({courses: mockCourses});
+            }));
+        fetch('/preferences')
+            .then(res => res.json())
+            .then(preferences => this.setState({preferences}, () =>{
+                console.log("Loaded preferences:");
+                console.log(preferences);
+                this.setState({preferences});
+            }));
     }
 
     // Form Input References
@@ -28,16 +58,22 @@ class CreateGroup extends Component {
         this.setState({groupType: e});
     };
 
-    handleClassSelect = (e) => {
-        this.setState({groupClass: e});
+    handleCourseSelect = (e) => {
+        let courseArray = e.split(","); // id: index 0, code: index 1
+        this.setState({selectedCourseID: courseArray[0]});
+        this.setState({selectedCourseCode: courseArray[1]});
     };
 
     handleGroupPreference1Select = (e) => {
-        this.setState({groupPreference1: e});
+        let preferenceArray = e.split(","); // id: index 0, code: index 1
+        this.setState({selectedPreference1ID: preferenceArray[0]});
+        this.setState({selectedPreference1Name: preferenceArray[1]});
     };
 
     handleGroupPreference2Select = (e) => {
-        this.setState({groupPreference2: e});
+        let preferenceArray = e.split(","); // id: index 0, code: index 1
+        this.setState({selectedPreference2ID: preferenceArray[0]});
+        this.setState({selectedPreference2Name: preferenceArray[1]});
     };
 
     // Create Group Button
@@ -46,13 +82,13 @@ class CreateGroup extends Component {
         axios.post('/group', {
             name: this.formGroupName.current.value,
             description: this.formDescription.current.value,
-            college: "GBC",
-            campus: "Casa Loma",
-            program: "T127",
-            course: this.state.groupClass,
-            project: "none",
+            college: this.props.user.colleges[0],
+            campus: this.props.user.campuses[0],
+            program: this.props.user.programs[0],
+            course: this.state.selectedCourseID,
+            project: this.props.user.projects[0],
             users: [this.props.user._id],
-            preferences: [this.state.groupPreference1, this.state.groupPreference2]
+            preferences: [this.state.selectedPreference1ID, this.state.selectedPreference2ID]
         }).then((group)=>{
             axios.post('/usergroupadd/'+this.props.user._id+'/'+group.data._id)
                 .then(() => {
@@ -85,18 +121,18 @@ class CreateGroup extends Component {
                                 </Dropdown.Toggle>
                                 <Dropdown.Menu>
                                     <Dropdown.Item eventKey="Extracurricular">Extracurricular</Dropdown.Item>
-                                    <Dropdown.Item eventKey="Class Assignment">Class Assignment</Dropdown.Item>
+                                    <Dropdown.Item eventKey="Course Assignment">Course Assignment</Dropdown.Item>
                                 </Dropdown.Menu>
                             </Dropdown>
 
-                            <Dropdown onSelect={this.handleClassSelect}>
+                            <Dropdown onSelect={this.handleCourseSelect}>
                                 <Dropdown.Toggle id="dropdown-basic" variant="light">
-                                    {this.state.groupClass}
+                                    {this.state.selectedCourseCode}
                                 </Dropdown.Toggle>
                                 <Dropdown.Menu>
-                                    <Dropdown.Item eventKey="COMP 1111">COMP 1111</Dropdown.Item>
-                                    <Dropdown.Item eventKey="COMP 2222">COMP 2222</Dropdown.Item>
-                                    <Dropdown.Item eventKey="COMP 3333">COMP 3333</Dropdown.Item>
+                                    {this.state.courses.map((course) =>
+                                        <Dropdown.Item eventKey={course._id + "," + course.code}>{course.code}</Dropdown.Item>
+                                    )}
                                 </Dropdown.Menu>
                             </Dropdown>
                         </InputGroup>
@@ -115,13 +151,13 @@ class CreateGroup extends Component {
                             </InputGroup.Prepend>
                             <Dropdown onSelect={this.handleGroupPreference1Select}>
                                 <Dropdown.Toggle id="dropdown-basic" variant="success">
-                                    {this.state.groupPreference1}
+                                    {this.state.selectedPreference1Name}
                                 </Dropdown.Toggle>
 
                                 <Dropdown.Menu>
-                                    <Dropdown.Item eventKey="MERN">MERN</Dropdown.Item>
-                                    <Dropdown.Item eventKey="PHP">PHP</Dropdown.Item>
-                                    <Dropdown.Item eventKey="Ruby">Ruby</Dropdown.Item>
+                                    {this.state.preferences.map((preference)=>
+                                        <Dropdown.Item eventKey={preference._id + "," + preference.description}>{preference.description}</Dropdown.Item>
+                                    )}
                                 </Dropdown.Menu>
                             </Dropdown>
                         </InputGroup>
@@ -132,13 +168,13 @@ class CreateGroup extends Component {
                             </InputGroup.Prepend>
                             <Dropdown onSelect={this.handleGroupPreference2Select}>
                                 <Dropdown.Toggle id="dropdown-basic" variant="success">
-                                    {this.state.groupPreference2}
+                                    {this.state.selectedPreference2Name}
                                 </Dropdown.Toggle>
 
                                 <Dropdown.Menu>
-                                    <Dropdown.Item eventKey="GitHub">GitHub</Dropdown.Item>
-                                    <Dropdown.Item eventKey="Bitbucket">Bitbucket</Dropdown.Item>
-                                    <Dropdown.Item eventKey="GitElse">GitElse</Dropdown.Item>
+                                    {this.state.preferences.map((preference)=>
+                                        <Dropdown.Item eventKey={preference._id + "," + preference.description}>{preference.description}</Dropdown.Item>
+                                    )}
                                 </Dropdown.Menu>
                             </Dropdown>
                         </InputGroup>
