@@ -32,7 +32,7 @@ class StudentDataConnector {
 
     //returns a list of all campuses, a list of all programs that belong to a given campus, and 
     // a list of all courses that belong to a given program
-    getCampusesProgramsAndColleges(campusId, programId){
+    getCampusesProgramsAndCourses(campusId, programId){
         return Axios.get(`/campuses-programs-courses/${campusId}/${programId}`)
     };
 

@@ -139,7 +139,7 @@ class StudendProfile extends Component {
             //need a list of campuses, programs, and courses
             const campusId = this.props.data.campuses[0];
             const programId = this.props.data.programs[0];
-            StudentDataConnector.getCampusesProgramsAndColleges(campusId, programId)
+            StudentDataConnector.getCampusesProgramsAndCourses(campusId, programId)
             .then((res) =>{
 
                 this.setState({
@@ -147,15 +147,24 @@ class StudendProfile extends Component {
                     // program: programId,
                     campusName: res.data.campus.name,
                     programName: res.data.program.name
-                })
+                });
+
+                //filter course list by semester
+                let courses = [];
+                if(this.props.data.semester !== undefined){
+                    courses = res.data.courses.filter((course) => {
+                        return course.semester === this.props.data.semester;
+                    });
+                }
 
                 this.editCollege.setState({
                     // campus: campusId,
                     // program: programId,
                     programList: res.data.programs,
                     campusList: res.data.campuses,
-                    courseList: res.data.courses
-                })
+                    courseList: courses, //list of courses that match semester (this is the list to edit)
+                    masterCourseList: res.data.courses
+                });
 
 
             }).catch(err => console.log(err));

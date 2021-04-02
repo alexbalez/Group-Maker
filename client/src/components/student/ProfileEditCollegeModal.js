@@ -12,80 +12,134 @@ class ProfileEditCollegeModal extends Component {
             program: this.props.data.program,
             semester: this.props.data.semester,
             
-            semesterOptions: [1,2,3,4,5,6],
-            courseList: [],
             campusList: [],
             programList: [],
+            semesterOptions: [1, 2, 3, 4, 5, 6],
+            masterCourseList: [],
+            courseList: [],
 
-            changed: false
+            changed: false,
+
+            ahSemester: 0,
+            ahCourse: ""
         }
 
     }
 
     setCampus = (e) => {
+         // if(this.state.courseList.length > 0){
+        //     if (!window.confirm("Changing campus will clear your selected program, semester and course list")) return;
+        // }
+
         //populate program dropdown from list of programs that belong to a campus
         //add currently selected campus to state
         const campusId = e.target.value;
+
+        if(campusId === ""){
+            console.log("campus id was empty")
+
+            this.setState({ campus: campusId, programList: [], courseList: [], masterCourseList: [] });
+            return
+        }
+
         StudentDataConnector.getProgramsFromCampus(campusId)
             .then((res) => {
                 console.log('set campus', res.data);
-                this.setState({ campus: campusId, programList: res.data.programs });
+                this.setState({ campus: campusId, programList: res.data.programs, courseList: [], masterCourseList: [] });
             })
             .catch(err => console.log(err));
     };
 
     setProgram = (e) => {
+        // if(this.state.courseList.length > 0){
+        //     if (!window.confirm("Changing program will clear your selected course list and semester")) return;
+        // }
         // retrieve list of courses that belong to the selected program
         // add these to state along eith the selected program
         const programId = e.target.value;
         StudentDataConnector.getCoursesFromProgram(programId)
             .then((res)=>{
-                console.log('--set program', res.data)
-                this.setState({ program: programId, courseList: res.data.courses });
+
+                let courses = res.data.courses.filter(course => course.semester === 1); //default semester to 1
+                this.setState({ program: programId, masterCourseList: res.data.courses, courseList: courses, semester: 1 });
             })
             .catch(err => console.log(err));
     };
 
-    setSemester = (e) => {        
-        this.setState({ semester: parseInt(e.target.value) });
+    setSemester = (e) => {
+
+        const semester = parseInt(e.target.value);
+
+        // if(this.state.courseList.length > 0){
+        //     if (!window.confirm("Changing semester will reset your course list")) return;
+        // }
+        
+        // make the course list based on selected semester
+        let courseList = this.state.masterCourseList.filter(course =>{
+            return course.semester === semester;
+        });
+
+        this.setState({ courseList, semester})
+
     }
 
     removeCourse = (e) => {
-        const courseId = e.target.getAttribute("data-index");
+        const index = e.target.getAttribute("data-index");
         const temp = this.state.courseList;
-        //clunky way to do it. set index = the one with matching id
-        let index; 
-        for (let i = 0; i < temp.length; i++){
-            if(temp[i]._id === courseId){
-                index = i;
-                break;
-            }
-        }
-        temp.splice(index, 1)
+        temp.splice(index, 1);
         this.setState({courseList: temp, changed: true});
     };
 
     resetCourses = () => {
-        if(!this.state.changed) return;
+        if(!this.state.changed || this.state.semester === 0) return;
         
-        console.log('Reload the courses that might have been removed');
-        const programId = this.state.program;
-        StudentDataConnector.getCoursesFromProgram(programId)
-            .then((res) => {
-                this.setState({ courseList: res.data.courses, changed: false });
-            })
-            .catch(err => console.log(err));
+        console.log('Reload the courses that might have been removed or remove courses that were added');
+
+        let courseList = this.state.masterCourseList.filter(course => {
+            return course.semester === this.state.semester;
+        });
+
+        this.setState({ courseList })
+
     };
 
     saveData = () => {
         
-        this.props.save({
-            test: 'save activated'
-        })
+        const prototype = {
+            campuses: [this.state.campus],
+            programs: [this.state.program],
+            semester: this.state.semester,
+            courses: this.state.courseList
+        }
+
+        this.props.save(prototype)
     };
 
+    //ad hoc course functions
+    handleChange = (e) => {
+        this.setState({ [e.target.name]: e.target.value });
+    };
+
+    addCourse = () => {
+        if (this.state.ahCourse === "") return;
+
+        //get the index of the course to add
+        let cList = this.state.masterCourseList;
+        let index = -1;
+        for (let i = 0; i< cList.length; i++){
+            if(cList[i]._id === this.state.ahCourse){
+                index = i;
+                break;
+            }
+        }
+        if(index === -1) return;
+        let temp = this.state.courseList;
+        temp.push(cList[index]);
+        this.setState({courseList: temp});
+    }
+
     render() {
-        //console.log(this.state.courseList)
+        console.log(this.state.ahCourse)
         return (
             <Modal show={this.props.show} onHide={this.props.toggle}>
                 <Modal.Header closeButton>
@@ -139,20 +193,19 @@ class ProfileEditCollegeModal extends Component {
                     </div>
 
                     {/* ========= Course List ================= */}
+                    <div className="form-inline mt-3 mb-2">
+                        <h4>
+                            {this.state.courseList.length > 0? "Course List" : "You have no courses"}
+                        </h4>
+                    </div>
                     <ul className="list-group">
                         {
                             
-                            this.state.courseList
-                            .filter((course) => {
-                                return course.semester === this.state.semester;
-                            })
-                            .map((course, index) => (
-                                
+                            this.state.courseList.map((course, index) => (
                                 <li key={index} className="list-group-item text-capitalize">
-                                    
                                     <span className="align-middle">{course.code} - {course.name}</span>
                                     
-                                    <button className="btn btn-secondary float-right" data-index={course._id}
+                                    <button className="btn btn-danger float-right" data-index={index}
                                         onClick={this.removeCourse} title="Remove Course">X</button>
                                 </li>
                             ))
@@ -160,20 +213,61 @@ class ProfileEditCollegeModal extends Component {
 
                     </ul>
 
+                    <div className="form-inline mt-3 mb-2 text-capitalize">
+                        <h4>Add different semester course</h4>
+                    </div>
+                    <div className="form-inline mb-2">
+
+                        {/* category dropdown */}
+                        <select className="btn btn-success dropdown-toggle" style={{ maxWidth: 200 }}
+                            name="ahSemester" value={this.state.ahSemester} onChange={this.handleChange}>
+                            <option className="bg-white text-dark" value={0}>Select semester</option>
+                            {
+                                this.state.semesterOptions
+                                .filter((item) => item !== this.state.semester)
+                                .map((item, index) => (
+                                    <option key={index} value={item} className="bg-white text-dark">{item}</option>
+                                ))
+                            }
+                        </select>
+
+
+                        <select className="btn btn-success dropdown-toggle ml-1" style={{ maxWidth: 200 }}
+                            name="ahCourse" value={this.state.ahCourse} onChange={this.handleChange}>
+                            <option className="bg-white text-dark" value={{}}>Select course</option>
+                            {
+                                this.state.masterCourseList
+                                .filter(course => {
+                                    for (let c of this.state.courseList) {
+                                        if (course._id === c._id) return false;
+                                    }
+                                    return course.semester === parseInt(this.state.ahSemester)
+                                })
+                                .map((course, index) => (
+                                    <option key={index} className="bg-white text-dark"
+                                        value={course._id}>{course.code} - {course.name}</option>
+                                ))
+                            }
+                        </select>
+
+                        {/* Add ad hoc course button */}
+                        <button className="btn btn-primary ml-1" onClick={this.addCourse}>Add</button>
+                    </div>
+
 
 
                 </Modal.Body>
                 <Modal.Footer>
-                    <button className="btn btn-secondary" onClick={this.resetCourses}>
+                    <button className="btn btn-secondary" onClick={this.resetCourses} title="Reload list of courses if you removed any">
                         Reset Courses
-                            </button>
+                    </button>
 
                     <button className="btn btn-primary" onClick={this.props.toggle}>
                         Cancel
-                            </button>
+                    </button>
                     <button className="btn btn-warning" onClick={this.saveData}>
                         Save Changes
-                            </button>
+                    </button>
                 </Modal.Footer>
             </Modal>
         );
