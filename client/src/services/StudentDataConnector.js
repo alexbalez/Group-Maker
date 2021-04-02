@@ -9,6 +9,11 @@ class StudentDataConnector {
         return Axios.patch(`/update-user-student-about-me/${userId}`, user)
     };
 
+    updateStudentCollegeInfo = (userId, data) => {
+        return Axios.patch(`/update-user-student-about-college/${userId}`, data)
+    };
+    
+
     getPreferences = () => {
         return Axios.get('/preferences')
     };

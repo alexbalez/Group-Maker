@@ -97,76 +97,73 @@ class StudendProfile extends Component {
     //TODO: combine this function with populatePreferences so that only one call to server and setState is made
     populateCollegeInfo() {
         // console.log('--populate college info')
-        let temp = this.props.data;
-
+        let userData = this.props.data;
+        const collegeId = this.props.data.colleges[0];
+        const campusId = this.props.data.campuses[0];
+        const programId = this.props.data.programs[0];
         //update these to still pull a list to select from even when one is selected
 
-        if (temp.campuses[0] === undefined) {
+        if (userData.campuses[0] === undefined) {
             
             console.log('we need to load a list campuses to choose from');
             //send the college ID
             //lookup the college, get its campus ids, then get all those campuses
-            StudentDataConnector.getCampusesFromCollege(this.props.data.colleges[0])
+            StudentDataConnector.getCampusesFromCollege(collegeId)
             .then((res)=>{
-                //console.log(res.data)
                 this.editCollege.setState({campusList: res.data.campuses})
             })
             .catch(err => console.log(err));
         }
-        else if (temp.programs[0] === undefined) {
+        else if (userData.programs[0] === undefined) {
             //send the campus ID
             //need the campus, a list of campuses and list of programs
             console.log('we need to load the campus name, a list of campuses, and list of programs to that belong to the selected campus');
-            const campusId = this.props.data.campuses[0];
-            
-            
             StudentDataConnector.getCampusesAndPrograms(campusId)
             .then((res)=>{
-                
                 this.setState({ campusName: res.data.campus.name, campus: campusId })
                 this.editCollege.setState({ 
-                    //campus: campusId, 
                     programList: res.data.programs, 
                     campusList: res.data.campuses 
                 })
-
             }).catch(err => console.log(err));
 
         }
-        else {
+        else{
             console.log('we need to load a campus name, program name, a list of all campuses, a list of programs that belong to the selected campus, and a list of courses that belong to the selected program');
             //send the campus, and program IDs
             //need a list of campuses, programs, and courses
-            const campusId = this.props.data.campuses[0];
-            const programId = this.props.data.programs[0];
             StudentDataConnector.getCampusesProgramsAndCourses(campusId, programId)
             .then((res) =>{
+                
+                let courseList = []; //list of courses to edit
+                let courses = []; // list of courses that user currently has
 
-                this.setState({
-                    // campus: campusId,
-                    // program: programId,
-                    campusName: res.data.campus.name,
-                    programName: res.data.program.name
-                });
-
-                //filter course list by semester
-                let courses = [];
-                if(this.props.data.semester !== undefined){
+                //if the student has courses already, populate those
+                if(userData.courses.length > 0){
                     courses = res.data.courses.filter((course) => {
-                        return course.semester === this.props.data.semester;
+                        return userData.courses.includes(course._id);
                     });
+                    courseList = [...courses];
                 }
-
+                else{
+                    //filter course list by semester
+                    if (this.props.data.semester !== undefined) {
+                        courseList = res.data.courses.filter((course) => {
+                            return course.semester === this.props.data.semester;
+                        });
+                    }
+                }
+                this.setState({
+                    campusName: res.data.campus.name,
+                    programName: res.data.program.name,
+                    courses
+                }); 
                 this.editCollege.setState({
-                    // campus: campusId,
-                    // program: programId,
                     programList: res.data.programs,
                     campusList: res.data.campuses,
-                    courseList: courses, //list of courses that match semester (this is the list to edit)
+                    courseList, 
                     masterCourseList: res.data.courses
                 });
-
-
             }).catch(err => console.log(err));
             
         }
@@ -174,17 +171,16 @@ class StudendProfile extends Component {
     }
 
     toggleEditCollege = () => {
-
-        //load extra data only when showing the component
-        // if(this.state.flags.showEditCollege === false){
-        //     console.log('-- show edit college');
-        // }
-
         this.setState({ flags: { showEditCollege: !this.state.flags.showEditCollege } });
     };
 
     saveEditCollege = (data) => {
         console.log("--saveEditCollege", data);
+        StudentDataConnector.updateStudentCollegeInfo(this.props.data._id, data)
+        .then(res => {
+            console.log(res)
+        })
+        .catch(err => console.log(err))
         this.toggleEditCollege();
     };
 

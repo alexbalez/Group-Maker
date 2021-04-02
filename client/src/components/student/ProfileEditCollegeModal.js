@@ -45,7 +45,8 @@ class ProfileEditCollegeModal extends Component {
         StudentDataConnector.getProgramsFromCampus(campusId)
             .then((res) => {
                 console.log('set campus', res.data);
-                this.setState({ campus: campusId, programList: res.data.programs, courseList: [], masterCourseList: [] });
+                this.setState({ campus: campusId, programList: res.data.programs, 
+                    courseList: [], masterCourseList: [], changed: true });
             })
             .catch(err => console.log(err));
     };
@@ -61,7 +62,8 @@ class ProfileEditCollegeModal extends Component {
             .then((res)=>{
 
                 let courses = res.data.courses.filter(course => course.semester === 1); //default semester to 1
-                this.setState({ program: programId, masterCourseList: res.data.courses, courseList: courses, semester: 1 });
+                this.setState({ program: programId, masterCourseList: res.data.courses, courseList: courses, 
+                    semester: 1, changed:true });
             })
             .catch(err => console.log(err));
     };
@@ -79,7 +81,7 @@ class ProfileEditCollegeModal extends Component {
             return course.semester === semester;
         });
 
-        this.setState({ courseList, semester})
+        this.setState({ courseList, semester, changed: true })
 
     }
 
@@ -104,12 +106,22 @@ class ProfileEditCollegeModal extends Component {
     };
 
     saveData = () => {
-        
+        //don't bother saving if nothing has changed
+        if(!this.state.changed) {
+            this.props.toggle();
+            return;
+        };
+
+        //only store the course ids
+        let courses = this.state.courseList.map(course => {
+            return course._id
+        });
+
         const prototype = {
             campuses: [this.state.campus],
             programs: [this.state.program],
             semester: this.state.semester,
-            courses: this.state.courseList
+            courses
         }
 
         this.props.save(prototype)
@@ -139,7 +151,7 @@ class ProfileEditCollegeModal extends Component {
     }
 
     render() {
-        console.log(this.state.ahCourse)
+        console.log(this.state.courseList)
         return (
             <Modal show={this.props.show} onHide={this.props.toggle}>
                 <Modal.Header closeButton>
@@ -258,7 +270,8 @@ class ProfileEditCollegeModal extends Component {
 
                 </Modal.Body>
                 <Modal.Footer>
-                    <button className="btn btn-secondary" onClick={this.resetCourses} title="Reload list of courses if you removed any">
+                    <button className="btn btn-secondary" onClick={this.resetCourses} 
+                        title="Reload list of courses if you removed any">
                         Reset Courses
                     </button>
 
