@@ -25,6 +25,12 @@ class CreateGroup extends Component {
     };
   }
 
+  //TODO: this component should also pull a list of projects to select from that belong to a particular course
+  // this is only in the case that you are creating a course group, as  those are intended for official course group projects only
+
+  //TODO: also the UI should distinguish between if it is extracurricular group or course group,
+  // since extracurricular shows the filter level, and course group shows list of courses that user belongs to, and projects that the teacher has
+  // assigned to that course
   componentDidMount() {
     fetch("/courses-from-ids/" + JSON.stringify(this.props.user.courses))
       .then((res) => res.json())
@@ -33,7 +39,7 @@ class CreateGroup extends Component {
           console.log("Loaded registered courses:");
           console.log(this.state.courses);
 
-          // TODO - TESTING COURSE LOADING
+          // TODO: - TESTING COURSE LOADING
           // let mockCourses = [
           //     {name: "Data Structures", code: "COMP 2146", _id: 1001},
           //     {name: "Object Oriented Programming", code: "COMP 2078", _id: 1002},
@@ -59,9 +65,58 @@ class CreateGroup extends Component {
   formGroupName = React.createRef();
   formDescription = React.createRef();
 
-  // TODO Refactor all these handles into one
+  // TODO: Refactor all these handles into one
   handleGroupTypeSelect = (e) => {
     this.setState({ groupType: e });
+  };
+
+  // Create Group Button
+  handleCreateGroupTapped = (e) => {
+    e.preventDefault();
+
+    if (this.state.groupType === "Course Assignment") {
+      if (this.state.selectedCourseID === "") {
+        alert("For assignment groups you must select a course");
+      }
+    }
+
+    let groupPrototype = {
+      name: this.formGroupName.current.value,
+      description: this.formDescription.current.value,
+      college: this.props.user.colleges[0],
+      campus: this.props.user.campuses[0],
+      program: this.props.user.programs[0],
+      course: this.state.selectedCourseID,
+      project: this.state.selectedProjectID,
+      users: [this.props.user._id],
+      preferences: [this.state.selectedPreference1ID, this.state.selectedPreference2ID],
+    };
+
+    if (this.state.groupType === "Extracurricular") {
+      //don't include project
+      delete groupPrototype.project;
+
+      if (this.state.selectedCourseID === "") {
+        //don't include the course
+        delete groupPrototype.course;
+      }
+    }
+
+    axios
+      .post("/group", groupPrototype)
+      .then((group) => {
+        axios.post("/usergroupadd/" + this.props.user._id + "/" + group.data._id).then(
+          () => {
+            alert("Group Created: " + group.data._id);
+          },
+          (err) => {
+            console.log(err);
+          }
+        );
+      })
+      .catch((err) => alert(err));
+
+    console.log(this.state.groupType);
   };
 
   handleProjectSelect = (e) => {
@@ -86,41 +141,6 @@ class CreateGroup extends Component {
     let preferenceArray = e.split(","); // id: index 0, code: index 1
     this.setState({ selectedPreference2ID: preferenceArray[0] });
     this.setState({ selectedPreference2Name: preferenceArray[1] });
-  };
-
-  // Create Group Button
-  handleCreateGroupTapped = (e) => {
-    e.preventDefault();
-    axios
-      .post("/group", {
-        name: this.formGroupName.current.value,
-        description: this.formDescription.current.value,
-        college: this.props.user.colleges[0],
-        campus: this.props.user.campuses[0],
-        program: this.props.user.programs[0],
-        course: this.state.selectedCourseID,
-        project: this.state.selectedProjectID,
-        users: [this.props.user._id],
-        preferences: [this.state.selectedPreference1ID, this.state.selectedPreference2ID],
-      })
-      .then((group) => {
-        axios.post("/usergroupadd/" + this.props.user._id + "/" + group.data._id).then(
-          () => {
-            alert("Group Created: " + group.data._id);
-          },
-          (err) => {
-            console.log(err);
-          }
-        );
-      })
-      .catch((err) => {
-        alert(err);
-      });
-  };
-
-  // Clear Button
-  handleClearTapped = () => {
-    window.location.reload();
   };
 
   render() {

@@ -30,7 +30,7 @@ const ProjectSchema = new mongoose.Schema({
     },
     course: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "campuses"
+        ref: "courses",
     },
     groups: [
         {
