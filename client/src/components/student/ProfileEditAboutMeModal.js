@@ -127,17 +127,17 @@ class ProfileEditAboutMeModal extends Component {
                 <Modal.Body>
                     <div className="form-row mb-2">
                         <input className="form-control" onChange={this.handleChange}
-                            defaultValue={this.state.firstname} name="firstname" />
+                            defaultValue={this.state.firstname} placeholder="First Name" name="firstname" />
                     </div>
 
                     <div className="form-row mb-2">
                         <input className="form-control" onChange={this.handleChange}
-                            defaultValue={this.state.lastname} name="lastname" />
+                            defaultValue={this.state.lastname} placeholder="Last Name" name="lastname" />
                     </div>
 
                     <div className="form-row mb-2">
                         <input className="form-control" onChange={this.handleChange}
-                            defaultValue={this.state.phone} name="phone" />
+                            defaultValue={this.state.phone} placeholder="Phone Number" name="phone" />
                     </div>
 
                     <div className="form-row mb-2">
@@ -146,6 +146,7 @@ class ProfileEditAboutMeModal extends Component {
                             className="form-control"
                             onChange={this.handleChange}
                             defaultValue={this.state.about} name="about"
+                            placeholder="Write a brief description of yourself"
                         />
                     </div>
 

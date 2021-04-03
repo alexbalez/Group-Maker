@@ -78,18 +78,20 @@ class StudendProfile extends Component {
         StudentDataConnector.updateStudentAbout(this.props.data._id, data)
             .then(res => {
                 console.log(res);
-                this.setState({
-                    firstname: data.firstname,
-                    lastname: data.lastname,
-                    phone: data.phone,
-                    about: data.aboutme,
-                    interests: intsSkills.interests,
-                    skills: intsSkills.skills
-                })
+                // this.setState({
+                //     firstname: data.firstname,
+                //     lastname: data.lastname,
+                //     phone: data.phone,
+                //     about: data.aboutme,
+                //     interests: intsSkills.interests,
+                //     skills: intsSkills.skills
+                // })
+                // alert("Your personal information was successfully saved");
             })
             .catch(err => console.log(err));
 
         this.toggleEditAboutMe();
+        //window.location.reload();
     };
 
     // ========college==============
@@ -176,13 +178,14 @@ class StudendProfile extends Component {
 
     saveEditCollege = (data) => {
         console.log("--saveEditCollege", data);
-        // StudentDataConnector.updateStudentCollegeInfo(this.props.data._id, data)
-        // .then(res => {
-        //     console.log(res)
-        // })
-        // .catch(err => console.log(err))
-        // this.toggleEditCollege();
-        // window.location.reload();
+        StudentDataConnector.updateStudentCollegeInfo(this.props.data._id, data)
+        .then(res => {
+            console.log(res)
+            // alert("Your college information was saved");
+        })
+        .catch(err => console.log(err))
+        this.toggleEditCollege();
+        window.location.reload();
     };
 
     render() {
@@ -202,24 +205,40 @@ class StudendProfile extends Component {
                         {/* Names and contact */}
                         <div className="mb-2 form-inline">
                             <span className="inline-label p-2">First Name</span>
-                            <span className="inline-content p-2 text-capitalize">{this.state.firstname}</span>
+                            <span className="inline-content p-2 text-capitalize">
+                                {this.state.firstname === undefined ? 
+                                    <span className="text text-secondary">Add your firstname in edit</span> 
+                                    : this.state.firstname}
+                            </span>
                         </div>
 
                         <div className="mb-2 form-inline">
                             <span className="inline-label p-2">Last Name</span>
-                            <span className="inline-content p-2 text-capitalize">{this.state.lastname}</span>
+                            <span className="inline-content p-2 text-capitalize">
+                                {this.state.lastname === undefined? 
+                                    <span className="text text-secondary">Add your lastname in edit</span>
+                                    : this.state.lastname}
+                            </span>
                         </div>
 
                         <div className="mb-2 form-inline">
                             <span className="inline-label p-2">Phone</span>
-                            <span className="inline-content p-2">{this.state.phone}</span>
+                            <span className="inline-content p-2">
+                                {this.state.phone === undefined?
+                                    <span className="text text-secondary">Add your phone number in edit</span>
+                                    : this.state.phone}
+                            </span>
                         </div>
 
                         {/* bio */}
                         <div className="form-inline mt-3 mb-2">
                             <h4>About Me</h4>
                         </div>
-                        <div className="border-grey-round p-2">{this.state.about}</div>
+                        <div className="border-grey-round p-2">
+                            {this.state.about === undefined?
+                                < span className="text text-secondary">Enter some information in edit</span>
+                                : this.state.about}
+                        </div>
 
 
                         {/* Interests and skills */}
@@ -275,21 +294,27 @@ class StudendProfile extends Component {
                         <div className="mb-2 form-inline">
                             <span className="inline-label p-2">Campus</span>
                             <span className="inline-content text-capitalize p-2">
-                                { this.state.campusName !== ""? this.state.campusName : "No campus selected" }
+                                { this.state.campusName !== ""? 
+                                    this.state.campusName 
+                                    : <span className="text text-secondary">No campus selected</span> }
                             </span>
                         </div>
 
                         <div className="mb-2 form-inline">
                             <span className="inline-label p-2">Program</span>
                             <span className="inline-content text-capitalize p-2">
-                                { this.state.programName !== ""? this.state.programName : "No program selected" }
+                                { this.state.programName !== ""? 
+                                    this.state.programName 
+                                    : <span className="text text-secondary">No program selected</span> }
                             </span>
                         </div>
 
                         <div className="mb-2 form-inline">
                             <span className="inline-label p-2">Semester</span>
                             <span className="inline-content p-2">
-                                { this.state.semester !== undefined? this.state.semester : "No semester selected"}
+                                { this.state.semester !== undefined? 
+                                    this.state.semester 
+                                    : <span className="text text-secondary">No semester selected</span>}
                             </span>
                         </div>
 
@@ -308,7 +333,7 @@ class StudendProfile extends Component {
                                         </li>
                                     ))
                                 :
-                                    <li className="list-group-item text-capitalize">No courses selected</li>
+                                    <li className="list-group-item text-capitalize text text-secondary">No courses selected</li>
                             }
 
                         </ul>

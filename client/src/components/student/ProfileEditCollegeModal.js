@@ -219,21 +219,21 @@ class ProfileEditCollegeModal extends Component {
 
                     {/* ========= Course List ================= */}
                     <div className="form-inline mt-3 mb-2">
-                        <h4>
-                            {this.state.courseList.length > 0? "Course List" : "You have no courses"}
-                        </h4>
+                        <h4>Course List</h4>
                     </div>
                     <ul className="list-group">
                         {
-                            
-                            this.state.courseList.map((course, index) => (
-                                <li key={index} className="list-group-item text-capitalize">
-                                    <span className="align-middle">{course.code} - {course.name}</span>
-                                    
-                                    <button className="btn btn-danger float-right" data-index={index}
-                                        onClick={this.removeCourse} title="Remove Course">X</button>
-                                </li>
-                            ))
+                            this.state.courseList.length < 1? 
+                                <li className="list-group-item text-capitalize">You have no courses</li>
+                                :
+                                this.state.courseList.map((course, index) => (
+                                    <li key={index} className="list-group-item text-capitalize">
+                                        <span className="align-middle">{course.code} - {course.name}</span>
+                                        
+                                        <button className="btn btn-danger float-right" data-index={index}
+                                            onClick={this.removeCourse} title="Remove Course">X</button>
+                                    </li>
+                                ))
                         }
 
                     </ul>
