@@ -52,8 +52,7 @@ class Dashboard extends Component {
 
     Promise.all(promises).then((values) => {
       console.log(values);
-      this.setState({ groups: values });
-      this.setState({ resolved: true });
+      this.setState({ groups: values, resolved: true });
     });
   };
 
@@ -115,8 +114,7 @@ class Dashboard extends Component {
     if (!this.state.loaded) {
       StudentDataConnector.getDashboard()
         .then((result) => {
-          this.setState({ data: result.data, loggedIn: true });
-          this.setState({ loaded: true });
+          this.setState({ data: result.data, loggedIn: true, loaded: true });
           console.log(this.state.data.groups);
         })
         .catch((err) => {

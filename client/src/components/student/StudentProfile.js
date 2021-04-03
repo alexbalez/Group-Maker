@@ -86,12 +86,15 @@ class StudendProfile extends Component {
                 //     interests: intsSkills.interests,
                 //     skills: intsSkills.skills
                 // })
-                // alert("Your personal information was successfully saved");
+                
+                this.toggleEditAboutMe();
+                window.location.reload();
+                //TODO: change this to a better notification
+                alert("Your personal information was successfully saved");
             })
             .catch(err => console.log(err));
 
-        this.toggleEditAboutMe();
-        //window.location.reload();
+        
     };
 
     // ========college==============
@@ -181,11 +184,15 @@ class StudendProfile extends Component {
         StudentDataConnector.updateStudentCollegeInfo(this.props.data._id, data)
         .then(res => {
             console.log(res)
-            // alert("Your college information was saved");
+            this.toggleEditCollege();
+            window.location.reload();
+            alert("Your college information was saved");
         })
-        .catch(err => console.log(err))
-        this.toggleEditCollege();
-        window.location.reload();
+        .catch(err => {
+            console.log(err);
+            alert("There was a problem updating your information.");
+        });
+       
     };
 
     render() {

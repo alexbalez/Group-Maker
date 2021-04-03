@@ -4,28 +4,17 @@ import "./components.css";
 import { Container, Row, Col } from "react-bootstrap";
 
 class Footer extends Component {
-  // constructor(props){
-  //     super(props);
-  // }
-
-  componentDidMount() {}
 
   render() {
     return (
-      <Container fluid className="bg-primary text-white">
+      <Container fluid className="bg-primary text-white footer">
         <Row className="p-2">
-          <Col sm></Col>
-          <Col sm className="text-center">
-            &copy;2021 Group Maker
-          </Col>
-          <Col sm className="text-right">
-            <Link className="text-white" to="/about">
-              About
-            </Link>
+          <Col className="d-none d-sm-block m-0 p-0"></Col>
+          <Col className="text-center">&copy;2021 Group Maker</Col>
+          <Col className="text-right">
+            <Link className="text-white" to="/about">About</Link>
             &nbsp;| &nbsp;
-            <Link className="text-white" to="/contact">
-              Contact Us
-            </Link>
+            <Link className="text-white" to="/contact">Contact Us</Link>
           </Col>
         </Row>
       </Container>

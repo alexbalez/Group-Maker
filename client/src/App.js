@@ -44,10 +44,13 @@ class App extends Component {
       //console.log(this.state.userdata.email)
       return (
         <BrowserRouter>
-          <AppHeader />
-          <AppNavHolder data={this.state.userdata} />
-          <div className="App-body min-vh-100">
+          <div className="App-body">
+            <AppHeader />
+            <AppNavHolder data={this.state.userdata} />
             <Switch>
+              <Route path="/" exact>
+                <Dashboard data={this.state.userdata} />
+              </Route>
               <Route path="/dashboard">
                 <Dashboard data={this.state.userdata} />
               </Route>
@@ -69,7 +72,6 @@ class App extends Component {
               <Route path="/profile">
                 <StudentProfile data={this.state.userdata} />
               </Route>
-              <Route path="/" exact component={Dashboard} />
               <Route path="/*" component={FourOhFour} />
             </Switch>
           </div>
