@@ -91,18 +91,29 @@ app.get("/group-info/:id", async (req, res) => {
   }
   console.log("/group-info/:id -> PARAM worked");
   const group = await groupModel.findById(req.params.id);
-  const college = await collegeModel.findById(group.college);
-  const campus = await campusModel.findById(group.campus);
-  const program = await programModel.findById(group.program);
-  const course = await courseModel.findById(group.course);
-  const project = await projectModel.findById(group.project);
+  //check if they exist!
+  if (group.college) {
+    const college = await collegeModel.findById(group.college);
+    group.college = college.name;
+  }
+  if (group.campus) {
+    const campus = await campusModel.findById(group.campus);
+    group.campus = campus.name;
+  }
+  if (group.program) {
+    const program = await programModel.findById(group.program);
+    group.program = program.name;
+  }
+  if (group.course) {
+    const course = await courseModel.findById(group.course);
+    group.course = course.code;
+  }
+  if (group.project) {
+    const project = await projectModel.findById(group.project);
+    group.project = project.name;
+  }
   const preference1 = await preferenceModel.findById(group.preferences[0]);
   const preference2 = await preferenceModel.findById(group.preferences[1]);
-  group.college = college.name;
-  group.campus = campus.name;
-  group.program = program.name;
-  group.course = course.code;
-  group.project = project.name;
   group.preferences = [preference1.description, preference2.description];
 
   try {
