@@ -22,6 +22,12 @@ class CreateGroup extends Component {
         };
     }
 
+    //TODO: this component should also pull a list of projects to select from that belong to a particular course
+    // this is only in the case that you are creating a course group, as  those are intended for official course group projects only
+
+    //TODO: also the UI should distinguish between if it is extracurricular group or course group, 
+    // since extracurricular shows the filter level, and course group shows list of courses that user belongs to, and projects that the teacher has 
+    // assigned to that course
     componentDidMount(){
         fetch('/courses-from-ids/' + JSON.stringify(this.props.user.courses))
             .then(res => res.json())
@@ -29,7 +35,7 @@ class CreateGroup extends Component {
                 console.log("Loaded registered courses:");
                 console.log(this.state.courses);
 
-                // TODO - TESTING COURSE LOADING
+                // TODO: - TESTING COURSE LOADING
                 // let mockCourses = [
                 //     {name: "Data Structures", code: "COMP 2146", _id: 1001},
                 //     {name: "Object Oriented Programming", code: "COMP 2078", _id: 1002},
@@ -53,33 +59,37 @@ class CreateGroup extends Component {
     formDescription = React.createRef();
 
 
-    // TODO Refactor all these handles into one
+    // TODO: Refactor all these handles into one
     handleGroupTypeSelect = (e) => {
         this.setState({groupType: e});
     };
 
     handleCourseSelect = (e) => {
         let courseArray = e.split(","); // id: index 0, code: index 1
-        this.setState({selectedCourseID: courseArray[0]});
-        this.setState({selectedCourseCode: courseArray[1]});
+        this.setState({ selectedCourseID: courseArray[0], selectedCourseCode: courseArray[1]});
     };
 
     handleGroupPreference1Select = (e) => {
         let preferenceArray = e.split(","); // id: index 0, code: index 1
-        this.setState({selectedPreference1ID: preferenceArray[0]});
-        this.setState({selectedPreference1Name: preferenceArray[1]});
+        this.setState({ selectedPreference1ID: preferenceArray[0], selectedPreference1Name: preferenceArray[1]});
     };
 
     handleGroupPreference2Select = (e) => {
         let preferenceArray = e.split(","); // id: index 0, code: index 1
-        this.setState({selectedPreference2ID: preferenceArray[0]});
-        this.setState({selectedPreference2Name: preferenceArray[1]});
+        this.setState({ selectedPreference2ID: preferenceArray[0], selectedPreference2Name: preferenceArray[1]});
     };
 
     // Create Group Button
     handleCreateGroupTapped = (e) => {
         e.preventDefault();
-        axios.post('/group', {
+        
+        if (this.state.groupType === "Course Assignment"){
+            if(this.state.selectedCourseID === ""){
+                alert("For assignment groups you must select a course");
+            }
+        }
+
+        let groupPrototype = {
             name: this.formGroupName.current.value,
             description: this.formDescription.current.value,
             college: this.props.user.colleges[0],
@@ -89,14 +99,31 @@ class CreateGroup extends Component {
             project: this.props.user.projects[0],
             users: [this.props.user._id],
             preferences: [this.state.selectedPreference1ID, this.state.selectedPreference2ID]
-        }).then((group)=>{
+        };
+
+        if (this.state.groupType === "Extracurricular"){
+            //don't include project
+            delete groupPrototype.project;
+
+            if(this.state.selectedCourseID === ""){
+                //don't include the course
+                delete groupPrototype.course;
+            }
+        }
+        
+        axios.post('/group', groupPrototype)
+        .then((group)=>{
             axios.post('/usergroupadd/'+this.props.user._id+'/'+group.data._id)
                 .then(() => {
                     alert('Group Created: ' + group.data._id);
-                }, (err) => {
+                }, 
+                (err) => {
                     console.log(err)
                 });
-        }).catch((err) => { alert(err); });
+        })
+        .catch((err) => alert(err));
+        
+        console.log(this.state.groupType)
 
     };
 
@@ -108,7 +135,6 @@ class CreateGroup extends Component {
     render() {
         return (
             <div>
-                {/*<Header history={this.props.history}/>*/}
                 <div className="col-sm-8 mx-auto mt-4">
                     <Form>
 
@@ -130,8 +156,8 @@ class CreateGroup extends Component {
                                     {this.state.selectedCourseCode}
                                 </Dropdown.Toggle>
                                 <Dropdown.Menu>
-                                    {this.state.courses.map((course) =>
-                                        <Dropdown.Item eventKey={course._id + "," + course.code}>{course.code}</Dropdown.Item>
+                                    {this.state.courses.map((course, index) =>
+                                        <Dropdown.Item key={index} eventKey={course._id + "," + course.code}>{course.code}</Dropdown.Item>
                                     )}
                                 </Dropdown.Menu>
                             </Dropdown>
@@ -155,8 +181,8 @@ class CreateGroup extends Component {
                                 </Dropdown.Toggle>
 
                                 <Dropdown.Menu>
-                                    {this.state.preferences.map((preference)=>
-                                        <Dropdown.Item eventKey={preference._id + "," + preference.description}>{preference.description}</Dropdown.Item>
+                                    {this.state.preferences.map((preference, index)=>
+                                        <Dropdown.Item key={index} eventKey={preference._id + "," + preference.description}>{preference.description}</Dropdown.Item>
                                     )}
                                 </Dropdown.Menu>
                             </Dropdown>
@@ -172,8 +198,8 @@ class CreateGroup extends Component {
                                 </Dropdown.Toggle>
 
                                 <Dropdown.Menu>
-                                    {this.state.preferences.map((preference)=>
-                                        <Dropdown.Item eventKey={preference._id + "," + preference.description}>{preference.description}</Dropdown.Item>
+                                    {this.state.preferences.map((preference, index)=>
+                                        <Dropdown.Item key={index} eventKey={preference._id + "," + preference.description}>{preference.description}</Dropdown.Item>
                                     )}
                                 </Dropdown.Menu>
                             </Dropdown>
