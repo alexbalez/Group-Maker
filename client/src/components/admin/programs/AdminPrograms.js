@@ -19,6 +19,7 @@ class AdminPrograms extends Component {
     }
 
     async componentDidMount(){
+
         // Load All Programs if no Campus Selected
         await this.setState({
             campusId: this.props.location.state.campusId
@@ -30,6 +31,7 @@ class AdminPrograms extends Component {
                 console.log('All Programs fetched', this.state.programs)
             }))
             this.setState({title: "All Programs"})
+        
         // Load Programs for specific Campus if selecting "View Programs" from AdminCampuses.js
         } else {
             await this.setState({
