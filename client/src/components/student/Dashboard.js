@@ -87,7 +87,7 @@ class Dashboard extends Component {
 
   //get group data for modal
   getGroupInfo = (groupid) => {
-    axios.get("/group/" + groupid).then(
+    axios.get("/group-info/" + groupid).then(
       (res) => {
         this.setState({ modalData: res.data });
       },
