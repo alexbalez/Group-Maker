@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import "../components.css";
 import { Button, Form, InputGroup, Dropdown } from "react-bootstrap";
-import http from "../../services/HTTPHelper";
+//import http from "../../services/HTTPHelper";
 import axios from "axios";
 
 class CreateGroup extends Component {
@@ -167,8 +167,8 @@ class CreateGroup extends Component {
                   {this.state.selectedCourseCode}
                 </Dropdown.Toggle>
                 <Dropdown.Menu>
-                  {this.state.courses.map((course) => (
-                    <Dropdown.Item eventKey={course._id + "," + course.code}>
+                  {this.state.courses.map((course, index) => (
+                    <Dropdown.Item key={index} eventKey={course._id + "," + course.code}>
                       {course.code}
                     </Dropdown.Item>
                   ))}
@@ -198,8 +198,8 @@ class CreateGroup extends Component {
                 </Dropdown.Toggle>
 
                 <Dropdown.Menu>
-                  {this.state.preferences.map((preference) => (
-                    <Dropdown.Item eventKey={preference._id + "," + preference.description}>
+                  {this.state.preferences.map((preference, index) => (
+                      <Dropdown.Item key={index} eventKey={preference._id + "," + preference.description}>
                       {preference.description}
                     </Dropdown.Item>
                   ))}
@@ -217,8 +217,8 @@ class CreateGroup extends Component {
                 </Dropdown.Toggle>
 
                 <Dropdown.Menu>
-                  {this.state.preferences.map((preference) => (
-                    <Dropdown.Item eventKey={preference._id + "," + preference.description}>
+                  {this.state.preferences.map((preference, index) => (
+                      <Dropdown.Item key={index} eventKey={preference._id + "," + preference.description}>
                       {preference.description}
                     </Dropdown.Item>
                   ))}
@@ -234,8 +234,8 @@ class CreateGroup extends Component {
                   {this.state.selectedProjectCode}
                 </Dropdown.Toggle>
                 <Dropdown.Menu>
-                  {this.state.projects.map((project) => (
-                    <Dropdown.Item eventKey={project._id + "," + project.name}>
+                  {this.state.projects.map((project, index) => (
+                      <Dropdown.Item key={index} eventKey={project._id + "," + project.name}>
                       {project.name}
                     </Dropdown.Item>
                   ))}
