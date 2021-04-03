@@ -176,12 +176,13 @@ class StudendProfile extends Component {
 
     saveEditCollege = (data) => {
         console.log("--saveEditCollege", data);
-        StudentDataConnector.updateStudentCollegeInfo(this.props.data._id, data)
-        .then(res => {
-            console.log(res)
-        })
-        .catch(err => console.log(err))
-        this.toggleEditCollege();
+        // StudentDataConnector.updateStudentCollegeInfo(this.props.data._id, data)
+        // .then(res => {
+        //     console.log(res)
+        // })
+        // .catch(err => console.log(err))
+        // this.toggleEditCollege();
+        // window.location.reload();
     };
 
     render() {

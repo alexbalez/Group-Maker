@@ -27,9 +27,9 @@ class ProfileEditCollegeModal extends Component {
     }
 
     setCampus = (e) => {
-         // if(this.state.courseList.length > 0){
-        //     if (!window.confirm("Changing campus will clear your selected program, semester and course list")) return;
-        // }
+        if(this.state.courseList.length > 0){
+            if (!window.confirm("Changing campus will clear your selected program, semester and course list")) return;
+        }
 
         //populate program dropdown from list of programs that belong to a campus
         //add currently selected campus to state
@@ -38,8 +38,9 @@ class ProfileEditCollegeModal extends Component {
         if(campusId === ""){
             console.log("campus id was empty")
 
-            this.setState({ campus: campusId, programList: [], courseList: [], masterCourseList: [] });
-            return
+            this.setState({ campus: campusId, programList: [], courseList: [], 
+                masterCourseList: [], changed: true });
+            return;
         }
 
         StudentDataConnector.getProgramsFromCampus(campusId)
@@ -52,12 +53,21 @@ class ProfileEditCollegeModal extends Component {
     };
 
     setProgram = (e) => {
-        // if(this.state.courseList.length > 0){
-        //     if (!window.confirm("Changing program will clear your selected course list and semester")) return;
-        // }
+        if(this.state.courseList.length > 0){
+            if (!window.confirm("Changing program will clear your selected course list and semester")) return;
+        }
+
         // retrieve list of courses that belong to the selected program
         // add these to state along eith the selected program
         const programId = e.target.value;
+
+        if (programId === "") {
+            console.log("program id was empty")
+
+            this.setState({ programList: [], courseList: [], masterCourseList: [], changed: true });
+            return;
+        }
+
         StudentDataConnector.getCoursesFromProgram(programId)
             .then((res)=>{
 
@@ -69,13 +79,15 @@ class ProfileEditCollegeModal extends Component {
     };
 
     setSemester = (e) => {
-
+        if(this.state.courseList.length > 0){
+            if (!window.confirm("Changing semester will reset your course list")) return;
+        }
+        if(e.target.value === ""){
+            console.log("semester was empty");
+            this.setState({ courseList: [], changed: true});
+            return;
+        }
         const semester = parseInt(e.target.value);
-
-        // if(this.state.courseList.length > 0){
-        //     if (!window.confirm("Changing semester will reset your course list")) return;
-        // }
-        
         // make the course list based on selected semester
         let courseList = this.state.masterCourseList.filter(course =>{
             return course.semester === semester;
@@ -180,6 +192,7 @@ class ProfileEditCollegeModal extends Component {
                         <span className="inline-label p-2" style={{ width: '25%' }}>Program</span>
                         <select className="inline-content btn text-capitalize p-2 dropdown-toggle" style={{ width: '75%' }}
                             name="program" value={this.state.program} onChange={this.setProgram}>
+                            
                             <option className="bg-white text-dark" value="">Select a Program</option>
                             {
                                 this.state.programList.map((item, index) => (
@@ -195,7 +208,7 @@ class ProfileEditCollegeModal extends Component {
                         <span className="inline-label p-2" style={{ width: '25%' }}>Semester</span>
                         <select className="inline-content btn text-capitalize p-2 dropdown-toggle" style={{ width: '75%' }}
                             name="semester" value={this.state.semester} onChange={this.setSemester}>
-                            <option className="bg-white text-dark" value="0">Select a Semester</option>
+                            <option className="bg-white text-dark" value="">Select a Semester</option>
                             {
                                 this.state.semesterOptions.map((item, index) => (
                                     <option key={index} className="bg-white text-dark">{item}</option>
