@@ -1,5 +1,6 @@
 const express = require('express');
 const courseModel = require('../../model/CourseModel');
+const { Types, ObjectId } = require('mongoose');
 const app = express();
 
 // Create
@@ -42,6 +43,7 @@ app.get('/course/:id', async(req,res) => {
 app.get('/courses-from-ids/:ids', async (req, res) => {
     var courseIDs = req.params.ids;
     courseIDs = JSON.parse(courseIDs);
+    console.log("COURSES: " + courseIDs);
     var courseObjectIDs = courseIDs.map((currentID) => { return Types.ObjectId(currentID) });
     console.log(courseObjectIDs);
     let courses = await courseModel.find({ _id: { $in: courseObjectIDs } });
