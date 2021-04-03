@@ -105,7 +105,8 @@ class ProfileEditCollegeModal extends Component {
     };
 
     resetCourses = () => {
-        if(!this.state.changed || this.state.semester === 0) return;
+        let proceed = window.confirm("The action will reset your course list to all standard courses from your selected program and semester");
+        if(!proceed || this.state.semester === 0) return;
         
         console.log('Reload the courses that might have been removed or remove courses that were added');
 
