@@ -291,7 +291,7 @@ class StudendProfile extends Component {
 
 
                     {/* ================== College Information group =========================== */}
-                    <div className="border border-primary p-3 mt-4">
+                    <div className="border border-primary p-3 mb-3 mt-4">
                         <div className="form-inline mb-3">
                             <h4>College Information</h4>
                             <button className="btn btn-warning ml-auto" onClick={this.toggleEditCollege}>Edit</button>
