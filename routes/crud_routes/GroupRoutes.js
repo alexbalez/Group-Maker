@@ -91,6 +91,7 @@ app.get("/group-info/:id", async (req, res) => {
   }
   console.log("/group-info/:id -> PARAM worked");
   const group = await groupModel.findById(req.params.id);
+  console.log(group);
   //check if they exist!
   if (group.college) {
     const college = await collegeModel.findById(group.college);
@@ -112,10 +113,14 @@ app.get("/group-info/:id", async (req, res) => {
     const project = await projectModel.findById(group.project);
     group.project = project.name;
   }
-  const preference1 = await preferenceModel.findById(group.preferences[0]);
-  const preference2 = await preferenceModel.findById(group.preferences[1]);
-  group.preferences = [preference1.description, preference2.description];
-
+  if (group.preferences[0]) {
+    const preference1 = await preferenceModel.findById(group.preferences[0]);
+    group.preferences.push(preference1);
+  }
+  if (group.preferences[1]) {
+    const preference2 = await preferenceModel.findById(group.preferences[1]);
+    group.preferences.push(preference2);
+  }
   try {
     res.append("Access-Control-Allow-Origin", ["*"]);
     res.send(group);
