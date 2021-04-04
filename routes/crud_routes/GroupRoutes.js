@@ -89,6 +89,7 @@ app.get("/group-info/:id", async (req, res) => {
     console.log("/group-info/:id -> PARAM undefined");
     return;
   }
+  let prefs = false;
   console.log("/group-info/:id -> PARAM worked");
   const group = await groupModel.findById(req.params.id);
   console.log(group);
@@ -115,12 +116,18 @@ app.get("/group-info/:id", async (req, res) => {
   }
   if (group.preferences[0]) {
     const preference1 = await preferenceModel.findById(group.preferences[0]);
-    group.preferences.push(preference1);
+    group.preferences[0] = preference1.description + " ";
+    prefs = true;
   }
   if (group.preferences[1]) {
     const preference2 = await preferenceModel.findById(group.preferences[1]);
-    group.preferences.push(preference2);
+    group.preferences[1] = preference2.description;
+    prefs = true;
   }
+  if (!prefs) {
+    group.preferences[0] = "None";
+  }
+
   try {
     res.append("Access-Control-Allow-Origin", ["*"]);
     res.send(group);

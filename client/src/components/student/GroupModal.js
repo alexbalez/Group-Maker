@@ -85,6 +85,7 @@ class GroupModal extends Component {
             <div className="row">
               <div className="col-auto mr-auto">
                 <p>
+                  {console.log(this.props.data)}
                   {this.props.data.college !== undefined
                     ? `College: ${this.props.data.college}`
                     : null}
@@ -100,14 +101,12 @@ class GroupModal extends Component {
                     : null}
                 </p>
                 <p>{this.props.data.course !== "" ? `Course: ${this.props.data.course}` : null}</p>
-                {this.props.data.project !== undefined
-                  ? `Project: ${this.props.data.project}`
-                  : null}
                 <p>
-                  {/*this.props.data.preferences[0] || this.props.data.preferences[1]
-                    ? `Preferences: ${this.props.data.preferences}`
-                    : null*/}
+                  {this.props.data.project !== undefined
+                    ? `Project: ${this.props.data.project}`
+                    : null}
                 </p>
+                <p>Preferences: {this.props.data.preferences}</p>
                 <p>In this group:</p>
                 {/** need to check if users are loaded before listing */}
                 {this.props.data.users ? <UserList users={this.props.data.users} /> : null}
