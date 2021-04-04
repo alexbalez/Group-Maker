@@ -74,6 +74,11 @@ class CreateGroup extends Component {
   handleCreateGroupTapped = (e) => {
     e.preventDefault();
 
+      if (this.formGroupName.current.value === ""){
+          alert("You must provide a name for the group");
+          return;
+      }
+
     if (this.state.groupType === "Course Assignment") {
       if (this.state.selectedCourseID === "") {
         alert("For assignment groups you must select a course");
