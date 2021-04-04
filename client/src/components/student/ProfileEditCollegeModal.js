@@ -114,7 +114,7 @@ class ProfileEditCollegeModal extends Component {
             return course.semester === this.state.semester;
         });
 
-        this.setState({ courseList })
+        this.setState({ courseList, changed:true })
 
     };
 
@@ -137,7 +137,7 @@ class ProfileEditCollegeModal extends Component {
             courses
         }
 
-        this.props.save(prototype)
+        this.props.save(prototype);
     };
 
     //ad hoc course functions
