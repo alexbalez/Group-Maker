@@ -1,5 +1,9 @@
 const express = require('express');
 const campusModel = require('../../model/CampusModel');
+const programModel = require('../../model/ProgramModel');
+
+const { requireAuth } = require('../../auth/authMiddleware');
+
 const app = express();
 
 // Create
@@ -37,6 +41,31 @@ app.get('/campus/:id', async(req,res) => {
         res.status(500).send(err);
     }
 });
+
+
+// Get campus info from its ID, and get a list of program objects that belong to it
+app.get('/campus-programs/:campusId', requireAuth, async (req, res) => {
+
+  try {
+    const campus = await campusModel.findById(req.params.campusId, { name:1, address:1, programs:1 });
+    console.log(campus.programs)
+
+    const programs = await programModel.find(
+      { '_id': { $in: campus.programs } },
+      { code: 1, name: 1 }
+    )
+
+    res.json({ campus, programs });
+
+  }
+  catch (err) {
+    console.log(err)
+    res.status(500).send(err);
+  }
+});
+
+
+
 
 // Update (use patch instead of put so you only have to send the data you want to change)
 app.patch('/campus/:id', async (req, res) => {

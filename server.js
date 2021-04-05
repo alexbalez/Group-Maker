@@ -5,7 +5,6 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 
 const studentRoute = require('./routes/studentRoute');
-const userRoute = require('./routes/userRoute');
 const authRoute = require('./routes/authRoute');
 const userRouter = require('./routes/crud_routes/UserRoutes.js');
 const roleRouter = require('./routes/crud_routes/RoleRoutes.js');
@@ -33,6 +32,8 @@ const groupProgramRouter = require('./routes/entity_relationship_routes/GroupPro
 const groupCourseRouter = require('./routes/entity_relationship_routes/GroupCourseRoutes.js');
 const groupProjectRouter = require('./routes/entity_relationship_routes/GroupProjectRoutes.js');
 
+const campusProgramCourseRouter = require('./routes/entity_relationship_routes/CampusProgramCourseRoutes.js');
+const studentEditCollegeInfoRouter = require('./routes/entity_relationship_routes/StudentEditCollegeInfoRoutes');
 
 const app = express();
 const port = 5000;
@@ -47,7 +48,6 @@ app.use(bodyParser.json());
 
 app.use(studentRoute);
 app.use(authRoute); //authRoute exports express.Router()
-// app.use(userRoute); //moved this functionality to userRouter
 app.use(userRouter);
 app.use(roleRouter);
 app.use(groupRouter);
@@ -73,6 +73,9 @@ app.use(groupCampusRouter);
 app.use(groupProgramRouter);
 app.use(groupCourseRouter);
 app.use(groupProjectRouter);
+
+app.use(campusProgramCourseRouter);
+app.use(studentEditCollegeInfoRouter);
 
 // MongoDB Connection
 //const DB_URL = "mongodb+srv://thiago:mypassword@cluster0.siwfc.mongodb.net/group-maker?retryWrites=true&w=majority";
@@ -101,33 +104,33 @@ const server = app.listen(port, () => console.log(`Server running on port ${port
 
 /////////// testing cookies ///////////////////
 
-app.get('/set-cookies', (req, res) => {
+// app.get('/set-cookies', (req, res) => {
 
-    // sets cookie called newUser with value of true
-    //access programmatically with document.cookie
-    //res.setHeader('Set-Cookie', 'newUser=true');
+//     // sets cookie called newUser with value of true
+//     //access programmatically with document.cookie
+//     //res.setHeader('Set-Cookie', 'newUser=true');
 
-    // using cookie middlware:
+//     // using cookie middlware:
 
-    res.cookie('newUser', false); //sets a cookie called new user with value true
+//     res.cookie('newUser', false); //sets a cookie called new user with value true
     
-    //set cookie to keep user logged in for one day (max age in ms)
-    //httpOnly: true means that cookie is not accessible in js console. only through http
-    res.cookie('isEmployee', true, { maxAge: 1000 * 60 * 60 * 24, httpOnly: true });
+//     //set cookie to keep user logged in for one day (max age in ms)
+//     //httpOnly: true means that cookie is not accessible in js console. only through http
+//     res.cookie('isEmployee', true, { maxAge: 1000 * 60 * 60 * 24, httpOnly: true });
     
-    //set cookie for use with only https (secure: true)
-    //res.cookie('isEmployee', true, { maxAge: 1000 * 3600 * 24, secure: true });
+//     //set cookie for use with only https (secure: true)
+//     //res.cookie('isEmployee', true, { maxAge: 1000 * 3600 * 24, secure: true });
 
-    res.send('you got the cookies!');
+//     res.send('you got the cookies!');
 
-});
+// });
 
-app.get('/read-cookies', (req, res) => {
+// app.get('/read-cookies', (req, res) => {
 
-    // once cookies are set, as long as the cookies are alive, every request has those cookies attached
-    const cookies = req.cookies;
+//     // once cookies are set, as long as the cookies are alive, every request has those cookies attached
+//     const cookies = req.cookies;
     
 
-    res.json(cookies);
+//     res.json(cookies);
 
-});
+// });
