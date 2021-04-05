@@ -84,23 +84,23 @@ class GroupModal extends Component {
           <div className="container">
             <div className="row">
               <div className="col-auto mr-auto">
-                <p>
+                <p className="text-capitalize">
                   {console.log(this.props.data)}
                   {this.props.data.college !== undefined
                     ? `College: ${this.props.data.college}`
                     : null}
                 </p>
-                <p>
+                <p className="text-capitalize">
                   {this.props.data.campus !== undefined
                     ? `Campus: ${this.props.data.campus}`
                     : null}
                 </p>
-                <p>
+                <p className="text-capitalize">
                   {this.props.data.program !== undefined
                     ? `Program: ${this.props.data.program}`
                     : null}
                 </p>
-                <p>
+                <p className="text-capitalize">
                   {this.props.data.course !== undefined
                     ? `Course: ${this.props.data.course}`
                     : null}
