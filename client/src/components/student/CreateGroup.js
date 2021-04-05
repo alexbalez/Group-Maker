@@ -74,14 +74,15 @@ class CreateGroup extends Component {
   handleCreateGroupTapped = (e) => {
     e.preventDefault();
 
-      if (this.formGroupName.current.value === ""){
-          alert("You must provide a name for the group");
-          return;
-      }
+    if (this.formGroupName.current.value === "") {
+      alert("You must provide a name for the group");
+      return;
+    }
 
     if (this.state.groupType === "Course Assignment") {
       if (this.state.selectedCourseID === "") {
         alert("For assignment groups you must select a course");
+        return;
       }
     }
 
@@ -112,7 +113,8 @@ class CreateGroup extends Component {
       .then((group) => {
         axios.post("/usergroupadd/" + this.props.user._id + "/" + group.data._id).then(
           () => {
-            alert("Group Created: " + group.data._id);
+            //alert("Group Created: " + group.data._id);
+            window.location.href = "/dashboard";
           },
           (err) => {
             console.log(err);
@@ -204,7 +206,10 @@ class CreateGroup extends Component {
 
                 <Dropdown.Menu>
                   {this.state.preferences.map((preference, index) => (
-                      <Dropdown.Item key={index} eventKey={preference._id + "," + preference.description}>
+                    <Dropdown.Item
+                      key={index}
+                      eventKey={preference._id + "," + preference.description}
+                    >
                       {preference.description}
                     </Dropdown.Item>
                   ))}
@@ -223,7 +228,10 @@ class CreateGroup extends Component {
 
                 <Dropdown.Menu>
                   {this.state.preferences.map((preference, index) => (
-                      <Dropdown.Item key={index} eventKey={preference._id + "," + preference.description}>
+                    <Dropdown.Item
+                      key={index}
+                      eventKey={preference._id + "," + preference.description}
+                    >
                       {preference.description}
                     </Dropdown.Item>
                   ))}
@@ -240,7 +248,7 @@ class CreateGroup extends Component {
                 </Dropdown.Toggle>
                 <Dropdown.Menu>
                   {this.state.projects.map((project, index) => (
-                      <Dropdown.Item key={index} eventKey={project._id + "," + project.name}>
+                    <Dropdown.Item key={index} eventKey={project._id + "," + project.name}>
                       {project.name}
                     </Dropdown.Item>
                   ))}
