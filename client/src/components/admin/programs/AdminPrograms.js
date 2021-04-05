@@ -93,7 +93,7 @@ class AdminPrograms extends Component {
                     </tbody>
                 </Table>
 
-                <Link className="btn btn-success btn-block" to="/admin-add-campus">Add Program</Link>
+                <Link className="btn btn-success btn-block" to="/admin-add-program">Add Program</Link>
             </div>
         )
     }
