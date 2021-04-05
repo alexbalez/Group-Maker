@@ -13,7 +13,7 @@ class CreateGroup extends Component {
       preferences: [],
       projects: [],
       selectedProjectCode: "None",
-      selectedProjectID: "60689e5660efb17b48a0401d",
+      selectedProjectID: "",
       selectedCourseCode: "None",
       selectedCourseID: "",
       selectedPreference1ID: "",
@@ -106,6 +106,10 @@ class CreateGroup extends Component {
         //don't include the course
         delete groupPrototype.course;
       }
+    }
+    if (this.state.selectedProjectID === "") {
+      //not for a specific project
+      delete groupPrototype.project;
     }
 
     axios
