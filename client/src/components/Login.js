@@ -28,7 +28,7 @@ class Login extends Component{
             AuthDataConnector.getAuth(credentials)
                 .then((res) =>{
                     //can get userid from server response
-                    console.log('Login successful.', 'User id: '+res.data.userid)
+                    console.log('Login successful.', 'User id: ' + res.data.userid)
                     console.log(res)
                     this.props.history.push('/dashboard')
                     window.location.reload() //reload page so navbar disappears

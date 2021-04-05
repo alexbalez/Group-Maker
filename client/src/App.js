@@ -22,6 +22,7 @@ import AdminAllCampuses from "./components/admin/campuses/AdminAllCampuses";
 import AdminUpdateCampus from "./components/admin/campuses/AdminUpdateCampus";
 import AdminAddCampus from "./components/admin/campuses/AdminAddCampus";
 import AdminPrograms from "./components/admin/programs/AdminPrograms";
+import AdminUpdateProgram from "./components/admin/programs/AdminUpdateProgram";
 
 class App extends Component {
     constructor(props){
@@ -88,6 +89,7 @@ class App extends Component {
                         <Route path="/admin-update-campus" component={AdminUpdateCampus}></Route>
                         <Route path="/admin-add-campus" component={AdminAddCampus}></Route>
                         <Route path="/admin-programs" component={AdminPrograms}></Route>
+                        <Route path="/admin-update-program" component={AdminUpdateProgram}></Route>
 
                         <Route path='/signup' component={CreateAccount} />
                         <Route path="/*" component={Login}/>
