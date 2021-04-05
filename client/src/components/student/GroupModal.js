@@ -100,7 +100,11 @@ class GroupModal extends Component {
                     ? `Program: ${this.props.data.program}`
                     : null}
                 </p>
-                <p>{this.props.data.course !== "" ? `Course: ${this.props.data.course}` : null}</p>
+                <p>
+                  {this.props.data.course !== undefined
+                    ? `Course: ${this.props.data.course}`
+                    : null}
+                </p>
                 <p>
                   {this.props.data.project !== undefined
                     ? `Project: ${this.props.data.project}`
