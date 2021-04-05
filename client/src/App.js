@@ -80,6 +80,7 @@ class App extends Component {
                 <BrowserRouter>
                     <AppHeader/>
                     <Switch>
+                        {/*This is a comment for testing purposes.*/}
                         {/*This to be moved after Admin Auth*/} 
                         <Route path="/admin-dashboard" component={AdminDashboard}></Route>
                         <Route path="/admin-params-search" component={AdminParamsSearch}></Route>
