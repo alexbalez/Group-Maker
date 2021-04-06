@@ -11,7 +11,7 @@ class AdminAddCourse extends Component {
             programs:[],
             programId: '',
             programName: '',
-            programCOde: '',
+            programCode: '',
             courseName: '',
             courseCode: '',
             courseSemester: '',
