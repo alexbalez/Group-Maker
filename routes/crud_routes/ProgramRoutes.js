@@ -81,5 +81,40 @@ app.delete('/program/:id', async (req, res) => {
     }
   })
 
+  app.post('/program-add-course/:programId/:courseId', async (req, res) => {
+    const tempProgramId = req.params.programId;
+    const tempCourseId = req.params.courseId;
+    try {
+      const program = await programModel.findByIdAndUpdate(
+        { _id: tempProgramId },
+        { $addToSet: {courses: tempCourseId }},
+        { new: true, useFindAndModify: false}
+      )
+  
+      if(!program) res.status(404).send("No Program found!")
+      await program.save();
+      res.end();
+    } catch (err) {
+      res.status(500).send(err)
+    }
+  })
+  
+  app.post('/program-remove-course/:programId/:courseId', async (req, res) => {
+    const tempProgramId = req.params.programId;
+    const tempCourseId = req.params.courseId;
+    try {
+      const program = await programModel.findByIdAndUpdate(
+        { _id: tempProgramId },
+        { $pull: { courses: tempCourseId }},
+        { new: true, useFindAndModify: false}
+      )
+  
+      await program.save();
+      res.end();
+    } catch {
+      res.status(500).send(err);
+    }
+  })
+
 module.exports = app
 

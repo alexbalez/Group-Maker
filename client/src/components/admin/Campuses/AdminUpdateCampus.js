@@ -7,7 +7,6 @@ import axios from 'axios';
 class AdminUpdateCampus extends Component {
     constructor(props){
         super(props)
-        // const campusId = (this.props.location.state.campusId)
         this.state = {
           campusId: '',
           campusName: '',
@@ -77,7 +76,7 @@ class AdminUpdateCampus extends Component {
                 }
             })
         )
-        
+
     }
 
     handleRemoveProgram(event){

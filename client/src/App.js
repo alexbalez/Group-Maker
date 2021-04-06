@@ -24,6 +24,8 @@ import AdminAddCampus from "./components/admin/campuses/AdminAddCampus";
 import AdminPrograms from "./components/admin/programs/AdminPrograms";
 import AdminUpdateProgram from "./components/admin/programs/AdminUpdateProgram";
 import AdminAddProgram from "./components/admin/programs/AdminAddProgram"; 
+import AdminCourses from "./components/admin/courses/AdminCourses";
+
 
 class App extends Component {
   constructor(props) {
@@ -105,6 +107,7 @@ class App extends Component {
             <Route path="/admin-programs" component={AdminPrograms}></Route>
             <Route path="/admin-update-program" component={AdminUpdateProgram}></Route>
             <Route path="/admin-add-program" component={AdminAddProgram}></Route>
+            <Route path="/admin-courses" component={AdminCourses}></Route>
 
             <Route path="/signup" component={CreateAccount} />
             <Route path="/*" component={Login} />

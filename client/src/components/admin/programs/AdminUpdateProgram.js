@@ -11,12 +11,15 @@ class AdminUpdateProgram extends Component {
           programId: '',
           programName: '',
           programCode: '',
-          campusId: '',
-          campuses: []
+          programCourseIds: [],
+          courses: [],
+          courseId: ''
         }
 
         this.handleInputChange = this.handleInputChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleAddCourse = this.handleAddCourse.bind(this);
+        this.handleRemoveCourse = this.handleRemoveCourse.bind(this);
     }
 
     async componentDidMount(){
@@ -34,6 +37,11 @@ class AdminUpdateProgram extends Component {
             campusName: this.props.location.state.campusName,
             campusProgramIds: this.props.location.state.campusProgramIds
         })
+        await fetch('/courses')
+        .then(res => res.json())
+        .then(courses => this.setState({courses}, () => {
+            console.log('All Courses fetched', this.state.courses)
+        }))
         console.log(this.state.programId)
     }
 
@@ -65,6 +73,44 @@ class AdminUpdateProgram extends Component {
         }))
         event.preventDefault();
     }
+    handleAddCourse(event){
+        event.preventDefault();
+        console.log(this.state.programId)
+        console.log(this.state.courseId)
+        axios.post('/program-add-course/' + this.state.programId + '/' + this.state.courseId)
+        .then(function(response){
+            console.log(response)
+            return response
+        })
+        .then(
+            this.props.history.push({
+                pathname: '/admin-programs',
+                states: {
+    
+                }
+            })
+        )
+
+    }
+
+    handleRemoveCourse(event){
+        event.preventDefault();
+        console.log(this.state.programId)
+        console.log(this.state.courseId)
+        axios.post('/program-remove-course/' + this.state.programId + '/' + this.state.courseId)
+        .then(function(response){
+            console.log(response)
+            return response
+        })
+        .then(
+            this.props.history.push({
+                pathname: '/admin-programs',
+                states: {
+    
+                }
+            })
+        )
+    }
 
     render() {
         return(
@@ -95,6 +141,37 @@ class AdminUpdateProgram extends Component {
                     </input>
                     <Button type="submit" variant="success">Update</Button>
                 </Form>
+                <hr></hr>
+                <form onSubmit={this.handleAddCourse}>
+                    <label for="courseId">Select Course to Add</label>
+                    <select id="courseId" name="courseId" onChange={this.handleInputChange}>
+                        {this.state.courses.map((course) => {
+                            for(const programCourseId of this.state.programCourseIds) {
+                                if(course.id == programCourseId){
+                                    break
+                                }
+                                else{
+                                    return <option value={course._id}>{course.name}</option>
+                                }
+                            }  
+                        })}
+                    </select>
+                    <button type="submit">Add to Program</button>
+                </form>
+                <hr></hr>
+                <form onSubmit={this.handleRemoveCourse}>
+                    <label for="courseId">Select Course to Remove</label>
+                    <select id="courseId" name="courseId" onChange={this.handleInputChange}>
+                        {this.state.courses.map((course) => 
+                            this.state.programCourseIds.map((courseId) => {
+                                if(course._id == courseId){
+                                    return <option value={course._id}>{course.name}</option> 
+                                }
+                            })  
+                        )}
+                    </select>
+                    <button type="submit">Remove from Program</button>
+                </form>
             </div>
             
         )

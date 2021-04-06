@@ -17,6 +17,7 @@ class AdminPrograms extends Component {
         }
         this.handleUpdateProgram = this.handleUpdateProgram.bind(this);
         this.handleAddProgram = this.handleAddProgram.bind(this);
+        this.handleViewCourses = this.handleViewCourses.bind(this);
     }
 
     async componentDidMount(){
@@ -73,6 +74,18 @@ class AdminPrograms extends Component {
             }
         })
     }
+
+    handleViewCourses(event){
+        const program = JSON.parse(event.target.value);
+        this.props.history.push({
+            pathname: "/admin-courses",
+            state: {
+                programId: program._id,
+                programName: program.name,
+                programCourseIds: program.courses
+            }
+        })
+    }
    
     render() {
         return(
@@ -96,7 +109,7 @@ class AdminPrograms extends Component {
                                 <td>{program._id}</td>
                                 <td>{program.name}</td>
                                 <td>{program.code}</td>
-                                <td><Button variant="success">View Courses</Button></td>
+                                <td><Button variant="success" value={JSON.stringify(program)} onClick={this.handleViewCourses}>View Courses</Button></td>
                                 <td><Button variant="warning" value={JSON.stringify(program)} onClick={this.handleUpdateProgram}>Update Program</Button></td>
                                 <td><Button variant="danger">Delete Program</Button></td>
                             </tr>   
