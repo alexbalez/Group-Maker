@@ -4,46 +4,48 @@ import { Link } from "react-router-dom";
 import {Button, Form, InputGroup, FormControl, Dropdown, Table, Container} from 'react-bootstrap'
 import axios from 'axios';
 
-class AdminUpdateProgram extends Component {
+class AdminUpdateCourse extends Component {
     constructor(props){
         super(props)
         this.state = {
-          programId: '',
-          programName: '',
-          programCode: '',
-          programCourseIds: [],
-          courses: [],
-          courseId: ''
+          courseId: '',
+          courseName: '',
+          courseCode: '',
+          courseSemester: '',
+          courseStartDate: '',
+          courseEndDate: '',
+          courseProjectIds: [],
+          projects: [],
+          projectId: ''
         }
 
         this.handleInputChange = this.handleInputChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
-        this.handleAddCourse = this.handleAddCourse.bind(this);
-        this.handleRemoveCourse = this.handleRemoveCourse.bind(this);
+        this.handleAddProject = this.handleAddProject.bind(this);
+        this.handleRemoveProject = this.handleRemoveProject.bind(this);
     }
 
     async componentDidMount(){
-        // await fetch('/campuses')
-        // .then(res => res.json())
-        // .then(campuses => this.setState({campuses}, () =>{
-        //     console.log('Campuses fetched', this.state.campuses)
-        // }))
+        await fetch('/campuses')
+        .then(res => res.json())
+        .then(campuses => this.setState({campuses}, () =>{
+            console.log('Campuses fetched', this.state.campuses)
+        }))
         
         await this.setState({
             programId: this.props.location.state.programId,
             programName: this.props.location.state.programName,
             programCode: this.props.location.state.programCode,
-            programCourseIds: this.props.location.state.programCourseIds,
-            campusId: this.props.location.state.campusId,
-            campusName: this.props.location.state.campusName,
-            campusProgramIds: this.props.location.state.campusProgramIds
+            // campusId: this.props.location.state.campusId,
+            // campusName: this.props.location.state.campusName,
+            // campusProgramIds: this.props.location.state.campusProgramIds
         })
         await fetch('/courses')
         .then(res => res.json())
         .then(courses => this.setState({courses}, () => {
             console.log('All Courses fetched', this.state.courses)
         }))
-        console.log(this.state.programCourseIds)
+        console.log(this.state.programId)
     }
 
     handleInputChange(event){
@@ -74,7 +76,7 @@ class AdminUpdateProgram extends Component {
         }))
         event.preventDefault();
     }
-    handleAddCourse(event){
+    handleAddProject(event){
         event.preventDefault();
         console.log(this.state.programId)
         console.log(this.state.courseId)
@@ -86,15 +88,15 @@ class AdminUpdateProgram extends Component {
         .then(
             this.props.history.push({
                 pathname: '/admin-programs',
-                state: {
-                    campusId: "All"
+                states: {
+    
                 }
             })
         )
 
     }
 
-    handleRemoveCourse(event){
+    handleRemoveProject(event){
         event.preventDefault();
         console.log(this.state.programId)
         console.log(this.state.courseId)
@@ -106,8 +108,8 @@ class AdminUpdateProgram extends Component {
         .then(
             this.props.history.push({
                 pathname: '/admin-programs',
-                state: {
-                    campusId: "All"
+                states: {
+    
                 }
             })
         )
@@ -180,4 +182,4 @@ class AdminUpdateProgram extends Component {
 }
 
 
-export default AdminUpdateProgram;
+export default AdminUpdateCourse;

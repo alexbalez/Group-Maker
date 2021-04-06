@@ -71,7 +71,7 @@ class AdminUpdateCampus extends Component {
         .then(
             this.props.history.push({
                 pathname: '/admin-campuses',
-                states: {
+                state: {
     
                 }
             })

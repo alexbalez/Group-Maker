@@ -58,6 +58,9 @@ class AdminCourses extends Component {
                 courseId: course._id,
                 courseName: course.name,
                 courseCode: course.code,
+                courseSemester: course.Semester,
+                courseStartDate: course.startdate,
+                courseEndDate: course.enddate,
                 programId: this.state.programId,
                 programName: this.state.programName,
                 programCourseIds: this.state.programCourseIds

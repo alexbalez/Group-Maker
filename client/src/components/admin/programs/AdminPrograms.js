@@ -58,6 +58,7 @@ class AdminPrograms extends Component {
                 programId: program._id,
                 programName: program.name,
                 programCode: program.code,
+                programCourseIds: program.courses,
                 campusId: this.state.campusId,
                 campusName: this.state.campusName,
                 campusProgramIds: this.state.campusProgramIds
