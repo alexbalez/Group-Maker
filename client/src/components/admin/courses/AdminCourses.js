@@ -86,6 +86,9 @@ class AdminCourses extends Component {
                             <th>Course ID</th>
                             <th>Course Name</th>
                             <th>Course Code</th>
+                            <th>Semester</th>
+                            <th>Start Date</th>
+                            <th>End Date</th>
                             <th>View</th>
                             <th>Update</th>
                             <th>Delete</th>
@@ -97,6 +100,9 @@ class AdminCourses extends Component {
                                 <td>{course._id}</td>
                                 <td>{course.name}</td>
                                 <td>{course.code}</td>
+                                <td>{course.semester}</td>
+                                <td>{course.startdate}</td>
+                                <td>{course.enddate}</td>
                                 <td><Button variant="success" >View Projects</Button></td>
                                 <td><Button variant="warning" value={JSON.stringify(course)} onClick={this.handleUpdateCourse}>Update Course</Button></td>
                                 <td><Button variant="danger">Delete Course</Button></td>

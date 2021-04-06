@@ -42,7 +42,7 @@ app.get('/course/:id', async(req,res) => {
 app.get('/courses-by-id/:course_ids', async (req, res) => {
   var courseIds = req.params.course_ids;
   courseIds = JSON.parse(courseIds)
-
+ 
   var courseObjectIds = courseIds.map((courseId) => { return Types.ObjectId(courseId) })
   console.log(courseObjectIds)
   let courses = await courseModel.find({ _id: { $in: courseObjectIds } })

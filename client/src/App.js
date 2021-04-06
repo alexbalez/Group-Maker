@@ -25,6 +25,7 @@ import AdminPrograms from "./components/admin/programs/AdminPrograms";
 import AdminUpdateProgram from "./components/admin/programs/AdminUpdateProgram";
 import AdminAddProgram from "./components/admin/programs/AdminAddProgram"; 
 import AdminCourses from "./components/admin/courses/AdminCourses";
+import AdminAddCourse from './components/admin/courses/AdminAddCourse';
 
 
 class App extends Component {
@@ -108,6 +109,7 @@ class App extends Component {
             <Route path="/admin-update-program" component={AdminUpdateProgram}></Route>
             <Route path="/admin-add-program" component={AdminAddProgram}></Route>
             <Route path="/admin-courses" component={AdminCourses}></Route>
+            <Route path="/admin-add-course" component={AdminAddCourse}></Route>
 
             <Route path="/signup" component={CreateAccount} />
             <Route path="/*" component={Login} />

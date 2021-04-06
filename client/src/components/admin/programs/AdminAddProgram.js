@@ -71,7 +71,7 @@ class AdminAddProgram extends Component {
                         placeholder="Program Name..."
                         required>
                     </input>
-                    <label for="programCode" >Campus Address</label>
+                    <label for="programCode" >Program Code</label>
                     <input 
                         type="text" 
                         name="programCode" 
