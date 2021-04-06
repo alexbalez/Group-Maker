@@ -11,21 +11,31 @@ class AdminUpdateCampus extends Component {
         this.state = {
           campusId: '',
           campusName: '',
-          campusAddress: ''
+          campusAddress: '',
+          campusProgramIds: [],
+          programs: [],
+          programId: ''
         }
 
         this.handleInputChange = this.handleInputChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleAddProgram = this.handleAddProgram.bind(this);
+        this.handleRemoveProgram = this.handleRemoveProgram.bind(this);
     }
 
     componentDidMount(){
-            this.setState({
-                campusId : this.props.location.state.campusId,
-                campusName: this.props.location.state.campusName,
-                campusAddress: this.props.location.state.campusAddress
-            });
-            console.log(this.state.campusId)
-        
+        this.setState({
+            campusId : this.props.location.state.campusId,
+            campusName: this.props.location.state.campusName,
+            campusAddress: this.props.location.state.campusAddress,
+            campusProgramIds: this.props.location.state.campusProgramIds
+        });
+        console.log(this.state.campusId)
+        fetch('/programs')
+        .then(res => res.json())
+        .then(programs => this.setState({programs}, () => {
+            console.log('All Programs fetched', this.state.programs)
+        }))
     }
 
     handleInputChange(event){
@@ -48,6 +58,45 @@ class AdminUpdateCampus extends Component {
         }) 
         .then(this.props.history.push('/admin-campuses'))
         event.preventDefault();
+    }
+
+    handleAddProgram(event){
+        event.preventDefault();
+        console.log(this.state.campusId)
+        console.log(this.state.programId)
+        axios.post('/campus-add-program/' + this.state.campusId + '/' + this.state.programId)
+        .then(function(response){
+            console.log(response)
+            return response
+        })
+        .then(
+            this.props.history.push({
+                pathname: '/admin-campuses',
+                states: {
+    
+                }
+            })
+        )
+        
+    }
+
+    handleRemoveProgram(event){
+        event.preventDefault();
+        console.log(this.state.campusId)
+        console.log(this.state.programId)
+        axios.post('/campus-remove-program/' + this.state.campusId + '/' + this.state.programId)
+        .then(function(response){
+            console.log(response)
+            return response
+        })
+        .then(
+            this.props.history.push({
+                pathname: '/admin-campuses',
+                states: {
+    
+                }
+            })
+        )
     }
 
     render() {
@@ -79,6 +128,38 @@ class AdminUpdateCampus extends Component {
                     </input>
                     <Button type="submit" variant="success">Update</Button>
                 </Form>
+                <hr></hr>
+                <form onSubmit={this.handleAddProgram}>
+                    <label for="programId">Select Program to Add</label>
+                    <select id="programId" name="programId" onChange={this.handleInputChange}>
+                        {this.state.programs.map((program) => {
+                            for(const campusProgramId of this.state.campusProgramIds) {
+                                if(program.id == campusProgramId){
+                                    break
+                                }
+                                else{
+                                    return <option value={program._id}>{program.name}</option>
+                                }
+                            }  
+                        })}
+                    </select>
+                    <button type="submit">Add to Campus</button>
+                </form>
+                <hr></hr>
+                <form onSubmit={this.handleRemoveProgram}>
+                    <label for="programId">Select Program to Remove</label>
+                    <select id="programId" name="programId" onChange={this.handleInputChange}>
+                        {this.state.programs.map((program) => 
+                            this.state.campusProgramIds.map((programId) => {
+                                if(program._id == programId){
+                                    return <option value={program._id}>{program.name}</option> 
+                                }
+                            })  
+                        )}
+                    </select>
+                    <button type="submit">Remove from Campus</button>
+                </form>
+
             </div>
            
         )

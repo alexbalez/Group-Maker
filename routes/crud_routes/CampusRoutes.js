@@ -64,7 +64,7 @@ app.delete('/campus/:id', async (req, res) => {
   })
 
 
-app.patch('/campus-add-program/:campusId/:programId', async (req, res) => {
+app.post('/campus-add-program/:campusId/:programId', async (req, res) => {
   const tempCampusId = req.params.campusId;
   const tempProgramId = req.params.programId;
   try {
@@ -82,7 +82,7 @@ app.patch('/campus-add-program/:campusId/:programId', async (req, res) => {
   }
 })
 
-app.patch('/campus-remove-program/:campusId/:programId', async (req, res) => {
+app.post('/campus-remove-program/:campusId/:programId', async (req, res) => {
   const tempCampusId = req.params.campusId;
   const tempProgramId = req.params.programId;
   try {

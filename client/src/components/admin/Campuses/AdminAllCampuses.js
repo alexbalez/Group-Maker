@@ -30,7 +30,8 @@ class AdminAllCampuses extends Component {
             state: {
                 campusId: campus._id,
                 campusName: campus.name,
-                campusAddress: campus.address
+                campusAddress: campus.address,
+                campusProgramIds: campus.programs
             }
         })
     }

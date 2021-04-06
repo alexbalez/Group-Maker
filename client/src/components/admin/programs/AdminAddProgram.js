@@ -8,10 +8,12 @@ class AdminAddProgram extends Component {
     constructor(props){
         super(props)
         this.state = {
-          campusName: '',
-          campusAddress: '',
-          programName: '',
-          programCode: ''
+            campuses:[],
+            campusId: '',
+            campusName: '',
+            campusAddress: '',
+            programName: '',
+            programCode: ''
         }
 
         this.handleInputChange = this.handleInputChange.bind(this);
@@ -19,7 +21,11 @@ class AdminAddProgram extends Component {
     }
 
     componentDidMount(){
-        
+        fetch('/campuses')
+        .then(res => res.json())
+        .then(campuses => this.setState({campuses}, () =>{
+            console.log('Campuses fetched', this.state.campuses)
+        }))
     }
 
     handleInputChange(event){
@@ -40,7 +46,13 @@ class AdminAddProgram extends Component {
             console.log(response);
             return response;
         }) 
-        .then(this.props.history.push('/admin-programs'))
+        .then(this.props.history.push({
+            pathname: '/admin-programs',
+            state: {
+                campusId: 'All'
+            }
+    
+        }))
         event.preventDefault();
     }
 

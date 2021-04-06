@@ -23,7 +23,7 @@ import AdminUpdateCampus from "./components/admin/campuses/AdminUpdateCampus";
 import AdminAddCampus from "./components/admin/campuses/AdminAddCampus";
 import AdminPrograms from "./components/admin/programs/AdminPrograms";
 import AdminUpdateProgram from "./components/admin/programs/AdminUpdateProgram";
-import AdminAddProgram from "./components/admin/programs/AdminUpdateProgram"; 
+import AdminAddProgram from "./components/admin/programs/AdminAddProgram"; 
 
 class App extends Component {
   constructor(props) {

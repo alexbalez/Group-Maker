@@ -12,24 +12,29 @@ class AdminUpdateProgram extends Component {
           programName: '',
           programCode: '',
           campusId: '',
-          campusName: '',
-          campusProgramIds: []
+          campuses: []
         }
 
         this.handleInputChange = this.handleInputChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
-    componentDidMount(){
-        this.setState({
+    async componentDidMount(){
+        await fetch('/campuses')
+        .then(res => res.json())
+        .then(campuses => this.setState({campuses}, () =>{
+            console.log('Campuses fetched', this.state.campuses)
+        }))
+        
+        await this.setState({
             programId: this.props.location.state.programId,
             programName: this.props.location.state.programName,
             programCode: this.props.location.state.programCode,
             campusId: this.props.location.state.campusId,
             campusName: this.props.location.state.campusName,
             campusProgramIds: this.props.location.state.campusProgramIds
-        });
-        console.log(this.state.programId);
+        })
+        console.log(this.state.programId)
     }
 
     handleInputChange(event){

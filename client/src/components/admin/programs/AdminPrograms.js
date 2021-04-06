@@ -16,6 +16,7 @@ class AdminPrograms extends Component {
           title: "Programs"
         }
         this.handleUpdateProgram = this.handleUpdateProgram.bind(this);
+        this.handleAddProgram = this.handleAddProgram.bind(this);
     }
 
     async componentDidMount(){
@@ -62,6 +63,16 @@ class AdminPrograms extends Component {
             }
         })
     }
+
+    handleAddProgram(){
+        this.props.history.push({
+            pathname: "/admin-add-program",
+            state: {
+                campusId: this.state.campusId,
+                campusName: this.state.campusName
+            }
+        })
+    }
    
     render() {
         return(
@@ -92,8 +103,9 @@ class AdminPrograms extends Component {
                         )}
                     </tbody>
                 </Table>
+                
 
-                <Link className="btn btn-success btn-block" to="/admin-add-program">Add Program</Link>
+                <Button className="btn btn-success btn-block" onClick={this.handleAddProgram}>Add Program</Button>
             </div>
         )
     }
