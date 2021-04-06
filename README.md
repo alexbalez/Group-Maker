@@ -15,6 +15,9 @@ npm run client-install
 # Run the client & server with concurrently
 npm run dev
 
+https://localhost:3000  
+or https://joina.group
+
 --- for testing ---
 
 # Run the Express server only
@@ -26,9 +29,9 @@ npm run client
 # Server runs on http://localhost:5000 and client on http://localhost:3000
 ```
 
-Admin module can be accessed by logging into 
-username: admin@joina.group
-password: supersecretlongpassword
+Admin module can be accessed by logging into  
+username: admin@joina.group  
+password: supersecretlongpassword  
 
 ## App Info
 
