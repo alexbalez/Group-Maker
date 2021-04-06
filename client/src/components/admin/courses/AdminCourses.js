@@ -18,7 +18,6 @@ class AdminCourses extends Component {
         this.handleUpdateCourse = this.handleUpdateCourse.bind(this);
         this.handleAddCourse = this.handleAddCourse.bind(this);
         this.handleViewProjects = this.handleViewProjects.bind(this);
-        
     }
 
     async componentDidMount(){
@@ -59,9 +58,10 @@ class AdminCourses extends Component {
                 courseId: course._id,
                 courseName: course.name,
                 courseCode: course.code,
-                courseSemester: course.Semester,
+                courseSemester: course.semester,
                 courseStartDate: course.startdate,
                 courseEndDate: course.enddate,
+                courseProjectIds: course.projects,
                 programId: this.state.programId,
                 programName: this.state.programName,
                 programCourseIds: this.state.programCourseIds

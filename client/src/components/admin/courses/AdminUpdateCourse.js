@@ -16,7 +16,8 @@ class AdminUpdateCourse extends Component {
           courseEndDate: '',
           courseProjectIds: [],
           projects: [],
-          projectId: ''
+          projectId: '',
+          programId: ''
         }
 
         this.handleInputChange = this.handleInputChange.bind(this);
@@ -26,26 +27,35 @@ class AdminUpdateCourse extends Component {
     }
 
     async componentDidMount(){
-        await fetch('/campuses')
-        .then(res => res.json())
-        .then(campuses => this.setState({campuses}, () =>{
-            console.log('Campuses fetched', this.state.campuses)
-        }))
+        // await fetch('/campuses')
+        // .then(res => res.json())
+        // .then(campuses => this.setState({campuses}, () =>{
+        //     console.log('Campuses fetched', this.state.campuses)
+        // }))
         
         await this.setState({
+            courseId: this.props.location.state.courseId,
+            courseName: this.props.location.state.courseName,
+            courseCode: this.props.location.state.courseCode,
+            courseSemester: this.props.location.state.courseSemester,
+            courseStartDate: this.props.location.state.courseStartDate,
+            courseEndDate: this.props.location.state.courseEndDate,
+            courseProjectIds: this.props.location.state.courseProjectIds,
             programId: this.props.location.state.programId,
             programName: this.props.location.state.programName,
             programCode: this.props.location.state.programCode,
+            programCourseIds: this.props.location.state.programCourseIds
             // campusId: this.props.location.state.campusId,
             // campusName: this.props.location.state.campusName,
             // campusProgramIds: this.props.location.state.campusProgramIds
         })
-        await fetch('/courses')
+        await fetch('/projects')
         .then(res => res.json())
-        .then(courses => this.setState({courses}, () => {
-            console.log('All Courses fetched', this.state.courses)
+        .then(projects => this.setState({projects}, () => {
+            console.log('All Projects fetched', this.state.projects)
         }))
-        console.log(this.state.programId)
+        console.log(this.state.courseId)
+        // console.log(this.state.course)
     }
 
     handleInputChange(event){
@@ -56,60 +66,65 @@ class AdminUpdateCourse extends Component {
 
     handleSubmit(event){
         console.log(JSON.stringify(this.state))
-        const { programName, programCode } = this.state;
-        let tempId = JSON.stringify(this.state.programId);
+        const { courseName, courseCode, courseSemester, courseStartDate, courseEndDate } = this.state;
+        let tempId = JSON.stringify(this.state.courseId);
         tempId = tempId.replaceAll("\"", "")
 
-        axios.patch('/program/' + tempId, {"name": JSON.stringify(programName).replaceAll("\"", ""), "code": JSON.stringify(programCode).replaceAll("\"", "")})
-
+        axios.patch('/course/' + tempId, {
+            "name": JSON.stringify(courseName).replaceAll("\"", ""), 
+            "code": JSON.stringify(courseCode).replaceAll("\"", ""), 
+            "semester": JSON.stringify(courseSemester).replaceAll("\"",""),
+            "startdate": JSON.stringify(courseStartDate).replaceAll("\"",""),
+            "enddate": JSON.stringify(courseEndDate).replaceAll("\"",""),
+        })
         .then(function(response) {
             console.log(response);
             return response;
         }) 
         .then( this.props.history.push({
-            pathname: "/admin-programs",
+            pathname: "/admin-courses",
             state: {
-                campusId: this.state.campusId,
-                campusName: this.state.campusName,
-                campusProgramIds: this.state.campusProgramIds
+                programId: this.state.programId,
+                programName: this.state.programName,
+                programCode: this.state.programCode,
+                programCourseIds: this.state.programCourseIds
             }
         }))
         event.preventDefault();
     }
     handleAddProject(event){
         event.preventDefault();
-        console.log(this.state.programId)
         console.log(this.state.courseId)
-        axios.post('/program-add-course/' + this.state.programId + '/' + this.state.courseId)
+        console.log(this.state.projectId)
+        axios.post('/course-add-project/' + this.state.courseId + '/' + this.state.projectId)
         .then(function(response){
             console.log(response)
             return response
         })
         .then(
             this.props.history.push({
-                pathname: '/admin-programs',
-                states: {
-    
+                pathname: '/admin-courses',
+                state: {
+                    programId: "All"
                 }
             })
         )
-
     }
 
     handleRemoveProject(event){
         event.preventDefault();
-        console.log(this.state.programId)
         console.log(this.state.courseId)
-        axios.post('/program-remove-course/' + this.state.programId + '/' + this.state.courseId)
+        console.log(this.state.projectId)
+        axios.post('/course-remove-project/' + this.state.courseId + '/' + this.state.projectId)
         .then(function(response){
             console.log(response)
             return response
         })
         .then(
             this.props.history.push({
-                pathname: '/admin-programs',
-                states: {
-    
+                pathname: '/admin-courses',
+                state: {
+                    programId: "All"
                 }
             })
         )
@@ -118,62 +133,87 @@ class AdminUpdateCourse extends Component {
     render() {
         return(
             <div>
-                <h1 className="d-flex justify-content-center">Update Program</h1>
-                <h3>Program ID: {this.state.programId}</h3>
+                <h1 className="d-flex justify-content-center">Update Course</h1>
+                <h3>Course ID: {this.state.programId}</h3>
                 <Link></Link>
                 <Form onSubmit={this.handleSubmit}>
-                    <label for="programName">Program Name</label>
+                    <label for="courseName">Course Name</label>
                     <input 
                         type="text" 
-                        name="programName" 
-                        id="programName" 
-                        value={this.state.programName} 
+                        name="courseName" 
+                        id="courseName" 
+                        value={this.state.courseName} 
                         onChange={this.handleInputChange} 
-                        placeholder={this.state.programName} 
+                        placeholder={this.state.courseName} 
                         required>
                     </input>
-                    <label for="programCode">Program Code</label>
+                    <label for="courseCode">Course Code</label>
                     <input 
                         type="text" 
-                        name="programCode" 
-                        id="programCode" 
-                        value={this.state.programCode} 
+                        name="courseCode" 
+                        id="courseCode" 
+                        value={this.state.courseCode} 
                         onChange={this.handleInputChange} 
-                        placeholder={this.state.programCode} 
+                        placeholder={this.state.courseCode} 
+                        required>
+                    </input>
+                    <label for="courseSemester" >Course Semester</label>
+                    <input 
+                        type="number" 
+                        name="courseSemester" 
+                        id="courseSemester" 
+                        value={this.state.courseSemester} 
+                        onChange={this.handleInputChange} 
+                        placeholder={this.state.courseSemester}
+                        required>
+                    </input>
+                    <label for="courseStartDate" >Course Start Date</label>
+                    <input 
+                        type="date" 
+                        name="courseStartDate" 
+                        id="courseStartDate" 
+                        value={this.state.courseStartDate} 
+                        onChange={this.handleInputChange} 
+                        placeholder={this.state.courseStartDate}
+                        required>
+                    </input>
+                    <label for="courseEndDate" >Course End Date</label>
+                    <input 
+                        type="date" 
+                        name="courseEndDate" 
+                        id="courseEndDate" 
+                        value={this.state.courseEndDate} 
+                        onChange={this.handleInputChange} 
+                        placeholder={this.state.courseEndDate}
                         required>
                     </input>
                     <Button type="submit" variant="success">Update</Button>
                 </Form>
                 <hr></hr>
-                <form onSubmit={this.handleAddCourse}>
-                    <label for="courseId">Select Course to Add</label>
-                    <select id="courseId" name="courseId" onChange={this.handleInputChange}>
-                        {this.state.courses.map((course) => {
-                            for(const programCourseId of this.state.programCourseIds) {
-                                if(course.id == programCourseId){
-                                    break
-                                }
-                                else{
-                                    return <option value={course._id}>{course.name}</option>
-                                }
-                            }  
+                <form onSubmit={this.handleAddProject}>
+                    <label for="projectId">Select Project to Add</label>
+                    <select id="projectId" name="projectId" onChange={this.handleInputChange}>
+                        <option>Select Project</option>
+                        {this.state.projects.map((project) => {
+                            return <option value={project._id}>{project.name}</option>
                         })}
                     </select>
-                    <button type="submit">Add to Program</button>
+                    <button type="submit">Add to Course</button>
                 </form>
                 <hr></hr>
-                <form onSubmit={this.handleRemoveCourse}>
-                    <label for="courseId">Select Course to Remove</label>
-                    <select id="courseId" name="courseId" onChange={this.handleInputChange}>
-                        {this.state.courses.map((course) => 
-                            this.state.programCourseIds.map((courseId) => {
-                                if(course._id == courseId){
-                                    return <option value={course._id}>{course.name}</option> 
+                <form onSubmit={this.handleRemoveProject}>
+                    <label for="projectId">Select Project to Remove</label>
+                    <select id="projectId" name="projectId" onChange={this.handleInputChange}>
+                        <option>Select Project</option>
+                        {this.state.projects.map((project) => 
+                            this.state.courseProjectIds.map((projectId) => {
+                                if(project._id == projectId){
+                                    return <option value={project._id}>{project.name}</option> 
                                 }
                             })  
                         )}
                     </select>
-                    <button type="submit">Remove from Program</button>
+                    <button type="submit">Remove from Course</button>
                 </form>
             </div>
             

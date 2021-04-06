@@ -80,5 +80,40 @@ app.delete('/course/:id', async (req, res) => {
     }
   })
 
+  app.post('/course-add-project/:courseId/:projectId', async (req, res) => {
+    const tempCourseId = req.params.courseId;
+    const tempProjectId = req.params.projectId;
+    try {
+      const course = await courseModel.findByIdAndUpdate(
+        { _id: tempCourseId },
+        { $addToSet: {projects: tempProjectId }},
+        { new: true, useFindAndModify: false}
+      )
+  
+      if(!course) res.status(404).send("No Course found!")
+      await course.save();
+      res.end();
+    } catch (err) {
+      res.status(500).send(err)
+    }
+  })
+  
+  app.post('/course-remove-project/:courseId/:projectId', async (req, res) => {
+    const tempCourseId = req.params.courseId;
+    const tempProjectId = req.params.projectId;
+    try {
+      const course = await courseModel.findByIdAndUpdate(
+        { _id: tempCourseId },
+        { $pull: { projects: tempProjectId }},
+        { new: true, useFindAndModify: false}
+      )
+  
+      await course.save();
+      res.end();
+    } catch {
+      res.status(500).send(err);
+    }
+  })
+
 module.exports = app
 
