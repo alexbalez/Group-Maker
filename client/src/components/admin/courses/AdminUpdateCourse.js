@@ -134,7 +134,7 @@ class AdminUpdateCourse extends Component {
         return(
             <div>
                 <h1 className="d-flex justify-content-center">Update Course</h1>
-                <h3>Course ID: {this.state.programId}</h3>
+                <h3>Course ID: {this.state.courseId}</h3>
                 <Link></Link>
                 <Form onSubmit={this.handleSubmit}>
                     <label for="courseName">Course Name</label>
