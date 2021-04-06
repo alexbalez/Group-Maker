@@ -19,6 +19,8 @@ http://localhost:3000
 or live at  
 https://joina.group
 
+IF RUNNING ON LOCALHOST, DELETE ANY .env FILES. They're only for the live server.
+
 --- for testing ---
 
 # Run the Express server only
