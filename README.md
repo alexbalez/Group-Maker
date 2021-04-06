@@ -19,7 +19,7 @@ http://localhost:3000
 or live at  
 https://joina.group
 ```
-IF RUNNING ON LOCALHOST, DELETE ANY .env FILES. Theyre only for the live server.
+IF RUNNING ON LOCALHOST, YOU MUST DELETE ANY .env FILES. Theyre only for the live server.
 ```
 --- for testing ---
 
