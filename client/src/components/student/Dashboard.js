@@ -189,11 +189,6 @@ class Dashboard extends Component {
             handleJoinGroup={this.state.handleGroupPopup}
           />
         ) : null}
-
-        {/* Archived */}
-        <Container className="col-8 mt-3">
-          <Button variant="warning">Archived Groups</Button>
-        </Container>
       </div>
     );
   }
