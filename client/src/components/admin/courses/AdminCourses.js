@@ -17,6 +17,7 @@ class AdminCourses extends Component {
         }
         this.handleUpdateCourse = this.handleUpdateCourse.bind(this);
         this.handleAddCourse = this.handleAddCourse.bind(this);
+        this.handleViewProjects = this.handleViewProjects.bind(this);
         
     }
 
@@ -77,6 +78,18 @@ class AdminCourses extends Component {
             }
         })
     }
+
+    handleViewProjects(event){
+        const course = JSON.parse(event.target.value);
+        this.props.history.push({
+            pathname: "/admin-projects",
+            state: {
+                courseId: course._id,
+                courseName: course.name,
+                courseProjectIds: course.projects
+            }
+        })
+    }
    
     render() {
         return(
@@ -106,7 +119,7 @@ class AdminCourses extends Component {
                                 <td>{course.semester}</td>
                                 <td>{course.startdate}</td>
                                 <td>{course.enddate}</td>
-                                <td><Button variant="success" >View Projects</Button></td>
+                                <td><Button variant="success" value={JSON.stringify(course)} onClick={this.handleViewProjects}>View Projects</Button></td>
                                 <td><Button variant="warning" value={JSON.stringify(course)} onClick={this.handleUpdateCourse}>Update Course</Button></td>
                                 <td><Button variant="danger">Delete Course</Button></td>
                             </tr>   
