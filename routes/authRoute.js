@@ -67,7 +67,8 @@ router.post('/signup', (req, res)=>{
     const user = {
         username: req.body.username,
         email: req.body.email,
-        password: hashedPassword
+        password: hashedPassword,
+        colleges: req.body.colleges
     };
     // Create new user based on Mongoose schema
     User.create(user, (err, user)=>{
