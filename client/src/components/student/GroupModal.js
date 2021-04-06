@@ -84,30 +84,33 @@ class GroupModal extends Component {
           <div className="container">
             <div className="row">
               <div className="col-auto mr-auto">
-                <p>
+                <p className="text-capitalize">
+                  {console.log(this.props.data)}
                   {this.props.data.college !== undefined
                     ? `College: ${this.props.data.college}`
                     : null}
                 </p>
-                <p>
+                <p className="text-capitalize">
                   {this.props.data.campus !== undefined
                     ? `Campus: ${this.props.data.campus}`
                     : null}
                 </p>
-                <p>
+                <p className="text-capitalize">
                   {this.props.data.program !== undefined
                     ? `Program: ${this.props.data.program}`
                     : null}
                 </p>
-                <p>{this.props.data.course !== "" ? `Course: ${this.props.data.course}` : null}</p>
-                {this.props.data.project !== undefined
-                  ? `Project: ${this.props.data.project}`
-                  : null}
-                <p>
-                  {/*this.props.data.preferences[0] || this.props.data.preferences[1]
-                    ? `Preferences: ${this.props.data.preferences}`
-                    : null*/}
+                <p className="text-capitalize">
+                  {this.props.data.course !== undefined
+                    ? `Course: ${this.props.data.course}`
+                    : null}
                 </p>
+                <p>
+                  {this.props.data.project !== undefined
+                    ? `Project: ${this.props.data.project}`
+                    : null}
+                </p>
+                <p>Preferences: {this.props.data.preferences}</p>
                 <p>In this group:</p>
                 {/** need to check if users are loaded before listing */}
                 {this.props.data.users ? <UserList users={this.props.data.users} /> : null}
