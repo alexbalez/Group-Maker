@@ -15,8 +15,9 @@ npm run client-install
 # Run the client & server with concurrently
 npm run dev
 
-https://localhost:3000  
-or https://joina.group
+http://localhost:3000  
+or live at  
+https://joina.group
 
 --- for testing ---
 
