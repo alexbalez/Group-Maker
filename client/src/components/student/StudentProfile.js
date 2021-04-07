@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import '../components.css';
-import ProfileEditCollegeModal from './ProfileEditCollegeModal'
-import ProfileEditAboutMeModal from './ProfileEditAboutMeModal'
-import StudentDataConnector from '../../services/StudentDataConnector'
+import ProfileEditCollegeModal from './ProfileEditCollegeModal';
+import ProfileEditAboutMeModal from './ProfileEditAboutMeModal';
+import StudentDataConnector from '../../services/StudentDataConnector';
 
 class StudendProfile extends Component {
     constructor(props) {
-        super(props)
+        super(props);
 
         this.state = {
             flags: {
@@ -26,26 +26,28 @@ class StudendProfile extends Component {
 
             //=========== user college info ===========================
             campus: this.props.data.campuses[0],
-            program: {code: "T127", title: "computer programmer analyst"},
-            semester: 2,
-            courses: [
-                { code: "COMP 1231", title: "Introduction to Javascript" },
-                { code: "MATH 1162", title: "College Math" }, 
-            ]
-            
-        }
+            program: this.props.data.programs[0],
+            campusName: "",
+            programName: "",
 
-        this.populatePreferences()
-        console.log(this.props.data)
-        this.populateCollegeInfo()
+            semester: this.props.data.semester,
+            courses: [],
+
+        };
+
+        this.populatePreferences();
+        this.populateCollegeInfo();
+        //console.log(this.props.data);
     }
+
+    // ================about me ================
 
     populatePreferences = () =>{
         //get all the preferences from the db
         StudentDataConnector.getPreferences()
             .then(res =>{
                 //seperate preferences by type
-                const intList = [], skillList = [] 
+                const intList = [], skillList = [];
                 this.props.data.preferences.forEach(prefId => {
                     for (let item of res.data){
                         if(item._id === prefId){
@@ -54,83 +56,147 @@ class StudendProfile extends Component {
                                 type: item.type,
                                 category: item.category,
                                 description: item.description
-                            }
-                            if(item.type === "interest") 
-                                intList.push(prototype)
-                            else 
-                                skillList.push(prototype)
+                            };
+                            if(item.type === "interest")
+                                intList.push(prototype);
+                            else
+                                skillList.push(prototype);
                             break
                         }
                     }
-                })
-                this.setState({allPreferences: res.data, interests: intList, skills: skillList})
-                this.editAboutMe.populateInterestsAndSkills()
+                });
+                this.setState({allPreferences: res.data, interests: intList, skills: skillList});
+                this.editAboutMe.populateInterestsAndSkills();
             })
-            .catch(err => console.log(err))
-    }
-
-    populateCollegeInfo(){
-
-        let temp = this.props.data
-
-        if (temp.campuses[0] === undefined){
-            console.log('we need to load a list campuses to choose from')
-            //send the college ID
-        }
-        else if (temp.programs[0] === undefined){
-            console.log('we need to load the campus name, and list of programs to choose from')
-            //send the college ID and campus ID
-        }
-        else{
-            console.log('we need to load a the campus name, program name, and a list of courses to choose from')
-            //send the college, campus, and program IDs
-        }
-        
-    }
-
-    // ================about me ================
+            .catch(err => console.log(err));
+    };
+    
     toggleEditAboutMe = () => {
-        this.setState({ flags: {showEditAboutMe: !this.state.flags.showEditAboutMe} })
-    }
+        this.setState({ flags: {showEditAboutMe: !this.state.flags.showEditAboutMe} });
+    };
     saveEditAboutMe = (data, intsSkills) => {
         StudentDataConnector.updateStudentAbout(this.props.data._id, data)
             .then(res => {
-                console.log(res)
-                this.setState({
-                    firstname: data.firstname,
-                    lastname: data.lastname,
-                    phone: data.phone,
-                    about: data.aboutme,
-                    interests: intsSkills.interests,
-                    skills: intsSkills.skills
-                })
+                console.log(res);
+                // this.setState({
+                //     firstname: data.firstname,
+                //     lastname: data.lastname,
+                //     phone: data.phone,
+                //     about: data.aboutme,
+                //     interests: intsSkills.interests,
+                //     skills: intsSkills.skills
+                // })
+                
+                this.toggleEditAboutMe();
+                window.location.reload();
+                //TODO: change this to a better notification
+                alert("Your personal information was successfully saved");
             })
-            .catch(err => console.log(err))
+            .catch(err => console.log(err));
 
-        this.toggleEditAboutMe()
-    }
+        
+    };
 
     // ========college==============
-    toggleEditCollege = () => {
-        
-        //load extra data only when showing the component
-        if(this.state.flags.showEditCollege === false){
-            console.log('-- show edit college')
-            StudentDataConnector.getAdditionalData(this.props.data.colleges[0])
-            .then(res => {
-                console.log(res.data)
+
+    //TODO: combine this function with populatePreferences so that only one call to server and setState is made
+    populateCollegeInfo() {
+        // console.log('--populate college info')
+        let userData = this.props.data;
+        const collegeId = this.props.data.colleges[0];
+        const campusId = this.props.data.campuses[0];
+        const programId = this.props.data.programs[0];
+        //update these to still pull a list to select from even when one is selected
+
+        if (userData.campuses[0] === undefined) {
+            
+            console.log('we need to load a list campuses to choose from');
+            //send the college ID
+            //lookup the college, get its campus ids, then get all those campuses
+            StudentDataConnector.getCampusesFromCollege(collegeId)
+            .then((res)=>{
+                this.editCollege.setState({campusList: res.data.campuses})
             })
-            .catch(err => console.log(err))
+            .catch(err => console.log(err));
+        }
+        else if (userData.programs[0] === undefined) {
+            //send the campus ID
+            //need the campus, a list of campuses and list of programs
+            console.log('we need to load the campus name, a list of campuses, and list of programs to that belong to the selected campus');
+            StudentDataConnector.getCampusesAndPrograms(campusId)
+            .then((res)=>{
+                this.setState({ campusName: res.data.campus.name, campus: campusId })
+                this.editCollege.setState({ 
+                    programList: res.data.programs, 
+                    campusList: res.data.campuses 
+                })
+            }).catch(err => console.log(err));
+
+        }
+        else{
+            console.log('we need to load a campus name, program name, a list of all campuses, a list of programs that belong to the selected campus, and a list of courses that belong to the selected program');
+            //send the campus, and program IDs
+            //need a list of campuses, programs, and courses
+            StudentDataConnector.getCampusesProgramsAndCourses(campusId, programId)
+            .then((res) =>{
+                
+                let courseList = []; //list of courses to edit
+                let courses = []; // list of courses that user currently has
+
+                //if the student has courses already, populate those
+                if(userData.courses.length > 0){
+                    courses = res.data.courses.filter((course) => {
+                        return userData.courses.includes(course._id);
+                    });
+                    courseList = [...courses];
+                }
+                else{
+                    //filter course list by semester
+                    if (this.props.data.semester !== undefined) {
+                        courseList = res.data.courses.filter((course) => {
+                            return course.semester === this.props.data.semester;
+                        });
+                    }
+                }
+                this.setState({
+                    campusName: res.data.campus.name,
+                    programName: res.data.program.name,
+                    courses
+                }); 
+                this.editCollege.setState({
+                    programList: res.data.programs,
+                    campusList: res.data.campuses,
+                    courseList, 
+                    masterCourseList: res.data.courses
+                });
+            }).catch(err => console.log(err));
+            
         }
 
-        this.setState({ flags: { showEditCollege: !this.state.flags.showEditCollege } })
-    }
-    saveEditCollege = (data) => {
-        console.log("--saveEditCollege", data)
-        this.toggleEditCollege()
     }
 
+    toggleEditCollege = () => {
+        this.setState({ flags: { showEditCollege: !this.state.flags.showEditCollege } });
+    };
+
+    saveEditCollege = (data) => {
+        console.log("--saveEditCollege", data);
+        StudentDataConnector.updateStudentCollegeInfo(this.props.data._id, data)
+        .then(res => {
+            console.log(res)
+            this.toggleEditCollege();
+            window.location.reload();
+            alert("Your college information was saved");
+        })
+        .catch(err => {
+            console.log(err);
+            alert("There was a problem updating your information.");
+        });
+       
+    };
+
     render() {
+        //console.log(this.props.data)
         return (
             <div>
                 <div className="col-sm-8 mx-auto mt-4">
@@ -146,24 +212,40 @@ class StudendProfile extends Component {
                         {/* Names and contact */}
                         <div className="mb-2 form-inline">
                             <span className="inline-label p-2">First Name</span>
-                            <span className="inline-content p-2 text-capitalize">{this.state.firstname}</span>
+                            <span className="inline-content p-2 text-capitalize">
+                                {this.state.firstname === undefined ? 
+                                    <span className="text text-secondary">Add your firstname in edit</span> 
+                                    : this.state.firstname}
+                            </span>
                         </div>
 
                         <div className="mb-2 form-inline">
                             <span className="inline-label p-2">Last Name</span>
-                            <span className="inline-content p-2 text-capitalize">{this.state.lastname}</span>
+                            <span className="inline-content p-2 text-capitalize">
+                                {this.state.lastname === undefined? 
+                                    <span className="text text-secondary">Add your lastname in edit</span>
+                                    : this.state.lastname}
+                            </span>
                         </div>
 
                         <div className="mb-2 form-inline">
                             <span className="inline-label p-2">Phone</span>
-                            <span className="inline-content p-2">{this.state.phone}</span>
+                            <span className="inline-content p-2">
+                                {this.state.phone === undefined?
+                                    <span className="text text-secondary">Add your phone number in edit</span>
+                                    : this.state.phone}
+                            </span>
                         </div>
 
                         {/* bio */}
                         <div className="form-inline mt-3 mb-2">
                             <h4>About Me</h4>
                         </div>
-                        <div className="border-grey-round p-2">{this.state.about}</div>
+                        <div className="border-grey-round p-2">
+                            {this.state.about === undefined?
+                                < span className="text text-secondary">Enter some information in edit</span>
+                                : this.state.about}
+                        </div>
 
 
                         {/* Interests and skills */}
@@ -209,7 +291,7 @@ class StudendProfile extends Component {
 
 
                     {/* ================== College Information group =========================== */}
-                    <div className="border border-primary p-3 mt-4">
+                    <div className="border border-primary p-3 mb-3 mt-4">
                         <div className="form-inline mb-3">
                             <h4>College Information</h4>
                             <button className="btn btn-warning ml-auto" onClick={this.toggleEditCollege}>Edit</button>
@@ -218,17 +300,29 @@ class StudendProfile extends Component {
                         {/* Affiliations */}
                         <div className="mb-2 form-inline">
                             <span className="inline-label p-2">Campus</span>
-                            <span className="inline-content text-capitalize p-2">{this.state.campus}</span>
+                            <span className="inline-content text-capitalize p-2">
+                                { this.state.campusName !== ""? 
+                                    this.state.campusName 
+                                    : <span className="text text-secondary">No campus selected</span> }
+                            </span>
                         </div>
-                    
+
                         <div className="mb-2 form-inline">
                             <span className="inline-label p-2">Program</span>
-                            <span className="inline-content text-capitalize p-2">{this.state.program.code}</span>
+                            <span className="inline-content text-capitalize p-2">
+                                { this.state.programName !== ""? 
+                                    this.state.programName 
+                                    : <span className="text text-secondary">No program selected</span> }
+                            </span>
                         </div>
-                        
+
                         <div className="mb-2 form-inline">
                             <span className="inline-label p-2">Semester</span>
-                            <span className="inline-content p-2">{this.state.semester}</span>
+                            <span className="inline-content p-2">
+                                { this.state.semester !== undefined? 
+                                    this.state.semester 
+                                    : <span className="text text-secondary">No semester selected</span>}
+                            </span>
                         </div>
 
                         {/* Class list  */}
@@ -239,13 +333,16 @@ class StudendProfile extends Component {
                         <ul className="list-group">
                             {/* <li className="list-group-item text-capitalize">Cras justo odio</li> */}
                             {
-                                this.state.courses.map((course, index)=>(
-                                    <li key={index} className="list-group-item text-capitalize">
-                                        {course.code} - {course.title}
-                                    </li>
-                                ))
+                                this.state.courses.length > 0 ?
+                                    this.state.courses.map((course, index)=>(
+                                        <li key={index} className="list-group-item text-capitalize">
+                                            {course.code} - {course.name}
+                                        </li>
+                                    ))
+                                :
+                                    <li className="list-group-item text-capitalize text text-secondary">No courses selected</li>
                             }
-                            
+
                         </ul>
 
                     </div>

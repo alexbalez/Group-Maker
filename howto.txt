@@ -1,8 +1,19 @@
 This is how to properly set up the instance. Run on ssh:
 
+Newer method.
+
+Ignore all the other stuff. 
+
+sudo systemctl start jenkins
+
+Then have jenkins run the build.
+
 New method:
 
 sudo sh docker.sh
+
+may need to redirect http traffic to 3000
+sudo iptables -t nat -A PREROUTING -p tcp --dport 80 -j REDIRECT --to-port 3000
 
 In ubuntu's ~ folder.
 

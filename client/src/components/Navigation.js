@@ -51,6 +51,7 @@ class Navigation extends Component {
             <NavLink className="nav-link" activeClassName="active" to="/auto">
               Auto
             </NavLink>
+<<<<<<< HEAD
             <NavLink className="nav-link" activeClassName="active" to="/help">
               Help
             </NavLink>
@@ -59,6 +60,9 @@ class Navigation extends Component {
                 Admin
               </NavLink>
             ) : null}
+=======
+            {/*<NavLink className="nav-link" activeClassName="active" to="/help">Help</NavLink>*/}
+>>>>>>> devadmin
           </Nav>
 
           <Nav className="ml-auto">

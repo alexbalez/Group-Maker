@@ -2,3 +2,6 @@
 package-lock.json
 .idea/
 .vscode/
+/client/certs
+*.env
+*.env.development

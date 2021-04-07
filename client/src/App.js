@@ -23,14 +23,13 @@ import AdminUpdateCampus from "./components/admin/campuses/AdminUpdateCampus";
 import AdminAddCampus from "./components/admin/campuses/AdminAddCampus";
 import AdminPrograms from "./components/admin/programs/AdminPrograms";
 import AdminUpdateProgram from "./components/admin/programs/AdminUpdateProgram";
-import AdminAddProgram from "./components/admin/programs/AdminAddProgram"; 
+import AdminAddProgram from "./components/admin/programs/AdminAddProgram";
 import AdminCourses from "./components/admin/courses/AdminCourses";
-import AdminAddCourse from './components/admin/courses/AdminAddCourse';
+import AdminAddCourse from "./components/admin/courses/AdminAddCourse";
 import AdminUpdateCourse from "./components/admin/courses/AdminUpdateCourse";
 import AdminProjects from "./components/admin/projects/AdminProjects";
 import AdminUpdateProject from "./components/admin/projects/AdminUpdateProject";
 import AdminAddProject from "./components/admin/projects/AdminAddProject";
-
 
 class App extends Component {
   constructor(props) {
@@ -60,10 +59,13 @@ class App extends Component {
       //console.log(this.state.userdata.email)
       return (
         <BrowserRouter>
-          <AppHeader />
-          <AppNavHolder data={this.state.userdata} />
           <div className="App-body">
+            <AppHeader />
+            <AppNavHolder data={this.state.userdata} />
             <Switch>
+              <Route path="/" exact>
+                <Dashboard data={this.state.userdata} />
+              </Route>
               <Route path="/dashboard">
                 <Dashboard data={this.state.userdata} />
               </Route>
@@ -85,11 +87,7 @@ class App extends Component {
               <Route path="/profile">
                 <StudentProfile data={this.state.userdata} />
               </Route>
-              <Route path="/admin-dashboard" component={AdminDashboard}></Route>
-              <Route path="/" exact component={Dashboard} />
               <Route path="/*" component={FourOhFour} />
-
-              {/* <Route path="/admin-dashboard" component={AdminDashboard}></Route> */}
             </Switch>
           </div>
           <Footer />
@@ -102,8 +100,6 @@ class App extends Component {
         <BrowserRouter>
           <AppHeader />
           <Switch>
-            {/*This is a comment for testing purposes.*/}
-            {/*This to be moved after Admin Auth*/}
             <Route path="/admin-dashboard" component={AdminDashboard}></Route>
             <Route path="/admin-params-search" component={AdminParamsSearch}></Route>
             <Route path="/admin-campuses" component={AdminAllCampuses}></Route>
@@ -118,7 +114,6 @@ class App extends Component {
             <Route path="/admin-projects" component={AdminProjects}></Route>
             <Route path="/admin-update-project" component={AdminUpdateProject}></Route>
             <Route path="/admin-add-project" component={AdminAddProject}></Route>
-
             <Route path="/signup" component={CreateAccount} />
             <Route path="/*" component={Login} />
           </Switch>

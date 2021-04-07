@@ -1,6 +1,10 @@
 const express = require('express');
 const { Types, ObjectId } = require('mongoose');
 const programModel = require('../../model/ProgramModel');
+const courseModel = require('../../model/CourseModel');
+
+const { requireAuth } = require('../../auth/authMiddleware');
+
 const app = express();
 
 // Create
@@ -39,6 +43,7 @@ app.get('/program/:id', async(req, res) => {
     }
 });
 
+<<<<<<< HEAD
 //Retrieve multiple with array of IDs
 app.get('/programs-by-id/:program_ids', async (req, res) => {
   var programIds = req.params.program_ids;
@@ -55,6 +60,31 @@ app.get('/programs-by-id/:program_ids', async (req, res) => {
     res.status(500).send(err);
   } 
 })
+=======
+
+// Get Program info from its ID, and get a list of course objects that belong to it
+app.get('/program-courses/:programId', requireAuth, async (req, res) => {
+
+  try {
+    const program = await programModel.findById(req.params.programId, { name: 1, code: 1, courses: 1 });
+    console.log(program.courses)
+
+    const courses = await courseModel.find(
+      { '_id': { $in: program.courses } },
+      { code: 1, name: 1, semester:1 }
+    )
+
+    res.json({ program, courses });
+
+  }
+  catch (err) {
+    console.log(err)
+    res.status(500).send(err);
+  }
+});
+
+
+>>>>>>> devadmin
 
 // Update (use patch instead of put so you only have to send the data you want to change)
 app.patch('/program/:id', async (req, res) => {
