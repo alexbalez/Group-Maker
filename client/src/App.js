@@ -116,11 +116,13 @@ class App extends Component {
     else {
       return (
         <BrowserRouter>
-          <AppHeader />
-          <Switch>
-            <Route path="/signup" component={CreateAccount} />
-            <Route path="/*" component={Login} />
-          </Switch>
+          <div className="App-body">
+            <AppHeader />
+            <Switch>
+              <Route path="/signup" component={CreateAccount} />
+              <Route path="/*" component={Login} />
+            </Switch>
+          </div>
           <Footer />
         </BrowserRouter>
       );
