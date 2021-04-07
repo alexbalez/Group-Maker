@@ -87,6 +87,24 @@ class App extends Component {
               <Route path="/profile">
                 <StudentProfile data={this.state.userdata} />
               </Route>
+              {this.state.userdata.roles[0] === "606b384823ae931e014806e8" ? (
+                <div>
+                  <Route path="/admin-dashboard" component={AdminDashboard}></Route>
+                  <Route path="/admin-params-search" component={AdminParamsSearch}></Route>
+                  <Route path="/admin-campuses" component={AdminAllCampuses}></Route>
+                  <Route path="/admin-update-campus" component={AdminUpdateCampus}></Route>
+                  <Route path="/admin-add-campus" component={AdminAddCampus}></Route>
+                  <Route path="/admin-programs" component={AdminPrograms}></Route>
+                  <Route path="/admin-update-program" component={AdminUpdateProgram}></Route>
+                  <Route path="/admin-add-program" component={AdminAddProgram}></Route>
+                  <Route path="/admin-courses" component={AdminCourses}></Route>
+                  <Route path="/admin-add-course" component={AdminAddCourse}></Route>
+                  <Route path="/admin-update-course" component={AdminUpdateCourse}></Route>
+                  <Route path="/admin-projects" component={AdminProjects}></Route>
+                  <Route path="/admin-update-project" component={AdminUpdateProject}></Route>
+                  <Route path="/admin-add-project" component={AdminAddProject}></Route>
+                </div>
+              ) : null}
               <Route path="/*" component={FourOhFour} />
             </Switch>
           </div>

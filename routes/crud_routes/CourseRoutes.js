@@ -1,7 +1,6 @@
 const express = require("express");
 const { Types, ObjectId } = require("mongoose");
 const courseModel = require("../../model/CourseModel");
-const { Types, ObjectId } = require("mongoose");
 const app = express();
 
 // Create
