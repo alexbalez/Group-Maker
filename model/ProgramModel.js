@@ -21,7 +21,7 @@ const ProgramSchema = new mongoose.Schema({
     courses: [
         {
             type: mongoose.Schema.Types.ObjectId,
-            ref: "projects"
+            ref: "courses"
         }
     ],
     groups: [

@@ -16,6 +16,21 @@ import StudentDataConnector from "./services/StudentDataConnector";
 import AppNavHolder from "./components/AppNavHolder";
 import FourOhFour from "./components/404";
 
+import AdminDashboard from "./components/admin/AdminDashboard";
+import AdminParamsSearch from "./components/admin/AdminParamsSearch";
+import AdminAllCampuses from "./components/admin/campuses/AdminAllCampuses";
+import AdminUpdateCampus from "./components/admin/campuses/AdminUpdateCampus";
+import AdminAddCampus from "./components/admin/campuses/AdminAddCampus";
+import AdminPrograms from "./components/admin/programs/AdminPrograms";
+import AdminUpdateProgram from "./components/admin/programs/AdminUpdateProgram";
+import AdminAddProgram from "./components/admin/programs/AdminAddProgram";
+import AdminCourses from "./components/admin/courses/AdminCourses";
+import AdminAddCourse from "./components/admin/courses/AdminAddCourse";
+import AdminUpdateCourse from "./components/admin/courses/AdminUpdateCourse";
+import AdminProjects from "./components/admin/projects/AdminProjects";
+import AdminUpdateProject from "./components/admin/projects/AdminUpdateProject";
+import AdminAddProject from "./components/admin/projects/AdminAddProject";
+
 class App extends Component {
   constructor(props) {
     super(props);
@@ -72,6 +87,24 @@ class App extends Component {
               <Route path="/profile">
                 <StudentProfile data={this.state.userdata} />
               </Route>
+              {this.state.userdata.roles[0] === "606b384823ae931e014806e8" ? (
+                <div>
+                  <Route path="/admin-dashboard" component={AdminDashboard}></Route>
+                  <Route path="/admin-params-search" component={AdminParamsSearch}></Route>
+                  <Route path="/admin-campuses" component={AdminAllCampuses}></Route>
+                  <Route path="/admin-update-campus" component={AdminUpdateCampus}></Route>
+                  <Route path="/admin-add-campus" component={AdminAddCampus}></Route>
+                  <Route path="/admin-programs" component={AdminPrograms}></Route>
+                  <Route path="/admin-update-program" component={AdminUpdateProgram}></Route>
+                  <Route path="/admin-add-program" component={AdminAddProgram}></Route>
+                  <Route path="/admin-courses" component={AdminCourses}></Route>
+                  <Route path="/admin-add-course" component={AdminAddCourse}></Route>
+                  <Route path="/admin-update-course" component={AdminUpdateCourse}></Route>
+                  <Route path="/admin-projects" component={AdminProjects}></Route>
+                  <Route path="/admin-update-project" component={AdminUpdateProject}></Route>
+                  <Route path="/admin-add-project" component={AdminAddProject}></Route>
+                </div>
+              ) : null}
               <Route path="/*" component={FourOhFour} />
             </Switch>
           </div>
@@ -83,11 +116,13 @@ class App extends Component {
     else {
       return (
         <BrowserRouter>
-          <AppHeader />
-          <Switch>
-            <Route path="/signup" component={CreateAccount} />
-            <Route path="/*" component={Login} />
-          </Switch>
+          <div className="App-body">
+            <AppHeader />
+            <Switch>
+              <Route path="/signup" component={CreateAccount} />
+              <Route path="/*" component={Login} />
+            </Switch>
+          </div>
           <Footer />
         </BrowserRouter>
       );
