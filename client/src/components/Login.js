@@ -2,56 +2,6 @@ import React, { Component } from "react";
 import AuthDataConnector from "../services/AuthDataConnector";
 import { Link } from "react-router-dom";
 
-<<<<<<< HEAD
-class Login extends Component{
-    constructor(props){
-        super(props);
-        this.state = {
-            email: "",
-            password: "",
-            error: ""
-        };
-
-        this.handleChange = this.handleChange.bind(this);
-
-        this.signup = () =>{
-            this.props.history.push('/signup')
-        };
-
-        this.submit = (event) =>{
-            event.preventDefault();
-            this.setState({error: ""})
-            const credentials = {
-                email: this.state.email,
-                password: this.state.password
-            };
-
-            AuthDataConnector.getAuth(credentials)
-                .then((res) =>{
-                    //can get userid from server response
-                    console.log('Login successful.', 'User id: ' + res.data.userid)
-                    console.log(res)
-                    this.props.history.push('/dashboard')
-                    window.location.reload() //reload page so navbar disappears
-                })
-                .catch(err => {
-                    //todo: code error fields in form that use this err.response object
-                    console.log('Could not login.', err.response)
-                    this.setState({error: " is-invalid"})
-                });
-        }
-
-    }
-
-    handleChange(event){
-        //get input that changed, set state = that value
-        const input = event.target
-        const value = input.value
-        const name = input.name
-        
-        this.setState({
-            [name]: value
-=======
 class Login extends Component {
   constructor(props) {
     super(props);
@@ -82,7 +32,6 @@ class Login extends Component {
           console.log(res);
           this.props.history.push("/dashboard");
           window.location.reload(); //reload page so navbar disappears
->>>>>>> devadmin
         })
         .catch((err) => {
           //todo: code error fields in form that use this err.response object

@@ -121,122 +121,6 @@ class Dashboard extends Component {
           this.setState({ loggedIn: false }); //user is not logged in
         });
     }
-<<<<<<< HEAD
-
-    handleGroupPopup = (e) => {
-        e.preventDefault()
-        this.setState({groupid: e.target.value})
-        this.togglePopup()
-    }
-
-    componentDidMount(){
-        //wrong
-        //props are being passed by /App, and they don't exist when you open a new tab?
-        if(this.state.data){
-            console.log(this.state.data.groups)
-            this.loadGroups(this.state.data.groups)
-        }
-
-        if(!this.state.loaded){
-            StudentDataConnector.getDashboard()
-            .then(result => {
-                this.setState({ data: result.data, loggedIn: true })
-                this.setState({loaded: true})
-                console.log(this.state.data.groups)
-            })
-            .catch(err => {
-                this.setState({ loggedIn: false }) //user is not logged in
-            })
-        }
-    }
-
-    render() {
-        return (
-            <div>
-
-                <Navbar className="bg-light justify-content-center">
-                    <Form inline>
-                        {/* Dropdown */}
-                        <InputGroup  className="m-1">
-                            <Dropdown>
-                                <Dropdown.Toggle id="dropdown-basic" variant="primary">
-                                    Filters
-                                </Dropdown.Toggle>
-
-                                <Dropdown.Menu>
-                                    <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
-                                    <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
-                                    <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
-                                </Dropdown.Menu>
-                            </Dropdown>
-                        </InputGroup>
-
-                        <FormControl type="text" placeholder="Search your groups" className="m-1" onChange={this.handleSearchChange}/>
-                        <Button variant="success" type="submit" className="m-1" onClick={this.handleSearch}>Search</Button>
-                        <Button className="m-1" variant="primary">View Invites</Button>
-                    </Form>
-                    
-                </Navbar>
-
-                {/* New Groups */}
-                <Table className="col-sm-8 mx-auto mt-4" striped bordered hover>
-                    <thead>
-                    <tr>
-                        <th colSpan="4">New Groups</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                        <td colSpan="2">COMP 1230 Study Group</td>
-                        <td>Course Group</td>
-                        <td><Button variant="warning">View</Button></td>
-                    </tr>
-                    <tr>
-                        <td colSpan="2">COMP 1101 Study Group</td>
-                        <td>Course Group</td>
-                        <td><Button variant="warning">View</Button></td>
-                    </tr>
-                    <tr>
-                        <td colSpan="2">COMP 1333 Study Group</td>
-                        <td>Course Group</td>
-                        <td><Button variant="warning">View</Button></td>
-                    </tr>
-                    </tbody>
-                </Table>
-
-                {/* Current Groups */}
-                <Table className="col-sm-8 mx-auto mt-4 mb-2" striped bordered hover>
-                    <thead>
-                    <tr>
-                        <th colSpan="2">Group name</th>
-                        <th>Type</th>
-                        <th>Action</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                        {this.state.loaded ? this.state.groups.map(this.handleGroups): null}
-                    </tbody>
-                </Table>
-
-                {this.state.loaded ?
-                <GroupModal
-                    uid={this.state.data._id}
-                    data={this.state.modalData}
-                    toggle={this.togglePopup}
-                    show={this.state.popup}
-                    handleJoinGroup={this.state.handleGroupPopup}
-                />: null}
-                
-                {/* Archived */}
-                <Container className="col-8 mt-3">
-                    <Button variant="warning">Archived Groups</Button>
-                </Container>
-
-
-            </div>
-        );
-    }
-=======
   }
 
   render() {
@@ -308,7 +192,6 @@ class Dashboard extends Component {
       </div>
     );
   }
->>>>>>> devadmin
 }
 
 export default Dashboard;
