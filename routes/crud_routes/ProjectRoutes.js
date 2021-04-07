@@ -1,4 +1,5 @@
 const express = require('express');
+const { ObjectId, Types } = require('mongoose');
 const projectModel = require('../../model/ProjectModel');
 const app = express();
 
@@ -63,5 +64,21 @@ app.delete('/project/:id', async (req, res) => {
     }
   })
 
+  app.get('/projects-by-id/:project_ids', async (req, res) => {
+    var projectIds = req.params.project_ids;
+    projectIds = JSON.parse(projectIds)
+   
+    var projectObjectIds = projectIds.map((projectId) => { return Types.ObjectId(projectId) })
+    console.log(projectObjectIds)
+    let projects = await projectModel.find({ _id: { $in: projectObjectIds } })
+    try {
+      console.log(projects)
+      res.append('Access-Control-Allow-Origin', ['*'])
+      res.send(projects);
+    } catch (err) {
+      res.status(500).send(err);
+    } 
+  })
+ 
 module.exports = app
 

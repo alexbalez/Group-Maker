@@ -51,7 +51,14 @@ class Navigation extends Component {
             <NavLink className="nav-link" activeClassName="active" to="/auto">
               Auto
             </NavLink>
-            {/*<NavLink className="nav-link" activeClassName="active" to="/help">Help</NavLink>*/}
+            <NavLink className="nav-link" activeClassName="active" to="/help">
+              Help
+            </NavLink>
+            {this.props.data.roles[0] === "606b384823ae931e014806e8" ? (
+              <NavLink className="nav-link" activeClassName="active" to="/admin-dashboard">
+                Admin
+              </NavLink>
+            ) : null}
           </Nav>
 
           <Nav className="ml-auto">
