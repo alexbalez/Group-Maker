@@ -55,6 +55,8 @@ class GroupModal extends Component {
         }
       );
     }
+
+    window.location.reload();
   };
 
   componentDidUpdate() {
